@@ -16,8 +16,8 @@ public class Connection implements Runnable {
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        //TODO: Create messagehandeler
-        //TODO: Login using messagehandeler
+        //TODO: Create messagehandler
+        //TODO: Login using messagehandler
 
         Thread t = new Thread(this);
         t.setDaemon(true);
