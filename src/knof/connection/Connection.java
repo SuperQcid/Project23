@@ -12,7 +12,7 @@ public class Connection implements Runnable {
     private boolean running = true;
 
     public Connection(String host, int port, String username) throws IOException {
-        Socket socket = new Socket();
+        Socket socket = new Socket(host, port);
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
