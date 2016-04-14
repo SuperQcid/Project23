@@ -33,6 +33,7 @@ public class ConnectionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        stage.setTitle(hostName.getText()+":"+portNumber.getText());
         stage.show();
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
