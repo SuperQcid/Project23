@@ -36,7 +36,7 @@ public class Connection implements Runnable {
             try {
                 String message = this.in.readLine();
                 //TODO: Pass messages to messagehandler
-                System.out.println();
+                System.out.println(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
