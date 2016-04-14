@@ -19,19 +19,15 @@ public class Connection implements Runnable {
         //TODO: Create messagehandeler
         //TODO: Login using messagehandeler
 
-        this.start();
+        Thread t = new Thread(this);
+        t.setDaemon(true);
+        t.start();
     }
 
     public synchronized boolean sendMessage(String message) {
         out.println(message);
         //TODO: Address messagesender and return command success
         return true;
-    }
-
-    public void start() {
-        Thread t = new Thread(this);
-        t.setDaemon(true);
-        t.start();
     }
 
     @Override
