@@ -1,23 +1,27 @@
 package knof.event;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ErrorEvent;
 import knof.event.events.ListEvent;
 import knof.event.events.OkEvent;
 
-import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.WeakHashMap;
+import java.io.IOException;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EventSystem {
     private List<EventEntry> eventRegister = new LinkedList<>();
-    private WeakHashMap<IEventHandler,Void> eventHandlers = new WeakHashMap<>();
+    private WeakHashMap<Object, Void> eventReceivers = new WeakHashMap<>();
+    private final ObjectMapper mapper;
 
     public EventSystem() {
+        mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+
         this.add("OK", OkEvent.class);
         this.add("SVR GAMELIST (.*)", ListEvent.Games.class);
         this.add("SVR PLAYERLIST (.*)", ListEvent.Players.class);
@@ -25,7 +29,7 @@ public class EventSystem {
         this.add("SVR GAME CHALLENGE (.*)", ChallengeEvent.class);
     }
 
-    public Event parse(String message) {
+    public IEvent parse(String message) {
         if(message.startsWith("ERR ")) {
             return new ErrorEvent(message.substring(4));
         }
@@ -34,48 +38,29 @@ public class EventSystem {
             EventEntry ee = it.next();
             Matcher matcher = ee.match(message);
             if(matcher!=null) {
-                return this.createEvent(ee.eventClass, matcher.group(1));
+                try {
+                    return this.createEvent(ee.eventClass, matcher.group(1));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return null;
     }
 
-    private Event createEvent(Class<? extends Event> eventClass, String data) {
-        // TODO: Parse json data
-        try {
-            Event event = eventClass.newInstance();
-            for(Field field: event.getClass().getFields()) {
-                JsonField jsonField = field.getAnnotation(JsonField.class);
-                if (jsonField!=null) {
-                    if(jsonField.full()) {
-                        // TODO: Set field to parsed data
-                    }
-                    else {
-                        String key = field.getName().toUpperCase();
-                        // TODO: Set local variable to data with key
-                        if(jsonField.reparse()) {
-                            // TODO: Parse data again
-                        }
-                        // TODO: Set field to data
-                    }
-                }
-            }
-            return event;
-        } catch (InstantiationException | IllegalAccessException e) {
-            // TODO: Give warning
-            return null;
-        }
+    private IEvent createEvent(Class<? extends IEvent> eventClass, String group) throws IOException {
+        return mapper.readValue(group, eventClass);
     }
 
-    private void add(String regex, Class<? extends Event> eventClass) {
+    private void add(String regex, Class<? extends IEvent> eventClass) {
         this.eventRegister.add(new EventEntry(eventClass, regex));
     }
 
     private class EventEntry {
-        public final Class<? extends Event> eventClass;
+        public final Class<? extends IEvent> eventClass;
         public final Pattern regex;
 
-        public EventEntry(Class<? extends Event> eventClass, String pattern) {
+        public EventEntry(Class<? extends IEvent> eventClass, String pattern) {
             this.eventClass = eventClass;
             this.regex = Pattern.compile(pattern);
         }
@@ -90,12 +75,7 @@ public class EventSystem {
 
     }
 
-    public void register(IEventHandler eventHandler) {
-        eventHandlers.put(eventHandler, null);
-    }
-
-    @FunctionalInterface
-    interface IEventHandler<E extends Event> {
-        void handle(E event);
+    public void register(Object receiver) {
+        eventReceivers.put(receiver, null);
     }
 }

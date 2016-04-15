@@ -1,5 +1,5 @@
 package knof.event.events;
 
-import knof.event.Event;
+import knof.event.IEvent;
 
-public class OkEvent extends Event {}
+public class OkEvent implements IEvent {}

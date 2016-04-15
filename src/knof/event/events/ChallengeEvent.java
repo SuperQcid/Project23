@@ -1,20 +1,20 @@
 package knof.event.events;
 
-import knof.event.Event;
-import knof.event.JsonField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import knof.event.IEvent;
 
-public class ChallengeEvent extends Event {
-    @JsonField
+public class ChallengeEvent implements IEvent {
+    @JsonProperty("CHALLENGER")
     public String challenger;
-    @JsonField(reparse = true)
-    public int challengeNumber;
-    @JsonField
+    @JsonProperty("CHALLENGENUMBER")
+    public int id;
+    @JsonProperty("GAMETYPE")
     public String gameType;
-    @JsonField(reparse = true)
+    @JsonProperty("TURNTIME")
     public int turnTime;
 
-    public class Cancel extends Event {
-        @JsonField
-        public int challengeNumber;
+    public class Cancel implements IEvent {
+        @JsonProperty("CHALLENGENUMBER")
+        public int id;
     }
 }

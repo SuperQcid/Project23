@@ -1,12 +1,15 @@
 package knof.event.events;
 
-import knof.event.Event;
-import knof.event.JsonField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import knof.event.IEvent;
 
-public class ListEvent extends Event {
-    @JsonField(full = true)
-    public String[] list;
+import java.util.ArrayList;
+import java.util.List;
 
-    public class Players extends ListEvent {};
-    public class Games extends ListEvent {};
+public class ListEvent extends ArrayList<String> implements IEvent {
+    @JsonProperty
+    public List<String> list;
+
+    public static class Players extends ListEvent {}
+    public static class Games extends ListEvent {}
 }

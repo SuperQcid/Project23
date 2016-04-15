@@ -1,8 +1,8 @@
 package knof.event.events;
 
-import knof.event.Event;
+import knof.event.IEvent;
 
-public class ErrorEvent extends Event {
+public class ErrorEvent implements IEvent {
     public String reason;
 
     public ErrorEvent(String reason) {
