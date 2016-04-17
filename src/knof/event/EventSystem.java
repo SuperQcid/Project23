@@ -3,6 +3,7 @@ package knof.event;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
 import knof.event.events.StatusEvent;
