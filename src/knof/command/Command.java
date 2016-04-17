@@ -1,46 +1,31 @@
 package knof.command;
 
 public enum Command {
-    LOGIN("login", new ArgumentField(String.class)),
+    LOGIN("login", false),
     GET_PLAYERLIST("get playerlist"),
     GET_GAMELIST("get gamelist"),
-    CHALLENGE("challenge", new ArgumentField(String.class, true), new ArgumentField(String.class, true));
+    CHALLENGE("challenge", true, true);
 
-    private final ArgumentField[] fields;
+    private final IFormatter[] formatters;
     private final String prefix;
 
-    Command(String prefix, ArgumentField... fields) {
+    Command(String prefix, boolean... quoted) {
         this.prefix = prefix;
-        this.fields = fields;
-    }
-
-    static class ArgumentField {
-        private final IFormatter formatter;
-        private final Class fieldClass;
-
-        public ArgumentField(Class fieldClass) {
-            this(fieldClass, false);
-        }
-
-        public ArgumentField(Class<String> fieldClass, boolean quoted) {
-            this.fieldClass = fieldClass;
-            this.formatter = quoted?(Object obj) -> "\"" + obj + "\"":Object::toString;
-        }
-
-        public String format(Object obj) {
-            return this.formatter.format(obj);
+        this.formatters = new IFormatter[quoted.length];
+        for (int i=0; i<formatters.length; i++) {
+            this.formatters[i] = quoted[i]?(Object obj) -> "\"" + obj + "\"":Object::toString;
         }
     }
 
     public String format(Object... arguments) {
-        if(this.fields.length==arguments.length) {
+        if(this.formatters.length==arguments.length) {
             String message = this.prefix;
-            for(int i=0; i<this.fields.length; i++) {
-                message += " " + this.fields[0].format(arguments[i]);
+            for(int i=0; i<this.formatters.length; i++) {
+                message += " " + this.formatters[0].format(arguments[i]);
             }
             return message;
         }
-        System.err.println("Wrong number of arguments to command!");
+        System.err.println("Wrong number of arguments for " + this.toString() + "!");
         return ""; // Do nothing then?
     }
 
