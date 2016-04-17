@@ -1,5 +1,7 @@
 package knof.connection;
 
+import knof.command.Command;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,18 +18,19 @@ public class Connection implements Runnable {
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        //TODO: Create messagehandler
-        //TODO: Login using messagehandler
+
 
         Thread t = new Thread(this);
         t.setDaemon(true);
         t.start();
     }
 
-    public synchronized boolean sendMessage(String message) {
+    public synchronized void sendCommand(Command command, Object arguments) {
+        this.sendMessage(command.format(arguments));
+    }
+
+    private synchronized void sendMessage(String message) {
         out.println(message);
-        //TODO: Address messagesender and return command success
-        return true;
     }
 
     @Override
