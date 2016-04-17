@@ -4,9 +4,8 @@ public enum Command {
     LOGIN("login", new ArgumentField(String.class)),
     GET_PLAYERLIST("get playerlist"),
     GET_GAMELIST("get gamelist"),
-    CHALLENGE("challenge", new ArgumentField(String.class, true));
+    CHALLENGE("challenge", new ArgumentField(String.class, true), new ArgumentField(String.class, true));
 
-    private final static IFormatter quotedFormatter = (Object obj) -> "\"" + obj + "\"";
     private final ArgumentField[] fields;
     private final String prefix;
 
@@ -25,7 +24,7 @@ public enum Command {
 
         public ArgumentField(Class<String> fieldClass, boolean quoted) {
             this.fieldClass = fieldClass;
-            this.formatter = quoted?quotedFormatter:Object::toString;
+            this.formatter = quoted?(Object obj) -> "\"" + obj + "\"":Object::toString;
         }
 
         public String format(Object obj) {
