@@ -1,37 +1,20 @@
 package knof.command;
 
+import java.util.Formatter;
+
 public enum Command {
-    LOGIN("login", false),
+    LOGIN("login %s"),
     GET_PLAYERLIST("get playerlist"),
     GET_GAMELIST("get gamelist"),
-    CHALLENGE("challenge", true, true);
+    CHALLENGE("challenge \"%s\" \"%s\"");
 
-    private final IFormatter[] formatters;
-    private final String prefix;
+    private final String format;
 
-    Command(String prefix, boolean... quoted) {
-        this.prefix = prefix;
-        this.formatters = new IFormatter[quoted.length];
-        for (int i=0; i<formatters.length; i++) {
-            this.formatters[i] = quoted[i]?(Object obj) -> "\"" + obj + "\"":Object::toString;
-        }
+    Command(String format) {
+        this.format = format;
     }
 
     public String format(Object... arguments) {
-        if(this.formatters.length==arguments.length) {
-            String message = this.prefix;
-            for(int i=0; i<this.formatters.length; i++) {
-                message += " " + this.formatters[0].format(arguments[i]);
-            }
-            return message;
-        }
-        System.err.println("Wrong number of arguments for " + this.toString() + "!");
-        return ""; // Do nothing then?
+        return String.format(this.format, arguments);
     }
-
-    @FunctionalInterface
-    private interface IFormatter {
-        String format(Object obj);
-    }
-
 }
