@@ -1,5 +1,9 @@
 package knof.connection;
 
+import knof.command.Command;
+import knof.event.EventSystem;
+import knof.event.events.StatusEvent;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,24 +14,33 @@ public class Connection implements Runnable {
     private final PrintWriter out;
     private final BufferedReader in;
     private boolean running = true;
+    public final EventSystem eventSystem;
+    private CommandHandler commandHandler;
 
-    public Connection(String host, int port, String username) throws IOException {
+    public Connection(String host, int port) throws IOException {
         Socket socket = new Socket(host, port);
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        //TODO: Create messagehandler
-        //TODO: Login using messagehandler
+        this.eventSystem = new EventSystem();
+        this.commandHandler = new CommandHandler(this.eventSystem, this.out);
 
         Thread t = new Thread(this);
         t.setDaemon(true);
         t.start();
     }
 
-    public synchronized boolean sendMessage(String message) {
+    public synchronized void sendCommand(Command command, Object arguments) {
+        this.commandHandler.sendCommand(command, false, arguments);
+    }
+
+    public synchronized StatusEvent sendBlockingCommand(Command command, Object arguments) {
+        return this.commandHandler.sendCommand(command, true, arguments);
+    }
+
+    public synchronized void sendMessage(String message) {
         out.println(message);
-        //TODO: Address messagesender and return command success
-        return true;
+        this.commandHandler.discard(1);
     }
 
     @Override
@@ -35,7 +48,7 @@ public class Connection implements Runnable {
         while (running) {
             try {
                 String message = this.in.readLine();
-                //TODO: Pass messages to messagehandler
+                this.eventSystem.handleMessage(message);
                 System.out.println(message);
             } catch (IOException e) {
                 e.printStackTrace();
