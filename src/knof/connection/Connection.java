@@ -1,6 +1,7 @@
 package knof.connection;
 
 import knof.command.Command;
+import knof.event.EventSystem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +13,16 @@ public class Connection implements Runnable {
     private final PrintWriter out;
     private final BufferedReader in;
     private boolean running = true;
+    public final EventSystem eventSystem;
+    private CommandHandler commandHandler;
 
     public Connection(String host, int port, String username) throws IOException {
         Socket socket = new Socket(host, port);
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-
+        this.eventSystem = new EventSystem();
+        this.commandHandler = new CommandHandler(this.eventSystem, this.out);
 
         Thread t = new Thread(this);
         t.setDaemon(true);
@@ -29,8 +33,9 @@ public class Connection implements Runnable {
         this.sendMessage(command.format(arguments));
     }
 
-    private synchronized void sendMessage(String message) {
+    public synchronized void sendMessage(String message) {
         out.println(message);
+        this.commandHandler.discard(1);
     }
 
     @Override
