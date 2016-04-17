@@ -6,8 +6,10 @@ import knof.event.EventSystem;
 import knof.event.events.StatusEvent;
 
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandHandler {
     private final BlockingQueue<StatusEvent> eventQueue = new LinkedBlockingQueue<>();
@@ -19,23 +21,28 @@ public class CommandHandler {
         eventSystem.register(this);
     }
 
-    public synchronized StatusEvent sendCommand(Command command, boolean blocking, Object... arguments) {
+    public StatusEvent sendCommand(Command command, boolean blocking, Object... arguments) {
         this.out.println(command.format(arguments));
         if(blocking) {
             try {
-                return eventQueue.take();
+                StatusEvent ev = eventQueue.take();
+                return ev;
             } catch (InterruptedException e) {
                 return new StatusEvent.Error("CLIENT: " + e.getMessage());
             }
         }
         else {
-            discard++;
+            synchronized (this) {
+                discard++;
+            }
             return null;
         }
     }
 
     public void discard(int n) {
-        discard+=n;
+        synchronized (this) {
+            discard += n;
+        }
     }
 
     @EventHandler
@@ -43,8 +50,7 @@ public class CommandHandler {
         synchronized (this) {
             if (discard > 0) {
                 discard--;
-            }
-            else {
+            } else {
                 try {
                     eventQueue.put(ev);
                 } catch (InterruptedException e) {
