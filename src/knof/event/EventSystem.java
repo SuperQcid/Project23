@@ -49,6 +49,9 @@ public class EventSystem {
         if(message.startsWith("ERR ")) {
             return new StatusEvent.Error(message.substring(4));
         }
+        if(message.equals("OK")) {
+            return new StatusEvent.Ok();
+        }
         Iterator<EventEntry> it = eventRegister.iterator();
         while (it.hasNext()) {
             EventEntry ee = it.next();

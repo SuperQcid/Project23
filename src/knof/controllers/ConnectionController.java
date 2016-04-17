@@ -7,6 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import knof.command.Command;
+import knof.connection.Connection;
+import knof.event.events.StatusEvent;
 
 import java.io.IOException;
 
@@ -23,8 +26,26 @@ public class ConnectionController {
 
     @FXML
     public void connect(ActionEvent event) {
-        //TODO: Try to make a connection and only open window when successful
-        //TODO: When that is done, stop window from freezing
+        //TODO: Stop window from freezing
+        //TODO: Find better way to display errors
+        //TODO: Make server model
+        String host = hostName.getText();
+        int port = Integer.parseInt(portNumber.getText());
+        String user = userName.getText();
+
+        Connection connection;
+        try {
+            connection = new Connection(host, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        StatusEvent status = connection.sendBlockingCommand(Command.LOGIN, user);
+        if(status instanceof StatusEvent.Error) {
+            System.err.println(((StatusEvent.Error) status).reason);
+            return;
+        }
 
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
