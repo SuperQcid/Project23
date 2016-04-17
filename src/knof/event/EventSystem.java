@@ -4,9 +4,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import knof.event.events.ChallengeEvent;
-import knof.event.events.ErrorEvent;
 import knof.event.events.ListEvent;
-import knof.event.events.OkEvent;
+import knof.event.events.StatusEvent;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +23,7 @@ public class EventSystem {
         mapper = new ObjectMapper();
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
-        this.add("OK", OkEvent.class);
+        this.add("OK", StatusEvent.Ok.class);
         this.add("SVR GAMELIST (.*)", ListEvent.Games.class);
         this.add("SVR PLAYERLIST (.*)", ListEvent.Players.class);
         this.add("SVR GAME CHALLENGE CANCELLED (.*)", ChallengeEvent.Cancel.class);
@@ -48,7 +47,10 @@ public class EventSystem {
      */
     public IEvent parse(String message) {
         if(message.startsWith("ERR ")) {
-            return new ErrorEvent(message.substring(4));
+            return new StatusEvent.Error(message.substring(4));
+        }
+        if(message.equals("OK")) {
+            return new StatusEvent.Ok();
         }
         Iterator<EventEntry> it = eventRegister.iterator();
         while (it.hasNext()) {
