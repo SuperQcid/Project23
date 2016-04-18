@@ -30,12 +30,12 @@ public class Connection implements Runnable {
         t.start();
     }
 
-    public synchronized void sendCommand(Command command, Object arguments) {
-        this.commandHandler.sendCommand(command, false, arguments);
+    public synchronized void sendCommand(Command command, Object... arguments) {
+        this.commandHandler.sendCommand(command, null, arguments);
     }
 
-    public synchronized StatusEvent sendBlockingCommand(Command command, Object arguments) {
-        return this.commandHandler.sendCommand(command, true, arguments);
+    public synchronized void sendCommandWithCallBack(CommandHandler.Callback callback, Command command, Object arguments) {
+        this.commandHandler.sendCommand(command, callback, arguments);
     }
 
     public synchronized void sendMessage(String message) {

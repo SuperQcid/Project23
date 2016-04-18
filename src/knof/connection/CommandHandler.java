@@ -19,19 +19,19 @@ public class CommandHandler {
         eventSystem.register(this);
     }
 
-    public StatusEvent sendCommand(Command command, boolean blocking, Object... arguments) {
+    public void sendCommand(Command command, Callback callback, Object... arguments) {
         this.out.println(command.format(arguments));
         try {
-            if (blocking) {
+            if (callback!=null) {
                     discardQueue.put(false);
                     StatusEvent ev = eventQueue.take();
-                    return ev;
+                    callback.run(ev);
             } else {
                 discardQueue.put(true);
-                return null;
             }
         } catch (InterruptedException e) {
-            return new StatusEvent.Error("CLIENT: " + e.getMessage());
+            //TODO: Error handling
+            e.printStackTrace();
         }
     }
 
@@ -54,5 +54,10 @@ public class CommandHandler {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @FunctionalInterface
+    public interface Callback {
+        void run(StatusEvent statusEvent);
     }
 }
