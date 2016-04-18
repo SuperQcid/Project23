@@ -3,7 +3,7 @@ package knof.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class PlayerCell {
+public class PlayerController {
     @FXML
     public Label playerName;
 
