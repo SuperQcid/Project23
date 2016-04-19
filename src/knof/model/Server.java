@@ -69,8 +69,9 @@ public class Server {
 	
 	
 	public void onGameClicked(String game){
-		//TODO show popup
-		System.out.println("onGameClicked... " + game );
-		
+		Platform.runLater(() -> {
+			//TODO show popup
+			System.out.println("onGameClicked... " + game );
+		});
 	}
 }
