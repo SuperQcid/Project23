@@ -9,6 +9,7 @@ import knof.event.events.MessageEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.ListEvent;
 import knof.event.events.StatusEvent;
+import knof.event.events.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class EventSystemTest {
     public void testMove(){
         EventSystem es = new EventSystem();
         IEvent iev = es.parse("SVR GAME MOVE {PLAYER: \"TestOpponent\", DETAILS: \"TestDetails\", MOVE: \"55\"}");
-        assertTrue(iev instanceof MessageEvent);
+        assertTrue(iev instanceof MoveEvent);
         MoveEvent mev = (MoveEvent) iev;
         assertEquals(mev.player, "TestOpponent");
         assertEquals(mev.details, "TestDetails");
@@ -56,6 +57,16 @@ public class EventSystemTest {
         EventSystem es = new EventSystem();
         IEvent ev = es.parse("OK");
         assertEquals(ev , StatusEvent.Ok.class);
+    }
+    @Test
+    public void testForfeit(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME {PLAYERONESCORE: \"100\", PLAYERTWOSCORE: \"50\", COMMENT: \"Player forfeited match\"}");
+        assertTrue(iev instanceof ForfeitEvent);
+        ForfeitEvent fev = (ForfeitEvent) iev;
+        assertEquals(fev.playerOneScore, 100);
+        assertEquals(fev.playerTwoScore, 50);
+        assertEquals(fev.comment, "Player forfeited match");
     }
 
     @Test
@@ -87,6 +98,57 @@ public class EventSystemTest {
         assertEquals(playerlist.list, checklist);
     }
 
+    @Test
+    public void testDraw(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME DRAW {PLAYERONESCORE: \"345\", PLAYERTWOSCORE: \"312\", COMMENT: \"It's a draw!\"}");
+        assertTrue(iev instanceof GameResultEvent.Draw);
+        GameResultEvent.Draw dev = (GameResultEvent.Draw) iev;
+        assertEquals(dev.playerOneScore, 345);
+        assertEquals(dev.playerTwoScore, 312);
+        assertEquals(dev.comment, "It's a draw!");
+    }
+
+    @Test
+    public void testWin(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME WIN {PLAYERONESCORE: \"75\", PLAYERTWOSCORE: \"20\", COMMENT: \"You win!\"}");
+        assertTrue(iev instanceof GameResultEvent.Win);
+        GameResultEvent.Win dev = (GameResultEvent.Win) iev;
+        assertEquals(dev.playerOneScore, 75);
+        assertEquals(dev.playerTwoScore, 20);
+        assertEquals(dev.comment, "You win!");
+    }
+
+    @Test
+    public void testLoss(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME LOSS {PLAYERONESCORE: \"20\", PLAYERTWOSCORE: \"75\", COMMENT: \"You lose!\"}");
+        assertTrue(iev instanceof GameResultEvent.Loss);
+        GameResultEvent.Loss dev = (GameResultEvent.Loss) iev;
+        assertEquals(dev.playerOneScore, 20);
+        assertEquals(dev.playerTwoScore, 75);
+        assertEquals(dev.comment, "You lose!");
+    }
+
+    public void testYourTurn(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME YOURTURN {TURNMESSAGE: \"It's your turn!\"}");
+        assertTrue(iev instanceof YourTurnEvent);
+        YourTurnEvent ytev = (YourTurnEvent) iev;
+        assertEquals(ytev.turnMessage, "It's your turn!");
+    }
+
+    public void testMatch(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME MATCH {GAMETYPE: \"Tic-tac-toe\", PLAYERTOMOVE: \"TestPlayer\", OPPONENT: \"TestOpponent\"}");
+        assertTrue(iev instanceof MatchEvent);
+        MatchEvent mev = (MatchEvent) iev;
+        assertEquals(mev.gameType, "Tic-tac-toe");
+        assertEquals(mev.playerToMove, "TestPlayer");
+        assertEquals(mev.opponent, "TestOpponent");
+    }
+    /*
     class SystemTester {
         public String challenger = "NOBODY";
 
