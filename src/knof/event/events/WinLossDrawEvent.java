@@ -8,6 +8,15 @@ import knof.event.IEvent;
  */
 public class WinLossDrawEvent implements IEvent {
 
+    @JsonProperty("PLAYERONESCORE")
+    public int playerOneScore;
+
+    @JsonProperty("PLAYERTWOSCORE")
+    public int playerTwoScore;
+
+    @JsonProperty("COMMENT")
+    public String comment;
+
     public static class Win extends WinLossDrawEvent {}
     public static class Lose extends WinLossDrawEvent {}
     public static class Draw extends WinLossDrawEvent {}
