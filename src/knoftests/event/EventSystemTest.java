@@ -10,6 +10,11 @@ import knof.event.events.MoveEvent;
 import knof.event.events.ListEvent;
 import knof.event.events.StatusEvent;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class EventSystemTest {
@@ -46,8 +51,6 @@ public class EventSystemTest {
         assertEquals(mev.message, "Test Message TestMessage");
     }
 
-
-    /*
     @Test
     public void testOk() {
         EventSystem es = new EventSystem();
@@ -56,25 +59,33 @@ public class EventSystemTest {
     }
 
     @Test
+    public void testError() {
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("ERR \"Fout\"");
+        assertTrue(iev instanceof StatusEvent.Error);
+        StatusEvent.Error err = (StatusEvent.Error) iev;
+        assertEquals(err.reason, "Fout");
+    }
+
+    @Test
     public void testGamelist() {
         EventSystem es = new EventSystem();
-        IEvent ev = es.parse("GAMELIST");
+        IEvent ev = es.parse("SVR GAMELIST [\"<game1>\"]");
         assertEquals(ev, ListEvent.Games.class);
+        ListEvent.Games gamelist = (ListEvent.Games) ev;
+        List<String> checklist = Arrays.asList("game1");
+        assertEquals(gamelist.list, checklist);
     }
 
     @Test
     public void testPlayerlist() {
         EventSystem es = new EventSystem();
-        IEvent ev = es.parse("PLAYERLIST");
+        IEvent ev = es.parse("SVR GAMELIST [\"<player1>\"]");
         assertEquals(ev, ListEvent.Players.class);
+        ListEvent.Players playerlist = (ListEvent.Players) ev;
+        List<String> checklist = Arrays.asList("player1");
+        assertEquals(playerlist.list, checklist);
     }
-
-//    @Test
-//    public void testPlayerlist() {
-//        EventSystem es = new EventSystem();
-//        IEvent ev = es.parse("GAME MATCH");
-//        assertEquals(ev, ListEvent.Players.class);
-//    }
 
     class SystemTester {
         public String challenger = "NOBODY";
