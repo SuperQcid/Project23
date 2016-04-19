@@ -6,7 +6,7 @@ import knof.event.IEvent;
 /**
  * Created by Thijs on 19/04/2016.
  */
-public class WinLossDrawEvent implements IEvent {
+public class GameResultEvent implements IEvent {
 
     @JsonProperty("PLAYERONESCORE")
     public int playerOneScore;
@@ -17,8 +17,8 @@ public class WinLossDrawEvent implements IEvent {
     @JsonProperty("COMMENT")
     public String comment;
 
-    public static class Win extends WinLossDrawEvent {}
-    public static class Lose extends WinLossDrawEvent {}
-    public static class Draw extends WinLossDrawEvent {}
+    public static class Win extends GameResultEvent {}
+    public static class Lose extends GameResultEvent {}
+    public static class Draw extends GameResultEvent {}
 
 }
