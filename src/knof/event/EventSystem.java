@@ -1,12 +1,8 @@
 package knof.event;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Platform;
-import knof.event.events.ChallengeEvent;
-import knof.event.events.ListEvent;
-import knof.event.events.StatusEvent;
+import knof.event.events.*;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -29,6 +25,14 @@ public class EventSystem {
         this.add("SVR PLAYERLIST (.*)", ListEvent.Players.class);
         this.add("SVR GAME CHALLENGE CANCELLED (.*)", ChallengeEvent.Cancel.class);
         this.add("SVR GAME CHALLENGE (.*)", ChallengeEvent.class);
+        this.add("SVR GAME MOVE (.*)", MoveEvent.class);
+        this.add("SVR GAME MATCH (.*)", MatchEvent.class);
+        this.add("SVR GAME YOURTURN (.*)", TurnEvent.class);
+        this.add("SVR GAME WIN (.*)", GameResultEvent.Win.class);
+        this.add("SVR GAME LOSS (.*)", GameResultEvent.Loss.class);
+        this.add("SVR GAME DRAW (.*)", GameResultEvent.Draw.class);
+        this.add("SVR GAME (.*)", GameResultEvent.Forfeit.class);
+        this.add("SVR MESSAGE (.*)", MessageEvent.class);
     }
 
     public void handleMessage(String message) {
