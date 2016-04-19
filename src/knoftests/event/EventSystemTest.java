@@ -81,7 +81,7 @@ public class EventSystemTest {
     @Test
     public void testGamelist() {
         EventSystem es = new EventSystem();
-        IEvent ev = es.parse("SVR GAMELIST [\"<game1>\"]");
+        IEvent ev = es.parse("SVR GAMELIST [\"game1\"]");
         assertEquals(ev, ListEvent.Games.class);
         ListEvent.Games gamelist = (ListEvent.Games) ev;
         List<String> checklist = Arrays.asList("game1");
@@ -91,7 +91,7 @@ public class EventSystemTest {
     @Test
     public void testPlayerlist() {
         EventSystem es = new EventSystem();
-        IEvent ev = es.parse("SVR PLAYERLIST [\"<player1>\"]");
+        IEvent ev = es.parse("SVR PLAYERLIST [\"player1\"]");
         assertEquals(ev, ListEvent.Players.class);
         ListEvent.Players playerlist = (ListEvent.Players) ev;
         List<String> checklist = Arrays.asList("player1");
