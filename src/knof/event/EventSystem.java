@@ -30,6 +30,7 @@ public class EventSystem {
         this.add("SVR GAME MOVE (.*)", MoveEvent.class);
         this.add("SVR GAME MATCH (.*)", MatchEvent.class);
         this.add("SVR GAME YOURTURN (.*)", YourTurnEvent.class);
+        this.add("SVR MESSAGE (.*)", MessageEvent.class);
     }
 
     public void handleMessage(String message) {
