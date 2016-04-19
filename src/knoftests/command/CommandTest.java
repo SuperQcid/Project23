@@ -61,7 +61,7 @@ public class CommandTest {
     public void challengeAcceptTest(){
         Command command = Command.CHALLENGE_ACCEPT;
         String formatted = command.format(42);
-        assertArrayEquals("challenge accept 42", formatted);
+        assertEquals("challenge accept 42", formatted);
     }
 
     @Test
