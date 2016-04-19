@@ -5,6 +5,7 @@ import knof.event.EventHandler;
 import knof.event.EventSystem;
 import knof.event.IEvent;
 import knof.event.events.ChallengeEvent;
+import knof.event.events.ForfeitEvent;
 import knof.event.events.MessageEvent;
 import knof.event.events.MoveEvent;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class EventSystemTest {
     public void testMove(){
         EventSystem es = new EventSystem();
         IEvent iev = es.parse("SVR GAME MOVE {PLAYER: \"TestOpponent\", DETAILS: \"TestDetails\", MOVE: \"55\"}");
-        assertTrue(iev instanceof MessageEvent);
+        assertTrue(iev instanceof MoveEvent);
         MoveEvent mev = (MoveEvent) iev;
         assertEquals(mev.player, "TestOpponent");
         assertEquals(mev.details, "TestDetails");
@@ -44,6 +45,16 @@ public class EventSystemTest {
         assertEquals(mev.message, "Test Message TestMessage");
     }
 
+    @Test
+    public void testForfeit(){
+        EventSystem es = new EventSystem();
+        IEvent iev = es.parse("SVR GAME {PLAYERONESCORE: \"100\", PLAYERTWOSCORE: \"50\", COMMENT: \"Player forfeited match\"}");
+        assertTrue(iev instanceof ForfeitEvent);
+        ForfeitEvent fev = (ForfeitEvent) iev;
+        assertEquals(fev.playerOneScore, 100);
+        assertEquals(fev.playerTwoScore, 50);
+        assertEquals(fev.comment, "Player forfeited match");
+    }
 
     /*
     class SystemTester {
