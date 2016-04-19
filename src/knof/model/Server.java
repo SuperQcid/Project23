@@ -8,6 +8,7 @@ import knof.command.CommandTask;
 import knof.connection.Connection;
 import knof.event.EventHandler;
 import knof.event.events.ListEvent;
+import knof.event.events.ListEvent.Games;
 
 import java.lang.ref.WeakReference;
 import java.util.Timer;
@@ -51,5 +52,15 @@ public class Server {
             this.players.addAll(event);
             System.out.println(this.players);
         });
+    }
+    
+    @EventHandler
+    public void onGameList(ListEvent.Games event) {
+    	System.out.println(event);
+        this.games.removeIf((String game) -> !event.contains(game));
+        event.removeIf(this.games::contains);
+
+        this.games.addAll(event);
+        System.out.println(this.games);
     }
 }
