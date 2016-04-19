@@ -1,12 +1,18 @@
 package knof.command;
 
-import java.util.Formatter;
-
 public enum Command {
     LOGIN("login %s"),
+    LOGOUT("logout"),
+    MESSAGE("message \"%s\" %s"),
     GET_PLAYERLIST("get playerlist"),
     GET_GAMELIST("get gamelist"),
-    CHALLENGE("challenge \"%s\" \"%s\"");
+    SUBSCRIBE("subscribe %s"),
+    UNSUBSCRIBE("unsubscribe"),
+    MOVE("move %s"),
+    CHALLENGE("challenge \"%s\" \"%s\""),
+    CHALLENGE_ACCEPT("challenge accept %s"),
+    CHALLENGE_FORFEIT("forfeit"),
+    HELP("help %s");
 
     private final String format;
 
