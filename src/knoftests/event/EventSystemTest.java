@@ -132,6 +132,7 @@ public class EventSystemTest {
         assertEquals(dev.comment, "You lose!");
     }
 
+    @Test
     public void testYourTurn(){
         EventSystem es = new EventSystem();
         IEvent iev = es.parse("SVR GAME YOURTURN {TURNMESSAGE: \"It's your turn!\"}");
@@ -140,6 +141,7 @@ public class EventSystemTest {
         assertEquals(ytev.turnMessage, "It's your turn!");
     }
 
+    @Test
     public void testMatch(){
         EventSystem es = new EventSystem();
         IEvent iev = es.parse("SVR GAME MATCH {GAMETYPE: \"Tic-tac-toe\", PLAYERTOMOVE: \"TestPlayer\", OPPONENT: \"TestOpponent\"}");
