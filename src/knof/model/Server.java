@@ -66,4 +66,11 @@ public class Server {
 			System.out.println(this.games);
 		});
 	}
+	
+	
+	public void onGameClicked(String game){
+		//TODO show popup
+		System.out.println("onGameClicked... " + game );
+		
+	}
 }
