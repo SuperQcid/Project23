@@ -18,7 +18,7 @@ public class GameResultEvent implements IEvent {
     public String comment;
 
     public static class Win extends GameResultEvent {}
-    public static class Lose extends GameResultEvent {}
+    public static class Loss extends GameResultEvent {}
     public static class Draw extends GameResultEvent {}
 
 }
