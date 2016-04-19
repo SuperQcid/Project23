@@ -57,7 +57,7 @@ public class EventSystemTest {
     public void testOk() {
         EventSystem es = new EventSystem();
         IEvent ev = es.parse("OK");
-        assertTrue(ev instanceof StatusEvent.Ok);
+        assertEquals(ev , StatusEvent.Ok.class);
     }
     @Test
     public void testForfeit(){
