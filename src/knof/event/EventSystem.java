@@ -52,7 +52,7 @@ public class EventSystem {
      */
     public IEvent parse(String message) {
         if(message.startsWith("ERR ")) {
-            return new StatusEvent.Error(message.substring(4).replaceAll("\"", ""));
+            return new StatusEvent.Error(message.substring(4));
         }
         if(message.equals("OK")) {
             return new StatusEvent.Ok();
