@@ -1,9 +1,7 @@
 package knof.event;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Platform;
 import knof.event.events.*;
 
 import java.io.IOException;
@@ -30,9 +28,9 @@ public class EventSystem {
         this.add("SVR GAME MOVE (.*)", MoveEvent.class);
         this.add("SVR GAME MATCH (.*)", MatchEvent.class);
         this.add("SVR GAME YOURTURN (.*)", YourTurnEvent.class);
-        this.add("SVR GAME WIN (.*)", WinLossDrawEvent.Win.class);
-        this.add("SVR GAME LOSE (.*)", WinLossDrawEvent.Lose.class);
-        this.add("SVR GAME DRAW (.*)", WinLossDrawEvent.Draw.class);
+        this.add("SVR GAME WIN (.*)", GameResultEvent.Win.class);
+        this.add("SVR GAME LOSE (.*)", GameResultEvent.Lose.class);
+        this.add("SVR GAME DRAW (.*)", GameResultEvent.Draw.class);
         this.add("SVR GAME (.*)", ForfeitEvent.class);
         this.add("SVR MESSAGE (.*)", MessageEvent.class);
     }
