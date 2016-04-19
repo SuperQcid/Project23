@@ -27,11 +27,11 @@ public class EventSystem {
         this.add("SVR GAME CHALLENGE (.*)", ChallengeEvent.class);
         this.add("SVR GAME MOVE (.*)", MoveEvent.class);
         this.add("SVR GAME MATCH (.*)", MatchEvent.class);
-        this.add("SVR GAME YOURTURN (.*)", YourTurnEvent.class);
+        this.add("SVR GAME YOURTURN (.*)", TurnEvent.class);
         this.add("SVR GAME WIN (.*)", GameResultEvent.Win.class);
         this.add("SVR GAME LOSS (.*)", GameResultEvent.Loss.class);
         this.add("SVR GAME DRAW (.*)", GameResultEvent.Draw.class);
-        this.add("SVR GAME (.*)", ForfeitEvent.class);
+        this.add("SVR GAME (.*)", GameResultEvent.Forfeit.class);
         this.add("SVR MESSAGE (.*)", MessageEvent.class);
     }
 

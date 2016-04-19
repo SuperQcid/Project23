@@ -6,7 +6,7 @@ import knof.event.IEvent;
 /**
  * Created by Henk Dieter Oordt on 19-4-2016.
  */
-public class YourTurnEvent implements IEvent {
+public class TurnEvent extends GameEvent {
     @JsonProperty("TURNMESSAGE")
     public String turnMessage;
 }

@@ -12,7 +12,6 @@ import knof.event.events.StatusEvent;
 import knof.event.events.*;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,8 +62,8 @@ public class EventSystemTest {
     public void testForfeit(){
         EventSystem es = new EventSystem();
         IEvent iev = es.parse("SVR GAME {PLAYERONESCORE: \"100\", PLAYERTWOSCORE: \"50\", COMMENT: \"Player forfeited match\"}");
-        assertTrue(iev instanceof ForfeitEvent);
-        ForfeitEvent fev = (ForfeitEvent) iev;
+        assertTrue(iev instanceof GameResultEvent.Forfeit);
+        GameResultEvent.Forfeit fev = (GameResultEvent.Forfeit) iev;
         assertEquals(fev.playerOneScore, 100);
         assertEquals(fev.playerTwoScore, 50);
         assertEquals(fev.comment, "Player forfeited match");
@@ -136,8 +135,8 @@ public class EventSystemTest {
     public void testYourTurn(){
         EventSystem es = new EventSystem();
         IEvent iev = es.parse("SVR GAME YOURTURN {TURNMESSAGE: \"It's your turn!\"}");
-        assertTrue(iev instanceof YourTurnEvent);
-        YourTurnEvent ytev = (YourTurnEvent) iev;
+        assertTrue(iev instanceof TurnEvent);
+        TurnEvent ytev = (TurnEvent) iev;
         assertEquals(ytev.turnMessage, "It's your turn!");
     }
 
@@ -151,7 +150,7 @@ public class EventSystemTest {
         assertEquals(mev.playerToMove, "TestPlayer");
         assertEquals(mev.opponent, "TestOpponent");
     }
-    /*
+
     class SystemTester {
         public String challenger = "NOBODY";
 
@@ -173,5 +172,5 @@ public class EventSystemTest {
         es.emitEvent(ev);
 
         assertEquals(ev.challenger, st.challenger);
-    }*/
+    }
 }
