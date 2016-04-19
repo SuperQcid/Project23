@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class EventSystemTest {
@@ -56,7 +57,7 @@ public class EventSystemTest {
     public void testOk() {
         EventSystem es = new EventSystem();
         IEvent ev = es.parse("OK");
-        assertEquals(ev , StatusEvent.Ok.class);
+        assertTrue(ev instanceof StatusEvent.Ok);
     }
     @Test
     public void testForfeit(){
@@ -81,21 +82,21 @@ public class EventSystemTest {
     @Test
     public void testGamelist() {
         EventSystem es = new EventSystem();
-        IEvent ev = es.parse("SVR GAMELIST [\"<game1>\"]");
-        assertEquals(ev, ListEvent.Games.class);
+        IEvent ev = es.parse("SVR GAMELIST [\"game1\"]");
+        assertTrue(ev instanceof ListEvent.Games);
         ListEvent.Games gamelist = (ListEvent.Games) ev;
         List<String> checklist = Arrays.asList("game1");
-        assertEquals(gamelist.list, checklist);
+        assertThat(checklist, is(gamelist));
     }
 
     @Test
     public void testPlayerlist() {
         EventSystem es = new EventSystem();
-        IEvent ev = es.parse("SVR PLAYERLIST [\"<player1>\"]");
-        assertEquals(ev, ListEvent.Players.class);
+        IEvent ev = es.parse("SVR PLAYERLIST [\"player1\"]");
+        assertTrue(ev instanceof ListEvent.Players);
         ListEvent.Players playerlist = (ListEvent.Players) ev;
         List<String> checklist = Arrays.asList("player1");
-        assertEquals(playerlist.list, checklist);
+        assertThat(checklist, is(playerlist));
     }
 
     @Test
