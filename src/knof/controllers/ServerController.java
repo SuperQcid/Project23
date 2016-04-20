@@ -22,12 +22,9 @@ public class ServerController {
     @FXML
     public ListView<Challenge> challengeList;
 
-    private Server server;
-
     public void setServer(Server server) {
-        this.server = server;
 
-        this.playerList.setCellFactory(param -> new PlayerCell());
+        this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
 
         this.gameList.setItems(server.games);
         
@@ -48,18 +45,19 @@ public class ServerController {
         @Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
-
-            if(!empty) {
-                FXMLLoader loader = new FXMLLoader();
+            if(!empty && item != null) {
                 try {
+                	FXMLLoader loader = new FXMLLoader();
                     GridPane loaded = loader.load(getClass().getResource("../controllers/PlayerController.fxml").openStream());
                     PlayerController playerController = loader.getController();
                     playerController.playerName.setText(item);
-
+                	//setText(item);
                     this.setGraphic(loaded);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else {
+            	this.setGraphic(null);
             }
         }
     }

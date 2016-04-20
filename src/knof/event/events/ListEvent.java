@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListEvent extends ArrayList<String> implements IEvent {
-    @JsonProperty
-    public List<String> list;
 
     public static class Players extends ListEvent {}
     public static class Games extends ListEvent {}

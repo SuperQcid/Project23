@@ -50,17 +50,6 @@ public class Server {
 		this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_GAMELIST), 0, 4000);
 	}
 
-	@EventHandler
-	public void onPlayerList(ListEvent.Players event) {
-		Platform.runLater(() -> {
-			System.out.println(event);
-			this.players.removeIf((String player) -> !event.contains(player));
-			event.removeIf(this.players::contains);
-
-			this.players.addAll(event);
-			System.out.println(this.players);
-		});
-	}
 
 	@EventHandler
 	public void onGameList(ListEvent.Games event) {
@@ -90,4 +79,17 @@ public class Server {
             }
 		});
 	}
+
+    @EventHandler
+    public void onPlayerList(ListEvent.Players event) {
+        Platform.runLater(() -> {
+        	/*
+            this.players.removeIf((String player) -> !event.contains(player));
+            event.removeIf(this.players::contains);
+            */
+        	this.players.clear();
+            this.players.addAll(event);
+            System.out.println("EVENT: " + this.players.toString());
+        });
+    }
 }
