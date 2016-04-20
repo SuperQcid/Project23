@@ -3,13 +3,20 @@ package knof.model;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import knof.command.Command;
 import knof.command.CommandTask;
 import knof.connection.Connection;
+import knof.controllers.PopupController;
+import knof.controllers.ServerController;
 import knof.event.EventHandler;
 import knof.event.events.ListEvent;
 import knof.event.events.ListEvent.Games;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,8 +77,17 @@ public class Server {
 	
 	public void onGameClicked(String game){
 		Platform.runLater(() -> {
-			//TODO show popup
-			System.out.println("onGameClicked... " + game );
+			Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            try {
+                stage.setScene(new Scene(loader.load(getClass().getResource("../controllers/PopupController.fxml").openStream())));
+                stage.setTitle("Subscribed to game");
+                PopupController popupController = loader.getController();
+                popupController.addGameToText(game);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 		});
 	}
 }
