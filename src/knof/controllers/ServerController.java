@@ -1,16 +1,20 @@
 package knof.controllers;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import knof.model.Challenge;
+import knof.model.Game;
 import knof.model.Server;
 
 import java.io.IOException;
 
-public class ServerController {
+public class ServerController implements InvalidationListener {
     @FXML
     public ListView<String> gameList;
 
@@ -20,6 +24,8 @@ public class ServerController {
     @FXML
     public ListView<Challenge> challengeList;
 
+    public Game currentGame;
+
     public void setServer(Server server) {
 
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
@@ -27,6 +33,14 @@ public class ServerController {
         this.gameList.setItems(server.games);
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
+        this.currentGame = server.currentGame;
+    }
+
+    @Override
+    public void invalidated(Observable observable) {
+        if(observable instanceof Game){
+            Game game = (Game) observable;
+        }
     }
 
     // TODO: Refactor this to something more generic
@@ -50,4 +64,6 @@ public class ServerController {
             }
         }
     }
+
+
 }

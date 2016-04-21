@@ -5,5 +5,4 @@ package knof.plugin;
  */
 public abstract class Plugin {
 
-	//TODO
 }
