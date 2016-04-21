@@ -10,24 +10,21 @@
 
 <GridPane fx:id="pane" prefHeight="72.0" prefWidth="137.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.ChallengeController">
   <children>
-    <Label fx:id="challengeName" text="Challenge" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+    <Label fx:id="challengeName" text="Challenge" GridPane.columnSpan="2" GridPane.halignment="CENTER">
       <font>
         <Font size="18.0" />
       </font>
-    </Label>
-    <Button mnemonicParsing="false" onAction="#challenge" prefWidth="55.0" text="Accept" GridPane.columnIndex="0" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="2.5" />
-         </GridPane.margin></Button>
-      <Button mnemonicParsing="false" onAction="#challenge" prefHeight="25.0" prefWidth="55.0" text="Deny" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="2.5" />
+            <Insets />
          </GridPane.margin>
-      </Button>
+    </Label>
+    <Button mnemonicParsing="false" onAction="#onChallengeAccept" prefHeight="25.0" prefWidth="60.0" text="Accept" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></Button>
   </children>
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="60.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.0" minWidth="0.0" prefWidth="60.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="80.0" />
   </columnConstraints>
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

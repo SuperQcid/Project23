@@ -2,6 +2,7 @@ package knof.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
@@ -11,6 +12,7 @@ import knof.model.Server;
 import java.io.IOException;
 
 public class ServerController {
+
     @FXML
     public ListView<String> gameList;
 
@@ -23,6 +25,9 @@ public class ServerController {
     public void setServer(Server server) {
 
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
+
+        //todo this works??
+        this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
 
         this.gameList.setItems(server.games);
         this.playerList.setItems(server.players);
@@ -51,16 +56,17 @@ public class ServerController {
         }
     }
 
-    static class ChallengeCell extends ListCell<String>{
+    static class ChallengeCell extends ListCell<Challenge>{
         @Override
-        public void updateItem(String item, boolean empty) {
+        public void updateItem(Challenge item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty && item != null) {
                 try {
                     FXMLLoader loader = new FXMLLoader();
                     GridPane loaded = loader.load(getClass().getResource("../controllers/ChallengeController.fxml").openStream());
                     ChallengeController challengeController = loader.getController();
-                    challengeController.challengeName.setText(item);
+                    challengeController.setServer();
+                    challengeController.challengeName.setLabelFor(new Label(item.player));
                     //setText(item);
                     this.setGraphic(loaded);
                 } catch (IOException e) {

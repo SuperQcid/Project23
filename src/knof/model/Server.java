@@ -60,4 +60,6 @@ public class Server {
             System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
         });
     }
+
+
 }
