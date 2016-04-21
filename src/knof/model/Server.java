@@ -41,8 +41,6 @@ public class Server {
 		ObservableList<String> playerList = FXCollections.observableArrayList();
 		this.players = FXCollections.synchronizedObservableList(playerList);
 
-		ObservableList<Challenge> chalengeList = FXCollections.observableArrayList();
-		this.challenges = FXCollections.synchronizedObservableList(chalengeList);
         ObservableList<Challenge> challengeList = FXCollections.observableArrayList();
         this.challenges = FXCollections.synchronizedObservableList(challengeList);
 
