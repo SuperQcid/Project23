@@ -60,7 +60,7 @@ public class PluginLoader {
         HashMap<String, Plugin> plugins = new HashMap<>();
 
         for (String jar : jarList){
-            Plugin plugin = loadPlugin(new File(jar));
+            Plugin plugin = loadPlugin(jar);
             String gameName;
             if ((gameName = plugin.getGameName()) != null) {
                 plugins.put(gameName, plugin);
@@ -71,11 +71,12 @@ public class PluginLoader {
 
     /**
      * Load a plugin to be used in the framework.
-     * @param game the jar file to load
+     * @param file the jar file to load
      * @return the plugin class or null when failed to load.
      */
     @SuppressWarnings(value = { "rawtypes", "resource"})
-    public static Plugin loadPlugin(File game){
+    public static Plugin loadPlugin(String file){
+        File game = new File(file);
         try {
             JarFile jarFile = new JarFile(game);
             URLClassLoader classLoader = new URLClassLoader(new URL[]{game.toURI().toURL()}, ClassLoader.getSystemClassLoader());
