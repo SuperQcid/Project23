@@ -13,13 +13,13 @@ import knof.connection.Connection;
 import knof.controllers.PopupController;
 import knof.controllers.ServerController;
 import knof.event.EventHandler;
+import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
 import knof.event.events.ListEvent.Games;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A model representing a server that has been connected to
@@ -41,8 +41,8 @@ public class Server {
 		ObservableList<String> playerList = FXCollections.observableArrayList();
 		this.players = FXCollections.synchronizedObservableList(playerList);
 
-		ObservableList<Challenge> chalengeList = FXCollections.observableArrayList();
-		this.challenges = FXCollections.synchronizedObservableList(chalengeList);
+        ObservableList<Challenge> challengeList = FXCollections.observableArrayList();
+        this.challenges = FXCollections.synchronizedObservableList(challengeList);
 
 		this.connection.eventSystem.register(this);
 
@@ -62,8 +62,8 @@ public class Server {
 			System.out.println(this.games);
 		});
 	}
-	
-	
+
+
 	public void onGameClicked(String game){
 		Platform.runLater(() -> {
 			Stage stage = new Stage();
@@ -73,6 +73,8 @@ public class Server {
                 stage.setTitle("Subscribed to game");
                 PopupController popupController = loader.getController();
                 popupController.addGameToText(game);
+                connection.sendCommand(Command.SUBSCRIBE, game);
+                popupController.setServer(this);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -86,4 +88,12 @@ public class Server {
 		event.removeIf(this.players::contains);
 		this.players.addAll(event);
     }
+
+    @EventHandler (later=true)
+    public void onChallengeReceived(ChallengeEvent e){
+            this.challenges.add(new Challenge(e.turnTime, e.challenger, e.gameType, e.id, this));
+            System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
+    }
+
+
 }
