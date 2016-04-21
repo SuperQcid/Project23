@@ -30,7 +30,6 @@ public class CommandHandler {
                 discardQueue.put(true);
             }
         } catch (InterruptedException e) {
-            //TODO: Error handling
             e.printStackTrace();
         }
     }

@@ -43,7 +43,7 @@ public final class FileHelper {
     }
     
     /**
-     * 
+     *
      * @param path The path of the file to be read
      * @return The text written in the file
      * @throws IOException
@@ -59,7 +59,7 @@ public final class FileHelper {
     }
 
     /**
-     * 
+     *
      * @return An ArrayList of all the filepaths in the folder help
      */
     public static ArrayList<Path> getPaths(){
