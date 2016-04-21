@@ -7,12 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import knof.controllers.listcell.controllers.ListCellController;
 
-public abstract class Cell extends ListCell<String> {
+public abstract class Cell<T> extends ListCell<T> {
 	
 	protected Node loaded;
 	
     @Override
-    public void updateItem(String item, boolean empty) {
+    public void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
         if(!empty && item != null) {
 			cell(item);
@@ -42,6 +42,6 @@ public abstract class Cell extends ListCell<String> {
      * Define what the cell should do for each item.
      * @param item
      */
-    public abstract void cell(String item);
+    public abstract void cell(T item);
     	
 }

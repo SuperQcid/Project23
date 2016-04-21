@@ -1,6 +1,6 @@
 package knof.controllers.listcell;
 
-public class ChallengeCell extends Cell {
+public class ChallengeCell extends Cell<String> {
 
 	@Override
 	public void cell(String item) {

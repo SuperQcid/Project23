@@ -1,6 +1,6 @@
 package knof.controllers.listcell;
 
-public class GameCell extends Cell {
+public class GameCell extends Cell<String> {
 
 	@Override
 	public void cell(String item) {
