@@ -2,6 +2,7 @@ package knof.event;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import knof.event.events.*;
 
 import java.io.IOException;
@@ -121,7 +122,21 @@ public class EventSystem {
                 Map<Method, Class<? extends IEvent>> receiverMethods = receiver.getValue();
                 for (Map.Entry<Method, Class<? extends IEvent>> entry : receiverMethods.entrySet()) {
                     if (entry.getValue().isInstance(event)) {
-                        entry.getKey().invoke(receiver.getKey(), event);
+                        Method method = entry.getKey();
+                        Object object = receiver.getKey();
+                        EventHandler eventHandler = method.getAnnotation(EventHandler.class);
+                        if (eventHandler.later()) {
+                            Platform.runLater(() -> {
+                                try {
+                                    method.invoke(object, event);
+                                } catch (IllegalAccessException | InvocationTargetException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+                        else {
+                            method.invoke(object, event);
+                        }
                     }
                 }
             }
