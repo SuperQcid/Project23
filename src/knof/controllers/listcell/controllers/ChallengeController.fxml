@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="pane" prefHeight="72.0" prefWidth="137.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.ChallengeController">
+<GridPane fx:id="pane" prefHeight="72.0" prefWidth="137.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.listcell.controllers.ChallengeController">
   <children>
     <Label fx:id="challengeName" text="Challenge" GridPane.columnSpan="2" GridPane.halignment="CENTER">
       <font>
