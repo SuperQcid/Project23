@@ -16,7 +16,7 @@ import knof.model.Server;
 
 import java.io.IOException;
 
-public class ServerController implements InvalidationListener {
+public class ServerController {
     @FXML
     public ListView<String> gameList;
 
@@ -44,14 +44,6 @@ public class ServerController implements InvalidationListener {
 
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
-        this.currentGame = server.currentGame;
-    }
-
-    @Override
-    public void invalidated(Observable observable) {
-        if(observable instanceof Game){
-            Game game = (Game) observable;
-        }
     }
 
     // TODO: Refactor this to something more generic

@@ -18,7 +18,7 @@ public class KnofApplication extends Application {
 		launch(args);
 	}
 
-	public Plugin getPlugin(String name){
+	public static Plugin getPlugin(String name){
 		return pluginList.get(name);
 	}
 
