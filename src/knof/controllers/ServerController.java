@@ -65,7 +65,8 @@ public class ServerController {
                     FXMLLoader loader = new FXMLLoader();
                     GridPane loaded = loader.load(getClass().getResource("../controllers/ChallengeController.fxml").openStream());
                     ChallengeController challengeController = loader.getController();
-                    challengeController.setServer();
+                    challengeController.setChallengeID(item.id);
+                    challengeController.setServer(item.server);
                     challengeController.challengeName.setLabelFor(new Label(item.player));
                     //setText(item);
                     this.setGraphic(loaded);
