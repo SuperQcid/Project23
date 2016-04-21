@@ -50,4 +50,25 @@ public class ServerController {
             }
         }
     }
+
+    static class ChallengeCell extends ListCell<String>{
+        @Override
+        public void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty && item != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader();
+                    GridPane loaded = loader.load(getClass().getResource("../controllers/ChallengeController.fxml").openStream());
+                    ChallengeController challengeController = loader.getController();
+                    challengeController.challengeName.setText(item);
+                    //setText(item);
+                    this.setGraphic(loaded);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.setGraphic(null);
+            }
+        }
+    }
 }

@@ -5,10 +5,13 @@ import javafx.scene.control.Label;
 
 public class ChallengeController {
     @FXML
-    public Label playerName;
+    public Label challengeName;
 
     @FXML
     public void challenge() {
         System.out.println("CHALLENGE!!!");
     }
+
+
+
 }

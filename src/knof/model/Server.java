@@ -7,11 +7,10 @@ import knof.command.Command;
 import knof.command.CommandTask;
 import knof.connection.Connection;
 import knof.event.EventHandler;
+import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
 
-import java.lang.ref.WeakReference;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A model representing a server that has been connected to
@@ -33,8 +32,8 @@ public class Server {
         ObservableList<String> playerList = FXCollections.observableArrayList();
         this.players = FXCollections.synchronizedObservableList(playerList);
 
-        ObservableList<Challenge> chalengeList = FXCollections.observableArrayList();
-        this.challenges = FXCollections.synchronizedObservableList(chalengeList);
+        ObservableList<Challenge> challengeList = FXCollections.observableArrayList();
+        this.challenges = FXCollections.synchronizedObservableList(challengeList);
 
         this.connection.eventSystem.register(this);
 
@@ -51,6 +50,14 @@ public class Server {
         	this.players.clear();
             this.players.addAll(event);
             System.out.println("EVENT: " + this.players.toString());
+        });
+    }
+
+    @EventHandler
+    public void onChallengeReceived(ChallengeEvent e){
+        Platform.runLater(() -> {
+            this.challenges.add(new Challenge(e.turnTime, e.challenger, e.gameType, e.id));
+            System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
         });
     }
 }
