@@ -50,10 +50,7 @@ public class PopupController {
 	}
 	
 	private boolean isServerSet(){
-		if(this.server != null){
-			return true;
-		}
-		return false;
+		return server!=null;
 	}
 	
 
