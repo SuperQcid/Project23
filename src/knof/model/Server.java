@@ -82,12 +82,8 @@ public class Server {
 
     @EventHandler(later = true)
     public void onPlayerList(ListEvent.Players event) {
-		/*
 		this.players.removeIf((String player) -> !event.contains(player));
 		event.removeIf(this.players::contains);
-		*/
-		this.players.clear();
 		this.players.addAll(event);
-		System.out.println("EVENT: " + this.players.toString());
     }
 }
