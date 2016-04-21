@@ -4,10 +4,17 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import knof.plugin.Plugin;
+import knof.plugin.PluginLoader;
+
+import java.util.HashMap;
 
 public class KnofApplication extends Application {
 
+	private static HashMap<String, Plugin> pluginList;
+
 	public static void main(String[] args){
+		pluginList = new PluginLoader().InitializePlugins();
 		launch(args);
 	}
 

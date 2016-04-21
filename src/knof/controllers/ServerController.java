@@ -1,5 +1,7 @@
 package knof.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +33,15 @@ public class ServerController implements InvalidationListener {
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
 
         this.gameList.setItems(server.games);
+
+        //this might be a crappy way of adding a listener...
+        this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				server.onGameClicked(gameList.getSelectionModel().getSelectedItem());
+			}
+        });
+
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
         this.currentGame = server.currentGame;
@@ -64,6 +75,4 @@ public class ServerController implements InvalidationListener {
             }
         }
     }
-
-
 }
