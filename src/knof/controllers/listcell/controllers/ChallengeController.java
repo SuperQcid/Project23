@@ -1,6 +1,6 @@
 package knof.controllers.listcell.controllers;
 
-public class ChallengeController extends ListCellController {
+public class ChallengeController implements ListCellController {
 
 	// TODO
 }
