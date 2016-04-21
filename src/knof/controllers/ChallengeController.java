@@ -17,10 +17,6 @@ public class ChallengeController {
     public Label challengeName;
 
     @FXML
-    public void challenge() {
-        System.out.println("CHALLENGE!!!");
-    }
-
     public void onChallengeAccept(ActionEvent e){
         server.connection.sendCommand(Command.CHALLENGE_ACCEPT,challengeID);
     }
@@ -32,6 +28,5 @@ public class ChallengeController {
     public void setServer(Server server) {
         this.server = server;
     }
-
 
 }

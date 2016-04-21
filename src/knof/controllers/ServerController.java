@@ -28,7 +28,6 @@ public class ServerController {
 
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
 
-        //todo this works??
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
 
         this.gameList.setItems(server.games);
