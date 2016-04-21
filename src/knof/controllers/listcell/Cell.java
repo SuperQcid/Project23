@@ -28,16 +28,15 @@ public abstract class Cell extends ListCell<String> {
      * @return controller.
      */
     public ListCellController loadController(String name) {
-    	ListCellController controller = null;
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loaded = loader.load(getClass().getResource("../../controllers/listcell/controllers/" + name + ".fxml").openStream());
-			controller = loader.getController();
+			loaded = loader.load(getClass().getResource("controllers/" + name + ".fxml").openStream());
+			ListCellController controller = loader.getController();
+			return controller;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return controller;
-    }
+	}
     
     /**
      * Define what the cell should do for each item.
