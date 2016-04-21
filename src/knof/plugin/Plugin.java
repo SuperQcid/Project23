@@ -3,7 +3,7 @@ package knof.plugin;
 /**
  * Abstract class for game plugins.
  */
-public abstract class Plugin {
-
+public interface Plugin {
+    String getGameName();
 	//TODO
 }

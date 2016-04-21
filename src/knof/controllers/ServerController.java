@@ -1,5 +1,7 @@
 package knof.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -30,6 +32,15 @@ public class ServerController {
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
 
         this.gameList.setItems(server.games);
+        
+        //this might be a crappy way of adding a listener...
+        this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {          
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				server.onGameClicked(gameList.getSelectionModel().getSelectedItem());
+			}
+        });
+        
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
     }

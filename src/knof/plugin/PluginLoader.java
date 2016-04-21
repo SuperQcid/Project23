@@ -2,21 +2,25 @@ package knof.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class PluginLoader {
 
-    private static String pluginDir = "plugins";
+    private static final String pluginDir = "plugins";
 
     /**
      * Find all plugins in the plugin directory
      * @return an array with all plugins
      */
-    public static ArrayList<String> findPlugins(){
-        File f = new File(pluginDir);
+    public static ArrayList<String> getJarList(){
+        File f = new File(getPluginDir());
         ArrayList<String> jars = new ArrayList<>();
 
         if (!f.isDirectory()){
@@ -44,35 +48,57 @@ public class PluginLoader {
      * Creates the plugins folder when it does not exist.
      */
     public static void createPluginsFolder(){
-        File f = new File(pluginDir);
+        File f = new File(getPluginDir());
         f.mkdirs();
     }
 
     /**
+     * Initializes all plugins found by getJarlist function
+     */
+    public HashMap<String, Plugin> InitializePlugins(){
+        ArrayList<String> jarList = getJarList();
+        HashMap<String, Plugin> plugins = new HashMap<>();
+
+        for (String jar : jarList){
+            Plugin plugin = loadPlugin(jar);
+            String gameName;
+            if ((gameName = plugin.getGameName()) != null) {
+                plugins.put(gameName, plugin);
+            }
+        }
+        return plugins;
+    }
+
+    /**
      * Load a plugin to be used in the framework.
-     * @param game the jar file to load
+     * @param file the jar file to load
      * @return the plugin class or null when failed to load.
      */
     @SuppressWarnings(value = { "rawtypes", "resource"})
-    public static Plugin loadPlugin(String game){
-        for (String plugin : findPlugins()){
-            if (!plugin.toLowerCase().contains(game.toLowerCase())){
-                continue;
+    public static Plugin loadPlugin(String file){
+        File game = new File(file);
+        try {
+            JarFile jarFile = new JarFile(game);
+            URLClassLoader classLoader = new URLClassLoader(new URL[]{game.toURI().toURL()}, ClassLoader.getSystemClassLoader());
+
+            for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements(); ) {
+                JarEntry jarEntry = entries.nextElement();
+
+                if (!jarEntry.getName().endsWith(".class")) {
+                    continue;
+                }
+
+                String className = jarEntry.getName().replace('/', '.').replace(".class", "");
+                Class<?> pluginClass = Class.forName(className, true, classLoader);
+
+                if (pluginClass.getSuperclass().equals(Plugin.class)){
+                    if (!Modifier.isAbstract(pluginClass.getModifiers()) && !Modifier.isPrivate(pluginClass.getModifiers())){
+                        return (Plugin)pluginClass.newInstance();
+                    }
+                }
             }
-            File pluginFile  = new File(pluginDir + File.separator + plugin);
-
-            try {
-                URL[] url = new URL[]{pluginFile.toURI().toURL()};
-                JarFile j = new JarFile(pluginFile);
-                String mainClassName = j.getManifest().getMainAttributes().getValue("Plugin-Class");
-
-				ClassLoader classLoader = new URLClassLoader(url);
-                Class mainClass = classLoader.loadClass(mainClassName);
-                return (Plugin) mainClass.newInstance();
-
-            }catch(IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e){
-                e.printStackTrace();
-            }
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
         }
         return null;
     }
