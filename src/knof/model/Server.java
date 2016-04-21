@@ -89,12 +89,10 @@ public class Server {
 		this.players.addAll(event);
     }
 
-    @EventHandler
+    @EventHandler (later=true)
     public void onChallengeReceived(ChallengeEvent e){
-        Platform.runLater(() -> {
             this.challenges.add(new Challenge(e.turnTime, e.challenger, e.gameType, e.id, this));
             System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
-        });
     }
 
 
