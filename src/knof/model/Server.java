@@ -73,6 +73,7 @@ public class Server {
                 stage.setTitle("Subscribed to game");
                 PopupController popupController = loader.getController();
                 popupController.addGameToText(game);
+                connection.sendCommand(Command.SUBSCRIBE, game);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
