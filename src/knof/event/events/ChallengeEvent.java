@@ -14,6 +14,8 @@ public class ChallengeEvent implements IEvent {
     public int turnTime;
 
     public static class Cancel implements IEvent {
+        public Cancel(){};
+
         @JsonProperty("CHALLENGENUMBER")
         public int id;
     }

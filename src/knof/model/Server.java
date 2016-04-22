@@ -97,11 +97,7 @@ public class Server {
 
     @EventHandler (later=true)
     public void onChallengeCancelled(ChallengeEvent.Cancel e) {
-    	for(Challenge challenge : this.challenges) {
-    		if(challenge.id == e.id) {
-    			this.challenges.remove(challenge);
-    		}
-    	}
+    	this.challenges.removeIf(challenge -> challenge.id == e.id);
     }
 
 }
