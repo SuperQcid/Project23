@@ -91,9 +91,13 @@ public class Server {
 
     @EventHandler (later=true)
     public void onChallengeReceived(ChallengeEvent e){
-            this.challenges.add(new Challenge(e.turnTime, e.challenger, e.gameType, e.id, this));
-            System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
+		this.challenges.add(new Challenge(e.turnTime, e.challenger, e.gameType, e.id, this));
+		System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
     }
 
+    @EventHandler (later=true)
+    public void onChallengeCancelled(ChallengeEvent.Cancel e) {
+    	this.challenges.removeIf(challenge -> challenge.id == e.id);
+    }
 
 }

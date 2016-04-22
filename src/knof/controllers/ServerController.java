@@ -1,5 +1,7 @@
 package knof.controllers;
 
+import java.io.IOException;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -8,10 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import knof.controllers.listcell.ChallengeCell;
+import knof.controllers.listcell.PlayerCell;
 import knof.model.Challenge;
 import knof.model.Server;
-
-import java.io.IOException;
 
 public class ServerController {
 
@@ -42,50 +44,5 @@ public class ServerController {
         
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
-    }
-
-    // TODO: Refactor this to something more generic
-    static class PlayerCell extends ListCell<String> {
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            if(!empty && item != null) {
-                try {
-                	FXMLLoader loader = new FXMLLoader();
-                    GridPane loaded = loader.load(getClass().getResource("../controllers/PlayerController.fxml").openStream());
-                    PlayerController playerController = loader.getController();
-                    playerController.playerName.setText(item);
-                	//setText(item);
-                    this.setGraphic(loaded);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-            	this.setGraphic(null);
-            }
-        }
-    }
-
-    static class ChallengeCell extends ListCell<Challenge>{
-        @Override
-        public void updateItem(Challenge item, boolean empty) {
-            super.updateItem(item, empty);
-            if(!empty && item != null) {
-                try {
-                    FXMLLoader loader = new FXMLLoader();
-                    GridPane loaded = loader.load(getClass().getResource("../controllers/ChallengeController.fxml").openStream());
-                    ChallengeController challengeController = loader.getController();
-                    challengeController.setChallengeID(item.id);
-                    challengeController.setServer(item.server);
-                    challengeController.challengeName.setLabelFor(new Label(item.player));
-                    //setText(item);
-                    this.setGraphic(loaded);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                this.setGraphic(null);
-            }
-        }
     }
 }

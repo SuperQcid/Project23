@@ -1,4 +1,4 @@
-package knof.controllers;
+package knof.controllers.listcell.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,7 +8,7 @@ import knof.command.Command;
 import knof.model.Server;
 
 
-public class ChallengeController {
+public class ChallengeController implements ListCellController{
 
     private int challengeID;
     private Server server;
