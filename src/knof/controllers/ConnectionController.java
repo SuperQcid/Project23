@@ -54,7 +54,7 @@ public class ConnectionController {
                 stage.setTitle(hostName.getText() + ":" + portNumber.getText());
 
                 ServerController serverController = loader.getController();
-                serverController.setServer(new Server(connection));
+                serverController.setServer(new Server(connection, user));
 
                 stage.show();
                 ((Node)(event.getSource())).getScene().getWindow().hide();
