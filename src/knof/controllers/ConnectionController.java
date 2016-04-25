@@ -12,7 +12,10 @@ import knof.connection.Connection;
 import knof.event.events.StatusEvent;
 import knof.model.Server;
 
+import javax.swing.*;
 import java.io.IOException;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class ConnectionController {
 
@@ -27,16 +30,26 @@ public class ConnectionController {
 
     @FXML
     public void connect(ActionEvent event) {
-        //TODO: Stop window from freezing
-        //TODO: Find better way to display errors
-        String host = hostName.getText();
-        int port = Integer.parseInt(portNumber.getText());
-        String user = userName.getText();
+        String host;
+        int port;
+        String user;
+
+        try {
+            host = hostName.getText();
+            port = Integer.parseInt(portNumber.getText());
+            user = userName.getText();
+
+        } catch (Exception e){
+            showMessageDialog(null, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         Connection connection;
         try {
             connection = new Connection(host, port);
         } catch (IOException e) {
+            showMessageDialog(null, "Could not connect to any server. Please check your input fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("komt de error dan:");
             e.printStackTrace();
             return;
         }

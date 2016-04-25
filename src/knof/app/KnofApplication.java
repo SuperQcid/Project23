@@ -18,5 +18,4 @@ public class KnofApplication extends Application {
 		primaryStage.setTitle("Connect to server");
 		primaryStage.show();
 	}
-
 }
