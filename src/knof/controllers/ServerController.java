@@ -39,6 +39,10 @@ public class ServerController {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
 				server.onGameClicked(gameList.getSelectionModel().getSelectedItem());
+                server.currentGame.addListener((observable, oldValue, newValue) -> {
+                    System.out.println(oldValue);
+                    System.out.println(newValue);
+                });
 			}
         });
 

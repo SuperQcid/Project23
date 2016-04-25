@@ -3,6 +3,9 @@ package knof.model;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -23,9 +26,6 @@ import java.io.IOException;
 import java.util.Timer;
 
 /**
- * Waar wordt plugin ingeladen? vanaf hier?
- * Waarom eigenlijk alle plugins tegelijk inladen?
- * <p>
  * A model representing a server that has been connected to
  */
 public class Server implements InvalidationListener {
@@ -34,7 +34,7 @@ public class Server implements InvalidationListener {
     public final ObservableList<String> players;
     public final ObservableList<Challenge> challenges;
 
-    public Game currentGame;
+    public ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
 
     public String playerName;
 
@@ -55,7 +55,6 @@ public class Server implements InvalidationListener {
         this.connection.eventSystem.register(this);
 
         this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_PLAYERLIST), 0, 4000);
-
 
         this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_PLAYERLIST), 0, 4000);
         this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_GAMELIST), 0, 60000);
@@ -101,12 +100,24 @@ public class Server implements InvalidationListener {
         Plugin p = KnofApplication.getPlugin(event.gameType);
         String playerOne = event.playerToMove;
         String playerTwo = event.playerToMove.equals(event.opponent) ? playerName : event.opponent;
-        p.createGame(playerOne, playerTwo);
+        Game game = p.createGame(playerOne, playerTwo);
+        game.addListener(this);
+        currentGame.setValue(game);
     }
 
 
+    private void terminate(){
+        //TODO Implement?
+        this.currentGame = null;
+    }
+
     @Override
     public void invalidated(Observable observable) {
-
+        if(observable instanceof Game){
+            Game game = (Game) observable;
+            if(game.status == Game.STATUS_GAME_ENDED){
+                terminate();
+            }
+        }
     }
 }

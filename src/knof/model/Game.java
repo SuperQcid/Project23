@@ -16,6 +16,11 @@ import java.util.LinkedList;
  * Created by Henk Dieter Oordt on 21-4-2016.
  */
 public abstract class Game implements Observable {
+    public static final int STATUS_GAME_RUNNING = 0;
+    public static final int STATUS_GAME_ENDED = -1;
+
+    public int status;
+
     public Player localPlayer, remotePlayer;
 
     private LinkedList<InvalidationListener> listeners = new LinkedList<>();
@@ -39,6 +44,7 @@ public abstract class Game implements Observable {
     }
 
     public final void endGame(GameResultEvent event){
+        this.status = Game.STATUS_GAME_ENDED;
         this.latestEvent = event;
         for(InvalidationListener il : listeners){
             il.invalidated(this);
