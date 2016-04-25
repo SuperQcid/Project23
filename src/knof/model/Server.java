@@ -5,7 +5,6 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -18,10 +17,9 @@ import knof.connection.Connection;
 import knof.controllers.PopupController;
 import knof.event.EventHandler;
 import knof.event.events.*;
-import knof.gamelogic.Move;
-import knof.gamelogic.Side;
 import knof.plugin.Plugin;
-
+import knof.event.events.ChallengeEvent;
+import knof.event.events.ListEvent;
 import java.io.IOException;
 import java.util.Timer;
 
@@ -55,8 +53,6 @@ public class Server implements InvalidationListener {
         this.connection.eventSystem.register(this);
 
         this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_PLAYERLIST), 0, 4000);
-
-        this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_PLAYERLIST), 0, 4000);
         this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_GAMELIST), 0, 60000);
     }
 
@@ -72,15 +68,17 @@ public class Server implements InvalidationListener {
     }
 
 
-    public void onGameClicked(String game) {
-        Platform.runLater(() -> {
-            Stage stage = new Stage();
+	public void onGameClicked(String game){
+		Platform.runLater(() -> {
+			Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             try {
                 stage.setScene(new Scene(loader.load(getClass().getResource("../controllers/PopupController.fxml").openStream())));
                 stage.setTitle("Subscribed to game");
                 PopupController popupController = loader.getController();
                 popupController.addGameToText(game);
+                connection.sendCommand(Command.SUBSCRIBE, game);
+                popupController.setServer(this);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -120,4 +118,16 @@ public class Server implements InvalidationListener {
             }
         }
     }
+
+    @EventHandler (later=true)
+    public void onChallengeReceived(ChallengeEvent e){
+		this.challenges.add(new Challenge(e.turnTime, e.challenger, e.gameType, e.id, this));
+		System.out.println("Challenge received from " + e.challenger + " for a game of " + e.gameType + ".");
+    }
+
+    @EventHandler (later=true)
+    public void onChallengeCancelled(ChallengeEvent.Cancel e) {
+    	this.challenges.removeIf(challenge -> challenge.id == e.id);
+    }
+
 }

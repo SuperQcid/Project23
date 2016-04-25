@@ -1,11 +1,11 @@
-package knof.controllers;
+package knof.controllers.listcell.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 
-public class PlayerController {
+public class PlayerController implements ListCellController {
     @FXML
     public Label playerName;
     

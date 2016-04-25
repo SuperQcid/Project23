@@ -130,6 +130,7 @@ public class EventSystem {
                                 try {
                                     method.invoke(object, event);
                                 } catch (IllegalAccessException | InvocationTargetException e) {
+                                    System.out.println("Exception in object "+object+":");
                                     e.printStackTrace();
                                 }
                             });
