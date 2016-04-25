@@ -47,7 +47,6 @@ public class ConnectionController implements Initializable{
 
         } catch (Exception e) {
             createDialogPane("Please fill in all fields");
-            e.printStackTrace();
             return;
         }
 
