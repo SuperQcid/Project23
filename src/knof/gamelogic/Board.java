@@ -8,7 +8,7 @@ import java.util.List;
  * The board is a multidimensional array of size 'width' and 'height'.
  * Pieces on the board are stored as Side.
  */
-public abstract class Board {
+public abstract class Board implements Cloneable {
 
 	protected Side[][] board;
 	public final int height;
@@ -182,7 +182,15 @@ public abstract class Board {
 	 * Clone for AI
 	 * @return clone of board
 	 */
-	public abstract Board clone();
+	@Override
+	public Board clone() {
+		try {
+			return (Board) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * Get the next turn.

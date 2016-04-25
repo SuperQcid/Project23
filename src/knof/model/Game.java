@@ -7,21 +7,25 @@ import knof.event.IEvent;
 import knof.event.events.GameResultEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
+import knof.gamelogic.Board;
 import knof.gamelogic.Move;
 import knof.gamelogic.Side;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Henk Dieter Oordt on 21-4-2016.
  */
 public abstract class Game implements Observable {
-    public static final int STATUS_GAME_RUNNING = 0;
-    public static final int STATUS_GAME_ENDED = -1;
-
-    public int status;
-
     public Player localPlayer, remotePlayer;
+
+    public Board board;
+
+    protected static int width, height;
+
+    private boolean ai = false;
 
     private LinkedList<InvalidationListener> listeners = new LinkedList<>();
 
@@ -35,20 +39,26 @@ public abstract class Game implements Observable {
             remotePlayer = new Player(playerOneName, Side.PLAYERONE);
             localPlayer = new Player(playerTwoName, Side.PLAYERTWO);
         }
+        initBoard();
     }
 
-    public abstract void doMove(Move move);
+    public abstract void initBoard();
+
+    public abstract boolean move(int move, Side side);
 
     public final void yourTurn(){
         localPlayer.doMove();
     }
 
     public final void endGame(GameResultEvent event){
-        this.status = Game.STATUS_GAME_ENDED;
         this.latestEvent = event;
         for(InvalidationListener il : listeners){
             il.invalidated(this);
         }
+    }
+
+    private final void setAi(boolean ai){
+        this.ai = ai;
     }
 
     @Override
@@ -70,8 +80,7 @@ public abstract class Game implements Observable {
         } else {
             side = remotePlayer.getSide();
         }
-        //TODO coordinates to single number
-        this.doMove(new Move(0,0, side));
+        this.move(event.move, side);
     }
 
     @EventHandler(later = true)

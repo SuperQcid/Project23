@@ -105,15 +105,14 @@ public class Server implements InvalidationListener {
 
 
     private void terminate(){
-        //TODO Implement?
-        this.currentGame = null;
+        currentGame.setValue(null);
     }
 
     @Override
     public void invalidated(Observable observable) {
         if(observable instanceof Game){
             Game game = (Game) observable;
-            if(game.status == Game.STATUS_GAME_ENDED){
+            if(game.latestEvent instanceof GameResultEvent){
                 terminate();
             }
         }
