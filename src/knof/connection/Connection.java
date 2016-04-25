@@ -1,5 +1,6 @@
 package knof.connection;
 
+import javafx.application.Platform;
 import knof.command.Command;
 import knof.event.EventSystem;
 import knof.event.events.StatusEvent;
@@ -36,8 +37,15 @@ public class Connection implements Runnable {
         this.commandHandler.sendCommand(command, null, arguments);
     }
 
-    public synchronized void sendCommandWithCallBack(CommandHandler.Callback callback, Command command, Object arguments) {
+    public synchronized void sendCommandWithCallBack(CommandHandler.Callback callback, Command command, Object... arguments) {
         this.commandHandler.sendCommand(command, callback, arguments);
+    }
+
+    public void sendCommandWithCallBackLater(CommandHandler.Callback callback, Command command, Object... arguments) {
+        this.commandHandler.sendCommand(
+                command,
+                (StatusEvent ev) -> Platform.runLater(()->callback.run(ev)),
+                arguments);
     }
 
     public synchronized void sendMessage(String message) {
@@ -57,5 +65,4 @@ public class Connection implements Runnable {
             }
         }
     }
-
 }

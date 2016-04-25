@@ -54,7 +54,7 @@ public class ConnectionController {
             return;
         }
 
-        connection.sendCommandWithCallBack((StatusEvent status)->{
+        connection.sendCommandWithCallBackLater((StatusEvent status)->{
             if(status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);
                 return;
@@ -63,7 +63,7 @@ public class ConnectionController {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             try {
-                stage.setScene(new Scene(loader.load(getClass().getResource("../controllers/ServerController.fxml").openStream())));
+                stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
                 stage.setTitle(hostName.getText() + ":" + portNumber.getText());
 
                 ServerController serverController = loader.getController();
