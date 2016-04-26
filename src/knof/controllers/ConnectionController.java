@@ -57,7 +57,7 @@ public class ConnectionController implements Initializable{
             port = Integer.parseInt(portNumber.getText());
 
         }  catch(Exception e) {
-            String errorMessage = "";
+            String errorMessage = "Unknown error. Please check the console!";
 
             if (e instanceof NumberFormatException) {
                 errorMessage = "The port is not a valid integer...";
