@@ -23,7 +23,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
-public class ConnectionController implements Initializable{
+public class ConnectionController implements Initializable {
 
     private final int PORT_NUMBER_LENGTH = 5;
 
@@ -115,7 +115,7 @@ public class ConnectionController implements Initializable{
 
     }
 
-    public void createDialogPane(String content) {
+    private void createDialogPane(String content) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setContentText(content);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
