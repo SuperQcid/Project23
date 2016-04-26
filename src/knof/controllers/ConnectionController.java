@@ -1,5 +1,6 @@
 package knof.controllers;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import knof.model.Server;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 public class ConnectionController implements Initializable{
@@ -46,11 +48,26 @@ public class ConnectionController implements Initializable{
         try {
 
             host = hostName.getText();
-            port = Integer.parseInt(portNumber.getText());
             user = userName.getText();
 
-        } catch (Exception e) {
-            createDialogPane("Please fill in all fields");
+            if (host.equals("") || user.equals("")) {
+                throw new InvalidArgumentException(new String[]{host, user});
+            }
+
+            port = Integer.parseInt(portNumber.getText());
+
+        }  catch(Exception e) {
+            String errorMessage = "";
+
+            if (e instanceof NumberFormatException) {
+                errorMessage = "The port is not a valid integer...";
+            } else if (e instanceof InvalidArgumentException) {
+                errorMessage = "Please fill out all the form fields.";
+            } else {
+                e.printStackTrace();
+            }
+            createDialogPane(errorMessage);
+
             return;
         }
 
@@ -89,7 +106,6 @@ public class ConnectionController implements Initializable{
             }, Command.LOGIN, user);
         } else {
             createDialogPane("Please use a port number between 1 and 65535.");
-
         }
 
 
