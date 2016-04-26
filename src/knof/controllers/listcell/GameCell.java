@@ -10,6 +10,7 @@ public class GameCell extends Cell<String> {
 	@Override
 	public void cell(String item) {
 		controller.cell.setText(item);
+		controller.button.setText("Subscribe");
 	}
 
 	@Override

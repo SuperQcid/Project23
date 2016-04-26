@@ -13,7 +13,8 @@ public class ChallengeCell extends Cell<Challenge> {
 	public void cell(Challenge item) {
         controller.setChallengeID(item.id);
         controller.setServer(item.server);
-        controller.cell.setLabelFor(new Label(item.player));
+        controller.cell.setText(item.player);
+        controller.button.setText("Accept");
 	}
 
 	@Override
