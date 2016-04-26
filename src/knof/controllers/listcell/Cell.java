@@ -39,12 +39,16 @@ public abstract class Cell<T> extends ListCell<T> {
 		}
 	}
     
+    /**
+     * Loads the ListCell view and adds the given controller as root and controller of the view.
+     * @param controller
+     */
     public void setController(ListCellController controller) {
     	try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setRoot(controller);
 			loader.setController(controller);
-			loaded = loader.load(getClass().getResource("controllers/ListCellController.fxml").openStream());
+			loaded = loader.load(getClass().getResource("controllers/ListCell.fxml").openStream());
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
