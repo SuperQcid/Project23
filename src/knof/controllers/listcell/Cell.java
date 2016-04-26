@@ -42,8 +42,9 @@ public abstract class Cell<T> extends ListCell<T> {
     public void setController(ListCellController controller) {
     	try {
 			FXMLLoader loader = new FXMLLoader();
-			loaded = loader.load(getClass().getResource("controllers/ListCellController.fxml").openStream());
+			loader.setRoot(controller);
 			loader.setController(controller);
+			loaded = loader.load(getClass().getResource("controllers/ListCellController.fxml").openStream());
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
