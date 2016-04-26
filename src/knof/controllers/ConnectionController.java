@@ -78,8 +78,12 @@ public class ConnectionController implements Initializable{
             try {
                 connection = new Connection(host, port);
             } catch (IOException e) {
-                System.out.println("komt de error dan:");
-                e.printStackTrace();
+                if (e instanceof UnknownHostException) {
+                    createDialogPane("Unknown host!");
+                } else {
+                    System.out.println("komt de error dan:");
+                    e.printStackTrace();
+                }
                 return;
             }
 
