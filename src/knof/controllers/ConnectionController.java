@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import knof.command.Command;
@@ -32,6 +33,9 @@ public class ConnectionController implements Initializable{
 
     @FXML
     TextField userName;
+
+    @FXML
+    GridPane gridPane;
 
     @FXML
     public void connect(ActionEvent event) {
@@ -112,6 +116,10 @@ public class ConnectionController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        gridPane.getChildren().remove(portNumber);
+        portNumber = new NumberTextField();
+        gridPane.add(portNumber,1,1);
+
         /**
          * Add a listener to the text field size to prevent it going over the largest value.
          * Every time the value is changed, it checks whether the character count > PORT_NUMBER_LENGTH
@@ -122,5 +130,34 @@ public class ConnectionController implements Initializable{
                 portNumber.setText(portNumber.getText().substring(0,PORT_NUMBER_LENGTH));
             }
         });
+    }
+
+    /**
+     * Textfield which allows only numeric values
+     */
+    private class NumberTextField extends TextField {
+
+        @Override
+        public void replaceText(int start, int end, String text) {
+            if (validate(text)) {
+                super.replaceText(start, end, text);
+            }
+        }
+
+        @Override
+        public void replaceSelection(String text) {
+            if (validate(text)) {
+                super.replaceSelection(text);
+            }
+        }
+
+        /**
+         * Validates input, only allowing values [0-9]
+         * @param text Input
+         * @return valid/invalid
+         */
+        private boolean validate(String text) {
+            return text.matches("[0-9]*");
+        }
     }
 }
