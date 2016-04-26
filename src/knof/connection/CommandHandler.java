@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class CommandHandler {
     private final BlockingQueue<StatusEvent> eventQueue = new LinkedBlockingQueue<>();
     private final PrintWriter out;
-    private final BlockingQueue<Boolean> discardQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Callback> callbacks = new LinkedBlockingQueue<>();
 
     public CommandHandler(EventSystem eventSystem, PrintWriter out) {
         this.out = out;
@@ -22,15 +22,13 @@ public class CommandHandler {
     public void sendCommand(Command command, Callback callback, Object... arguments) {
         this.out.println(command.format(arguments));
         try {
-            if (callback!=null) {
-                    discardQueue.put(false);
-                    StatusEvent ev = eventQueue.take();
-                    callback.run(ev);
+            if (callback == null) {
+                callbacks.put(this::defaultCallback);
             } else {
-                discardQueue.put(true);
+                callbacks.put(callback);
             }
+            out.println(command.format(arguments));
         } catch (InterruptedException e) {
-            //TODO: Error handling
             e.printStackTrace();
         }
     }
@@ -38,7 +36,7 @@ public class CommandHandler {
     public void discard(int n) {
         for (int i=0; i<n; i++) {
             try {
-                discardQueue.put(true);
+                callbacks.put(this::defaultCallback);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -48,9 +46,7 @@ public class CommandHandler {
     @EventHandler
     public void onStatus(StatusEvent ev) {
         try {
-            if (!discardQueue.take()) {
-                eventQueue.put(ev);
-            }
+            callbacks.take().run(ev);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -59,5 +55,11 @@ public class CommandHandler {
     @FunctionalInterface
     public interface Callback {
         void run(StatusEvent statusEvent);
+    }
+
+    public void defaultCallback(StatusEvent ev) {
+        if(ev instanceof StatusEvent.Error) {
+            System.err.println("ERROR: "+((StatusEvent.Error) ev).reason);
+        }
     }
 }
