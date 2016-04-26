@@ -62,6 +62,10 @@ public class Server {
 			System.out.println(this.games);
 		});
 	}
+	
+	public void challengePlayer(String playerName){
+		
+	}
 
 
 	public void onGameClicked(String game){
