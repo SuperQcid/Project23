@@ -1,18 +1,19 @@
 package knof.controllers.listcell;
 
+import knof.controllers.listcell.controllers.GameController;
 import knof.controllers.listcell.controllers.ListCellController;
 
 public class GameCell extends Cell<String> {
 
+	private GameController controller = new GameController();
+	
 	@Override
 	public void cell(String item) {
-		// TODO Auto-generated method stub
-		
+		controller.cell.setText(item);
 	}
 
 	@Override
 	public ListCellController getController() {
-		// TODO Auto-generated method stub
-		return null;
+		return controller;
 	}
 }
