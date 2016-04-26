@@ -27,6 +27,7 @@ public abstract class Cell<T> extends ListCell<T> {
      * @param name
      * @return controller.
      */
+    @Deprecated
     public ListCellController loadController(String name) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -37,6 +38,16 @@ public abstract class Cell<T> extends ListCell<T> {
 			return null;
 		}
 	}
+    
+    public void setController(ListCellController controller) {
+    	try {
+			FXMLLoader loader = new FXMLLoader();
+			loaded = loader.load(getClass().getResource("controllers/ListCellController.fxml").openStream());
+			loader.setController(controller);
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
     
     /**
      * Define what the cell should do for each item.

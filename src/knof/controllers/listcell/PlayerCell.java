@@ -7,6 +7,6 @@ public class PlayerCell extends Cell<String> {
 	@Override
 	public void cell(String item) {
 		PlayerController controller = (PlayerController) loadController("PlayerController");
-		controller.playerName.setText(item);
+		controller.cell.setText(item);
 	}
 }

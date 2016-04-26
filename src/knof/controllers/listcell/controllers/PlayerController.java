@@ -1,25 +1,15 @@
 package knof.controllers.listcell.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 
-public class PlayerController implements ListCellController {
-    @FXML
-    public Label playerName;
+public class PlayerController extends ListCellController {
     
     @FXML
-    public Button challenge;
-    
-    @FXML
-    public ProgressIndicator loadingSign;
-    
-    @FXML
-    public void challenge() {
+    public void onButton(ActionEvent e) {
         System.out.println("CHALLENGE!!!");
         loadingSign.setVisible(true);
-        challenge.setVisible(false);
-        challenge.setDisable(true);
+        button.setVisible(false);
+        button.setDisable(true);
     }
 }

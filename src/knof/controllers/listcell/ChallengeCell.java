@@ -11,6 +11,6 @@ public class ChallengeCell extends Cell<Challenge> {
 		ChallengeController controller = (ChallengeController) loadController("ChallengeController");
         controller.setChallengeID(item.id);
         controller.setServer(item.server);
-        controller.challengeName.setLabelFor(new Label(item.player));
+        controller.cell.setLabelFor(new Label(item.player));
 	}
 }
