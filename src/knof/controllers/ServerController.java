@@ -1,15 +1,9 @@
 package knof.controllers;
 
-import java.io.IOException;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.GridPane;
 import knof.controllers.listcell.ChallengeCell;
 import knof.controllers.listcell.PlayerCell;
 import knof.model.Challenge;
