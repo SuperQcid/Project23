@@ -64,6 +64,14 @@ public class Server implements InvalidationListener {
         this.games.removeIf((String game) -> !event.contains(game));
         event.removeIf(this.games::contains);
 
+			this.games.addAll(event);
+			System.out.println(this.games);
+		});
+	}
+
+	public void challengePlayer(String playerName){
+
+	}
         this.games.addAll(event);
         System.out.println(this.games);
     }
