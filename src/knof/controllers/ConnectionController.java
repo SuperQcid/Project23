@@ -22,7 +22,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
-public class ConnectionController implements Initializable {
+public class ConnectionController {
 
     private final int PORT_NUMBER_LENGTH = 5;
 
@@ -113,13 +113,9 @@ public class ConnectionController implements Initializable {
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
 
         //gridPane.getChildren().remove(portNumber);
         //portNumber = new NumberTextField();
