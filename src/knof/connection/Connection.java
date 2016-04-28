@@ -24,12 +24,14 @@ public class Connection implements Runnable {
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+        // Create EventSystem
         this.eventSystem = new EventSystem();
         this.commandHandler = new CommandHandler(this.eventSystem, this.out);
 
-        Thread t = new Thread(this);
-        t.setDaemon(true);
-        t.start();
+        // Create new thread and start it
+        Thread thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public synchronized void sendCommand(Command command, Object... arguments) {
