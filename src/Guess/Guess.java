@@ -8,7 +8,7 @@ import knof.plugin.Plugin;
 /**
  * Created by Henk Dieter Oordt on 25-4-2016.
  */
-public class Guess implements Plugin {
+public class Guess extends Plugin {
     @Override
     public String getGameName() {
         return "Guess Game";

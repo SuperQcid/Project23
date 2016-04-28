@@ -50,7 +50,7 @@ public class ConnectionController {
             user = userName.getText();
 
             if (host.equals("") || user.equals("")) {
-                throw new InvalidArgumentException(new String[]{host, user});
+                throw new IllegalArgumentException("");
             }
 
             port = Integer.parseInt(portNumber.getText());
@@ -58,7 +58,7 @@ public class ConnectionController {
         } catch (NumberFormatException nfe) {
             createDialogPane("Invalid Port Number!");
             return;
-        } catch (InvalidArgumentException iae) {
+        } catch (IllegalArgumentException iae) {
             createDialogPane("Please fill out all the form fields");
             return;
         }

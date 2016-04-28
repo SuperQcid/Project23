@@ -12,6 +12,7 @@ import knof.event.events.MatchEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
 import knof.gamelogic.Board;
+import knof.gamelogic.Move;
 import knof.gamelogic.Side;
 
 import java.util.ArrayList;
@@ -47,8 +48,18 @@ public abstract class Game implements Observable {
         initBoard();
     }
 
+    /**
+     * Initializes the board
+     */
     protected abstract void initBoard();
 
+    /**
+     * Instantiates a player
+     * @param playerName
+     * @param side
+     * @param connection
+     * @return
+     */
     protected abstract Player initPlayer(String playerName, Side side, Connection connection);
 
     protected abstract boolean move(int move, Side side);
@@ -59,6 +70,14 @@ public abstract class Game implements Observable {
         GameController gc = initGameController();
         addListener(gc);
         return gc;
+    }
+
+    public final int convertMoveToInt(Move move){
+        return move.position.y * WIDTH + move.position.x;
+    }
+
+    public final Move convertIntToMove(int i, Side s){
+        return new Move(i%WIDTH, i/WIDTH, s);
     }
 
     public final void startGame(MatchEvent event){

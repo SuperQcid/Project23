@@ -106,7 +106,6 @@ public class Server implements InvalidationListener {
         boolean playerOneLocal;
         //TODO Build jar and use it
         Plugin p = KnofApplication.getPlugin(event.gameType);
-        p = new guess.Guess();
         if(p != null) {
             if (event.playerToMove.equals(event.opponent)) {
                 playerOne = event.opponent;

@@ -31,7 +31,7 @@ public abstract class Player {
     public void sendMove(int move){
         if(isUp){
             Command command = Command.MOVE;
-            connection.sendCommand(command, move); // TODO fix
+            connection.sendCommand(command, move);
         }
     }
 }

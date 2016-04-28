@@ -15,6 +15,6 @@ public class GuessPlayer extends Player {
 
     @Override
     public void doMove() {
-        this.sendMove(new Move(1,1, side));//TODO get the actual move
+        this.sendMove(1);//TODO get the actual move
     }
 }

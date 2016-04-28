@@ -6,8 +6,8 @@ import knof.model.Game;
 /**
  * Interface for game plugins.
  */
-public interface Plugin {
-    String getGameName();
+public abstract class Plugin {
+    public abstract String getGameName();
 
-    Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection);
+    public abstract Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection);
 }
