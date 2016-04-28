@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.listcell.controllers.GameController">
+<fx:root maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Label fx:id="cell" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+   </center>
    <left>
-      <Button mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="button" mnemonicParsing="false" text="Button" />
+            <ProgressIndicator fx:id="loadingSign" layoutX="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" visible="false" />
+         </children>
+      </Pane>
    </left>
    <bottom>
-      <ChoiceBox prefWidth="150.0" BorderPane.alignment="CENTER" />
+      <ChoiceBox fx:id="ai" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="3.0" />
+         </BorderPane.margin>
+      </ChoiceBox>
    </bottom>
-   <center>
-      <Label textAlignment="CENTER" BorderPane.alignment="CENTER" />
-   </center>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </fx:root>
