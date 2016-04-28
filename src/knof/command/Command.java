@@ -10,6 +10,7 @@ public enum Command {
     UNSUBSCRIBE("unsubscribe"),
     MOVE("move %s"),
     CHALLENGE("challenge \"%s\" \"%s\""),
+    CHALLENGE_TURNTIME("challenge \"%s\" \"%s\" %s"),
     CHALLENGE_ACCEPT("challenge accept %s"),
     CHALLENGE_FORFEIT("forfeit"),
     HELP("help %s");
