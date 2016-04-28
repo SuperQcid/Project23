@@ -1,5 +1,23 @@
 package knof.controllers.listcell.controllers;
 
-public interface ListCellController {
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.GridPane;
 
+public abstract class ListCellController extends GridPane { 
+	
+	@FXML
+	public Label cell;
+	
+	@FXML
+	public Button button;
+	
+	@FXML
+	public ProgressIndicator loadingSign;
+	
+	@FXML
+	public abstract void onButton(ActionEvent e);
 }
