@@ -61,7 +61,7 @@ public class CommandTest {
     public void challengeTurntimeTest(){
         Command command = Command.CHALLENGE_TURNTIME;
         String formatted = command.format("Mark", "Sudoku", "8");
-        assertEquals("challenge \"Mark\" \"Sudoku\"",formatted);
+        assertEquals("challenge \"Mark\" \"Sudoku\" 8",formatted);
     }
 
     @Test
