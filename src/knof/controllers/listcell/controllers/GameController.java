@@ -11,4 +11,9 @@ public class GameController extends ListCellController {
         button.setVisible(false);
         button.setDisable(true);
     }
+    
+    @Override
+    public String getViewName() {
+    	return "GameListCell";
+    }
 }

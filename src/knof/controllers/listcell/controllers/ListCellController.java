@@ -20,4 +20,14 @@ public abstract class ListCellController extends GridPane {
 	
 	@FXML
 	public abstract void onButton(ActionEvent e);
+	
+	/**
+	 * Returns the name of the view associated with this controller.
+	 * Uses "ListCell" by default.
+	 * Override this method to use a different view.
+	 * @return viewName
+	 */
+	public String getViewName() {
+		return "ListCell";
+	}
 }
