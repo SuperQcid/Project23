@@ -1,19 +1,14 @@
 package knof.controllers;
 
-import java.io.IOException;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.GridPane;
 import knof.controllers.listcell.ChallengeCell;
+import knof.controllers.listcell.GameCell;
 import knof.controllers.listcell.PlayerCell;
 import knof.event.events.MatchEvent;
 import knof.model.Challenge;
@@ -34,10 +29,12 @@ public class ServerController {
     public GameController currentGameController;
 
     public void setServer(Server server) {
-
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
-
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
+        this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
+
+        /*
+        this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {          
 
         this.gameList.setItems(server.games);
 
@@ -60,6 +57,9 @@ public class ServerController {
                 });
 			}
         });
+        */
+
+        this.gameList.setItems(server.games);
 
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);

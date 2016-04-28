@@ -41,7 +41,7 @@ public class ConnectionController {
             return;
         }
 
-        connection.sendCommandWithCallBack((StatusEvent status)->{
+        connection.sendCommandWithCallBackLater((StatusEvent status)->{
             if(status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);
                 return;
