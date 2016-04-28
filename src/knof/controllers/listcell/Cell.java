@@ -17,7 +17,7 @@ public abstract class Cell<T> extends ListCell<T> {
         super.updateItem(item, empty);
         if(!empty && item != null) {
         	controller = getController();
-        	addControllerToView();
+        	addControllerToView(controller.getViewName());
 			cell(item);
 			this.setGraphic(loaded);
         } else {
@@ -28,12 +28,12 @@ public abstract class Cell<T> extends ListCell<T> {
     /**
      * Adds the controller to the loaded ListCell view.
      */
-    private void addControllerToView() {
+    private void addControllerToView(String viewName) {
     	try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setRoot(controller);
 			loader.setController(controller);
-			loaded = loader.load(getClass().getResource("controllers/ListCell.fxml").openStream());
+			loaded = loader.load(getClass().getResource("controllers/" + viewName + ".fxml").openStream());
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
