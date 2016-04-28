@@ -66,15 +66,12 @@ public class Server implements InvalidationListener {
 
 			this.games.addAll(event);
 			System.out.println(this.games);
-		});
+
 	}
 
 	public void challengePlayer(String playerName){
 
 	}
-        this.games.addAll(event);
-        System.out.println(this.games);
-    }
 
 
 	public void onGameClicked(String game){
