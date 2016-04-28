@@ -28,10 +28,10 @@ public abstract class Player {
 
     public abstract void doMove();
 
-    public void sendMove(Move move){
+    public void sendMove(int move){
         if(isUp){
             Command command = Command.MOVE;
-            connection.sendCommand(command, move.toString()); // TODO fix
+            connection.sendCommand(command, move); // TODO fix
         }
     }
 }

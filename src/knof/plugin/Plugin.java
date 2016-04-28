@@ -1,7 +1,6 @@
 package knof.plugin;
 
 import knof.connection.Connection;
-import knof.controllers.GameController;
 import knof.model.Game;
 
 /**
