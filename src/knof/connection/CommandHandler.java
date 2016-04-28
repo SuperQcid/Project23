@@ -20,7 +20,6 @@ public class CommandHandler {
     }
 
     public void sendCommand(Command command, Callback callback, Object... arguments) {
-        this.out.println(command.format(arguments));
         try {
             if (callback == null) {
                 callbacks.put(this::defaultCallback);
