@@ -1,8 +1,7 @@
-package Guess;
+package guess;
 
 import knof.controllers.GameController;
-import knof.event.events.GameResultEvent;
-import knof.gamelogic.Move;
+import knof.model.Game;
 
 /**
  * Created by Henk Dieter Oordt on 25-4-2016.
@@ -10,12 +9,7 @@ import knof.gamelogic.Move;
 public class GuessGameController extends GameController {
 
     @Override
-    public void update(Move move) {
-
-    }
-
-    @Override
-    public void terminate(GameResultEvent grev) {
+    public void update(Game game) {
 
     }
 }

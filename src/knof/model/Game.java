@@ -1,37 +1,36 @@
 package knof.model;
 
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import knof.controllers.GameController;
 import knof.event.EventHandler;
 import knof.event.IEvent;
 import knof.event.events.GameResultEvent;
+import knof.event.events.MatchEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
 import knof.gamelogic.Board;
-import knof.gamelogic.Move;
 import knof.gamelogic.Side;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Henk Dieter Oordt on 21-4-2016.
  */
 public abstract class Game implements Observable {
-    public Player localPlayer, remotePlayer;
 
-    public Board board;
+    protected final int WIDTH;
+    protected final int HEIGHT;
 
-    protected static int width, height;
+    protected Player localPlayer, remotePlayer;
+    protected Board board;
 
-    private boolean ai = false;
+    protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
 
-    private LinkedList<InvalidationListener> listeners = new LinkedList<>();
+    protected IEvent latestEvent;
 
-    public IEvent latestEvent;
-
-    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal){
+    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, int width, int height){
         if(playerOneIsLocal){
             localPlayer = new Player(playerOneName, Side.PLAYERONE);
             remotePlayer = new Player(playerTwoName, Side.PLAYERTWO);
@@ -39,38 +38,57 @@ public abstract class Game implements Observable {
             remotePlayer = new Player(playerOneName, Side.PLAYERONE);
             localPlayer = new Player(playerTwoName, Side.PLAYERTWO);
         }
+        this.HEIGHT = height;
+        this.WIDTH = width;
         initBoard();
     }
 
-    public abstract void initBoard();
+    protected abstract void initBoard();
 
-    public abstract boolean move(int move, Side side);
+    protected abstract boolean move(int move, Side side);
+
+    protected abstract GameController initGameController();
+
+    public final GameController createGameController(){
+        GameController gc = initGameController();
+        addListener(gc);
+        return gc;
+    }
+
+    public final void startGame(MatchEvent event){
+        invalidate(event);
+    }
 
     public final void yourTurn(){
         localPlayer.doMove();
     }
 
-    public final void endGame(GameResultEvent event){
+    public final Board getBoard(){
+        return board;
+    }
+
+    public final IEvent getLatestEvent(){
+        return latestEvent;
+    }
+
+    private synchronized final void invalidate(IEvent event){
         this.latestEvent = event;
         for(InvalidationListener il : listeners){
-            il.invalidated(this);
+            Platform.runLater(() -> {
+                il.invalidated(this);
+            });
         }
     }
 
-    private final void setAi(boolean ai){
-        this.ai = ai;
-    }
-
     @Override
-    public void addListener(InvalidationListener listener){
+    public final void addListener(InvalidationListener listener){
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(InvalidationListener listener){
+    public final void removeListener(InvalidationListener listener){
         listeners.remove(listener);
     }
-
 
     @EventHandler(later = true)
     public final void onMove(MoveEvent event) {
@@ -81,15 +99,17 @@ public abstract class Game implements Observable {
             side = remotePlayer.getSide();
         }
         this.move(event.move, side);
+        invalidate(event);
     }
 
     @EventHandler(later = true)
     public final void onTurn(TurnEvent event){
         this.yourTurn();
+        invalidate(event);
     }
 
     @EventHandler(later = true)
     public final void onGameResult(GameResultEvent event){
-        this.endGame(event);
+        invalidate(event);
     }
 }

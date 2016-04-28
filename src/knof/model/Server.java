@@ -1,5 +1,6 @@
 package knof.model;
 
+import guess.GuessGame;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -32,7 +33,7 @@ public class Server implements InvalidationListener {
     public final ObservableList<String> players;
     public final ObservableList<Challenge> challenges;
 
-    public ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
+    public final ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
 
     public String playerName;
 
@@ -95,12 +96,26 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = true)
     public void onMatch(MatchEvent event) {
+        String playerOne, playerTwo;
+        boolean playerOneLocal;
+
         Plugin p = KnofApplication.getPlugin(event.gameType);
-        String playerOne = event.playerToMove;
-        String playerTwo = event.playerToMove.equals(event.opponent) ? playerName : event.opponent;
-        Game game = p.createGame(playerOne, playerTwo);
-        game.addListener(this);
-        currentGame.setValue(game);
+        p = new guess.Guess();
+        if(p != null) {
+            if (event.playerToMove.equals(event.opponent)) {
+                playerOne = event.opponent;
+                playerTwo = playerName;
+                playerOneLocal = false;
+            } else {
+                playerOne = playerName;
+                playerTwo = event.opponent;
+                playerOneLocal = true;
+            }
+            Game game = p.createGame(playerOne, playerTwo, playerOneLocal);
+            game.addListener(this);
+            currentGame.setValue(game);
+            game.startGame(event);
+        }
     }
 
 

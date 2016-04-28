@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import knof.controllers.listcell.ChallengeCell;
 import knof.controllers.listcell.PlayerCell;
+import knof.event.events.MatchEvent;
 import knof.model.Challenge;
 import knof.model.Game;
 import knof.model.Server;
@@ -30,7 +31,7 @@ public class ServerController {
     @FXML
     public ListView<Challenge> challengeList;
 
-    public Game currentGame;
+    public GameController currentGameController;
 
     public void setServer(Server server) {
 
@@ -46,8 +47,16 @@ public class ServerController {
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
 				server.onGameClicked(gameList.getSelectionModel().getSelectedItem());
                 server.currentGame.addListener((observable, oldValue, newValue) -> {
-                    System.out.println(oldValue);
-                    System.out.println(newValue);
+                    if(newValue != null){
+                        newValue.addListener(observable1 -> {
+                            if(observable1 instanceof Game){
+                                Game game = (Game) observable1;
+                                if(game.getLatestEvent() instanceof MatchEvent){
+                                    currentGameController = game.createGameController();
+                                }
+                            }
+                        });
+                    }
                 });
 			}
         });

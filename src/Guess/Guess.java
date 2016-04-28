@@ -1,4 +1,4 @@
-package Guess;
+package guess;
 
 import knof.controllers.GameController;
 import knof.model.Game;
@@ -14,12 +14,7 @@ public class Guess implements Plugin {
     }
 
     @Override
-    public Game createGame(String playerOne, String playerTwo) {
-        return null;
-    }
-
-    @Override
-    public GameController createGameController(Game game) {
-        return null;
+    public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal) {
+        return new GuessGame(playerOneName, playerTwoName, playerOneIsLocal);
     }
 }

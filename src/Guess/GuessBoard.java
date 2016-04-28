@@ -1,4 +1,4 @@
-package Guess;
+package guess;
 
 import knof.gamelogic.Board;
 import knof.gamelogic.Move;
@@ -16,8 +16,8 @@ public class GuessBoard extends Board {
     private List<Move> legalMoves = new ArrayList<>();
     Map<Side, Integer> scores = Collections.emptyMap();
 
-    public GuessBoard() {
-        super(10, 1);
+    public GuessBoard(int width, int height) {
+        super(width, height);
         for(int i = 0; i < width; i++){
             this.legalMoves.add(new Move(i, 1, Side.PLAYERONE));
             this.legalMoves.add(new Move(i, 1, Side.PLAYERTWO));

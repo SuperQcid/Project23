@@ -96,7 +96,7 @@ public abstract class Board implements Cloneable {
 	public void clear() {
 		for(int y = 0; y < width; y++) {
 			for(int x = 0; x < height; x++) {
-				board[x][y] = Side.EMPTY;
+				board[y][x] = Side.EMPTY;
 			}
 		}
 	}
