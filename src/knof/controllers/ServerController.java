@@ -1,5 +1,10 @@
 package knof.controllers;
 
+
+import java.io.IOException;
+
+import javafx.application.Platform;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -12,17 +17,18 @@ import knof.model.Server;
 
 public class ServerController {
 
-    @FXML
-    public ListView<String> gameList;
+	@FXML
+	public ListView<String> gameList;
 
-    @FXML
-    public ListView<String> playerList;
+	@FXML
+	public ListView<String> playerList;
 
-    @FXML
-    public ListView<Challenge> challengeList;
+	@FXML
+	public ListView<Challenge> challengeList;
+
 
     public void setServer(Server server) {
-        this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell());
+    	this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
         this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
         
@@ -40,3 +46,4 @@ public class ServerController {
         this.challengeList.setItems(server.challenges);
     }
 }
+
