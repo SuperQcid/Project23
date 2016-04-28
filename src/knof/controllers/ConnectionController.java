@@ -11,7 +11,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import knof.command.Command;
 import knof.connection.Connection;
@@ -80,6 +79,7 @@ public class ConnectionController implements Initializable {
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);
+                createDialogPane("Duplicate username, please choose different username.");
                 return;
             }
 
@@ -138,7 +138,7 @@ public class ConnectionController implements Initializable {
          */
         portNumber.lengthProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() > PORT_NUMBER_LENGTH) {
-                portNumber.setText(portNumber.getText().substring(0,PORT_NUMBER_LENGTH));
+                portNumber.setText(portNumber.getText().substring(0, PORT_NUMBER_LENGTH));
             }
         });
     }
