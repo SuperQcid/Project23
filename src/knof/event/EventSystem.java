@@ -116,7 +116,7 @@ public class EventSystem {
      * Emit event to all registered objects with valid methods
      * @param event event to emit
      */
-    public void emitEvent(IEvent event) {
+    public synchronized void emitEvent(IEvent event) {
         try {
             for (Map.Entry<Object, Map<Method, Class<? extends IEvent>>> receiver : eventReceivers.entrySet()) {
                 Map<Method, Class<? extends IEvent>> receiverMethods = receiver.getValue();
@@ -150,7 +150,7 @@ public class EventSystem {
      * Register object to receive events on methods marked with @EventHandler
      * @param receiver object to receive events
      */
-    public void register(Object receiver) {
+    public synchronized void register(Object receiver) {
         HashMap<Method,Class<? extends IEvent>> methodMap = new HashMap<>();
 
         Class receiverClass = receiver.getClass();

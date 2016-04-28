@@ -89,9 +89,10 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = true)
     public void onPlayerList(ListEvent.Players event) {
-        this.players.removeIf((String player) -> !event.contains(player));
-        event.removeIf(this.players::contains);
-        this.players.addAll(event);
+		this.players.removeIf((String player) -> !event.contains(player));
+		event.removeIf(this.players::contains);
+		event.remove(connection.getPlayerName());
+		this.players.addAll(event);
     }
 
     @EventHandler(later = true)
