@@ -3,6 +3,7 @@ package knof.model;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.event.EventHandler;
 import knof.event.IEvent;
@@ -25,25 +26,30 @@ public abstract class Game implements Observable {
 
     protected Player localPlayer, remotePlayer;
     protected Board board;
+    protected Connection connection;
+
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
 
     protected IEvent latestEvent;
 
-    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, int width, int height){
+    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, int width, int height, Connection connection){
         if(playerOneIsLocal){
-            localPlayer = new Player(playerOneName, Side.PLAYERONE);
-            remotePlayer = new Player(playerTwoName, Side.PLAYERTWO);
+            localPlayer = initPlayer(playerOneName, Side.PLAYERONE, connection);
+            remotePlayer = initPlayer(playerTwoName, Side.PLAYERTWO, connection);
         } else {
-            remotePlayer = new Player(playerOneName, Side.PLAYERONE);
-            localPlayer = new Player(playerTwoName, Side.PLAYERTWO);
+            remotePlayer = initPlayer(playerOneName, Side.PLAYERONE, connection);
+            localPlayer = initPlayer(playerTwoName, Side.PLAYERTWO, connection);
         }
         this.HEIGHT = height;
         this.WIDTH = width;
+        this.connection = connection;
         initBoard();
     }
 
     protected abstract void initBoard();
+
+    protected abstract Player initPlayer(String playerName, Side side, Connection connection);
 
     protected abstract boolean move(int move, Side side);
 

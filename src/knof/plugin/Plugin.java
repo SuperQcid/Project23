@@ -1,5 +1,6 @@
 package knof.plugin;
 
+import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.model.Game;
 
@@ -9,5 +10,5 @@ import knof.model.Game;
 public interface Plugin {
     String getGameName();
 
-    Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal);
+    Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection);
 }

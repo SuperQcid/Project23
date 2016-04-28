@@ -98,7 +98,7 @@ public class Server implements InvalidationListener {
     public void onMatch(MatchEvent event) {
         String playerOne, playerTwo;
         boolean playerOneLocal;
-
+        //TODO Build jar and use it
         Plugin p = KnofApplication.getPlugin(event.gameType);
         p = new guess.Guess();
         if(p != null) {
@@ -111,7 +111,7 @@ public class Server implements InvalidationListener {
                 playerTwo = event.opponent;
                 playerOneLocal = true;
             }
-            Game game = p.createGame(playerOne, playerTwo, playerOneLocal);
+            Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
             game.addListener(this);
             currentGame.setValue(game);
             game.startGame(event);

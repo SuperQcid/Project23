@@ -1,5 +1,6 @@
 package guess;
 
+import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.model.Game;
 import knof.plugin.Plugin;
@@ -14,7 +15,7 @@ public class Guess implements Plugin {
     }
 
     @Override
-    public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal) {
-        return new GuessGame(playerOneName, playerTwoName, playerOneIsLocal);
+    public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
+        return new GuessGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
     }
 }
