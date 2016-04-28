@@ -75,7 +75,8 @@ public class ConnectionController {
             }
             return;
         }
-
+        
+        connection.setPlayerName(user);
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);

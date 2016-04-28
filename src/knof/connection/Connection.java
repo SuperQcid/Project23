@@ -17,6 +17,7 @@ public class Connection implements Runnable {
     private boolean running = true;
     public final EventSystem eventSystem;
     private CommandHandler commandHandler;
+    private String playerName;
 
     public Connection(String host, int port) throws IOException {
         Socket socket = new Socket(host, port);
@@ -39,6 +40,14 @@ public class Connection implements Runnable {
 
     public synchronized void sendCommandWithCallBack(CommandHandler.Callback callback, Command command, Object... arguments) {
         this.commandHandler.sendCommand(command, callback, arguments);
+    }
+    
+    public void setPlayerName(String playerName){
+    	this.playerName = playerName;
+    }
+    
+    public String getPlayerName(){
+    	return this.playerName;
     }
 
     public void sendCommandWithCallBackLater(CommandHandler.Callback callback, Command command, Object... arguments) {
