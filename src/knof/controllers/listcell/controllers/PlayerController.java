@@ -26,10 +26,9 @@ public class PlayerController implements ListCellController {
         challenge.setVisible(false);
         challenge.setDisable(true);
         if(isServerSet()){
-        	server.connection.sendCommand(Command.CHALLENGE, playerName.getText() + ' '  + "reversi");
+        	server.connection.sendCommand(Command.CHALLENGE, playerName.getText(), "Reversi");
         }
-    }
-    
+    }    
     public void setServer(Server server){
     	this.server = server;
     }
