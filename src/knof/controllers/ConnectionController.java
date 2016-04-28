@@ -129,9 +129,9 @@ public class ConnectionController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        gridPane.getChildren().remove(portNumber);
-        portNumber = new NumberTextField();
-        gridPane.add(portNumber,1,1);
+        //gridPane.getChildren().remove(portNumber);
+        //portNumber = new NumberTextField();
+        //gridPane.add(portNumber,1,1);
 
         /**
          * Add a listener to the text field size to prevent it going over the largest value.
@@ -143,34 +143,5 @@ public class ConnectionController implements Initializable {
                 portNumber.setText(portNumber.getText().substring(0,PORT_NUMBER_LENGTH));
             }
         });
-    }
-
-    /**
-     * Textfield which allows only numeric values
-     */
-    private class NumberTextField extends TextField {
-
-        @Override
-        public void replaceText(int start, int end, String text) {
-            if (validate(text)) {
-                super.replaceText(start, end, text);
-            }
-        }
-
-        @Override
-        public void replaceSelection(String text) {
-            if (validate(text)) {
-                super.replaceSelection(text);
-            }
-        }
-
-        /**
-         * Validates input, only allowing values [0-9]
-         * @param text Input
-         * @return valid/invalid
-         */
-        private boolean validate(String text) {
-            return text.matches("[0-9]*");
-        }
     }
 }
