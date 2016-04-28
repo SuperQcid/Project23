@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.listcell.controllers.GameController">
    <left>
       <Button mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
    </left>
@@ -16,4 +16,4 @@
    <center>
       <Label textAlignment="CENTER" BorderPane.alignment="CENTER" />
    </center>
-</BorderPane>
+</fx:root>

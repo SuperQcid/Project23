@@ -5,9 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
-public abstract class ListCellController extends GridPane { 
+public abstract class ListCellController extends BorderPane { 
 	
 	@FXML
 	public Label cell;
