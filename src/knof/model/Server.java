@@ -86,6 +86,7 @@ public class Server {
     public void onPlayerList(ListEvent.Players event) {
 		this.players.removeIf((String player) -> !event.contains(player));
 		event.removeIf(this.players::contains);
+		event.remove(connection.getPlayerName());
 		this.players.addAll(event);
     }
 
