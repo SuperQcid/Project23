@@ -64,48 +64,40 @@ public class ConnectionController implements Initializable {
             return;
         }
 
-        // Check if the port is between 1 and 65535
-        if (port > 0 && port < 65535) {
+        Connection connection;
+        try {
+            connection = new Connection(host, port);
+        } catch (IOException e) {
+            if (e instanceof UnknownHostException) {
+                createDialogPane("Unknown host!");
+            } else {
+                System.out.println("komt de error dan:");
+                e.printStackTrace();
+            }
+            return;
+        }
 
-            Connection connection;
-            try {
-                connection = new Connection(host, port);
-            } catch (IOException e) {
-                if (e instanceof UnknownHostException) {
-                    createDialogPane("Unknown host!");
-                } else {
-                    System.out.println("komt de error dan:");
-                    e.printStackTrace();
-                }
+        connection.sendCommandWithCallBackLater((StatusEvent status) -> {
+            if (status instanceof StatusEvent.Error) {
+                System.err.println(((StatusEvent.Error) status).reason);
                 return;
             }
 
-            connection.sendCommandWithCallBackLater((StatusEvent status) -> {
-                if (status instanceof StatusEvent.Error) {
-                    System.err.println(((StatusEvent.Error) status).reason);
-                    return;
-                }
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            try {
+                stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
+                stage.setTitle(hostName.getText() + ":" + portNumber.getText());
 
-                Stage stage = new Stage();
-                FXMLLoader loader = new FXMLLoader();
-                try {
-                    stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
-                    stage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                ServerController serverController = loader.getController();
+                serverController.setServer(new Server(connection));
 
-                    ServerController serverController = loader.getController();
-                    serverController.setServer(new Server(connection));
-
-                    stage.show();
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }, Command.LOGIN, user);
-        } else {
-            createDialogPane("Please use a port number between 1 and 65535.");
-        }
-
-
+                stage.show();
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, Command.LOGIN, user);
     }
 
     private void createDialogPane(String content) {
@@ -132,6 +124,12 @@ public class ConnectionController implements Initializable {
         gridPane.getChildren().remove(portNumber);
         portNumber = new NumberTextField();
         gridPane.add(portNumber,1,1);
+
+        portNumber.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(Integer.parseInt(newValue) > 65535){
+                portNumber.setText("65535");
+            }
+        });
 
         /**
          * Add a listener to the text field size to prevent it going over the largest value.
