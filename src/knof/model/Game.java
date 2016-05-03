@@ -11,9 +11,6 @@ import knof.event.events.GameResultEvent;
 import knof.event.events.MatchEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
-import knof.gamelogic.Board;
-import knof.gamelogic.Move;
-import knof.gamelogic.Side;
 
 import java.util.ArrayList;
 
@@ -32,11 +29,11 @@ public abstract class Game implements Observable {
 
     public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
         if(playerOneIsLocal){
-            localPlayer = initLocalPlayer(playerOneName, Side.PLAYERONE,connection);
-            remotePlayer = initRemotePlayer(playerTwoName, Side.PLAYERTWO, connection);
+            localPlayer = initLocalPlayer(playerOneName, "BLACK",connection);
+            remotePlayer = initRemotePlayer(playerTwoName, "WHITE", connection);
         } else {
-            remotePlayer = initRemotePlayer(playerOneName, Side.PLAYERONE, connection);
-            localPlayer = initLocalPlayer(playerTwoName, Side.PLAYERTWO, connection);
+            remotePlayer = initRemotePlayer(playerOneName, "BLACK", connection);
+            localPlayer = initLocalPlayer(playerTwoName, "WHITE", connection);
         }
         this.connection = connection;
     }
@@ -48,7 +45,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract LocalPlayer initLocalPlayer(String playerName, Side side, Connection connection);
+    protected abstract LocalPlayer initLocalPlayer(String playerName, String side, Connection connection);
 
     /**
      * Instatiates a remote player
@@ -57,7 +54,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract RemotePlayer initRemotePlayer(String playerName, Side side, Connection connection);
+    protected abstract RemotePlayer initRemotePlayer(String playerName, String side, Connection connection);
 
     /**
      * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
@@ -65,7 +62,7 @@ public abstract class Game implements Observable {
      * @param side The side of the plaeyr who did the move
      * @return true if the move was legal and successfully placed, false otherwise
      */
-    protected abstract boolean move(int move, Side side);
+    protected abstract boolean move(int move, String side);
 
     protected abstract GameController initGameController();
 
@@ -108,7 +105,7 @@ public abstract class Game implements Observable {
 
     @EventHandler(later = true)
     public final void onMove(MoveEvent event) {
-        Side side;
+        String side;
         if(localPlayer.getName().equals(event.player)){
             side = localPlayer.getSide();
         } else {
