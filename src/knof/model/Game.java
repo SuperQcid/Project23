@@ -22,46 +22,49 @@ import java.util.ArrayList;
  */
 public abstract class Game implements Observable {
 
-    protected final int WIDTH;
-    protected final int HEIGHT;
-
-    protected Player localPlayer, remotePlayer;
-    protected Board board;
+    protected LocalPlayer localPlayer;
+    protected RemotePlayer remotePlayer;
     protected Connection connection;
-
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
 
     protected IEvent latestEvent;
 
-    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, int width, int height, Connection connection){
+    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
         if(playerOneIsLocal){
-            localPlayer = initPlayer(playerOneName, Side.PLAYERONE, connection);
-            remotePlayer = initPlayer(playerTwoName, Side.PLAYERTWO, connection);
+            localPlayer = initLocalPlayer(playerOneName, Side.PLAYERONE,connection);
+            remotePlayer = initRemotePlayer(playerTwoName, Side.PLAYERTWO, connection);
         } else {
-            remotePlayer = initPlayer(playerOneName, Side.PLAYERONE, connection);
-            localPlayer = initPlayer(playerTwoName, Side.PLAYERTWO, connection);
+            remotePlayer = initRemotePlayer(playerOneName, Side.PLAYERONE, connection);
+            localPlayer = initLocalPlayer(playerTwoName, Side.PLAYERTWO, connection);
         }
-        this.HEIGHT = height;
-        this.WIDTH = width;
         this.connection = connection;
-        initBoard();
     }
 
     /**
-     * Initializes the board
-     */
-    protected abstract void initBoard();
-
-    /**
-     * Instantiates a player
+     * Instantiates a local player
      * @param playerName
      * @param side
      * @param connection
      * @return
      */
-    protected abstract Player initPlayer(String playerName, Side side, Connection connection);
+    protected abstract LocalPlayer initLocalPlayer(String playerName, Side side, Connection connection);
 
+    /**
+     * Instatiates a remote player
+     * @param playerName
+     * @param side
+     * @param connection
+     * @return
+     */
+    protected abstract RemotePlayer initRemotePlayer(String playerName, Side side, Connection connection);
+
+    /**
+     * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
+     * @param move The move received from the server
+     * @param side The side of the plaeyr who did the move
+     * @return true if the move was legal and successfully placed, false otherwise
+     */
     protected abstract boolean move(int move, Side side);
 
     protected abstract GameController initGameController();
@@ -72,24 +75,12 @@ public abstract class Game implements Observable {
         return gc;
     }
 
-    public final int convertMoveToInt(Move move){
-        return move.position.y * WIDTH + move.position.x;
-    }
-
-    public final Move convertIntToMove(int i, Side s){
-        return new Move(i%WIDTH, i/WIDTH, s);
-    }
-
     public final void startGame(MatchEvent event){
         invalidate(event);
     }
 
     public final void yourTurn(){
-        localPlayer.doMove();
-    }
-
-    public final Board getBoard(){
-        return board;
+        localPlayer.setTurn();
     }
 
     public final IEvent getLatestEvent(){

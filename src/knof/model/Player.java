@@ -13,7 +13,7 @@ import knof.gamelogic.Side;
 public abstract class Player {
     protected final Side side;
     protected final String name;
-    private boolean isUp = false;
+    protected boolean turn = false;
     private Connection connection;
 
     public Player(String name, Side side, Connection connection){
@@ -26,12 +26,18 @@ public abstract class Player {
 
     public Side getSide(){ return  side; }
 
-    public abstract void doMove();
+    /**
+     * Method used to notify the player it's its turn
+     */
+    public abstract void setTurn();
 
+    /**
+     * When de move is retrieved, sends it to the remote server
+     * @param move The move that is sent
+     */
     public void sendMove(int move){
-        if(isUp){
-            Command command = Command.MOVE;
-            connection.sendCommand(command, move);
+        if(turn){
+            connection.sendCommand(Command.MOVE, move);
         }
     }
 }
