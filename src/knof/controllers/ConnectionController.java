@@ -1,6 +1,5 @@
 package knof.controllers;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +49,7 @@ public class ConnectionController {
             user = userName.getText();
 
             if (host.equals("") || user.equals("")) {
-                throw new IllegalArgumentException("");
+                throw new IllegalArgumentException(host + ", " + user);
             }
 
             port = Integer.parseInt(portNumber.getText());
