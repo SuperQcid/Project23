@@ -18,6 +18,10 @@ public class KnofApplication extends Application {
 		launch(args);
 	}
 
+	public static Plugin getPlugin(String name){
+		return pluginList.get(name);
+	}
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();

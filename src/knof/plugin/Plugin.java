@@ -1,9 +1,13 @@
 package knof.plugin;
 
+import knof.connection.Connection;
+import knof.model.Game;
+
 /**
- * Abstract class for game plugins.
+ * Interface for game plugins.
  */
-public interface Plugin {
-    String getGameName();
-	//TODO
+public abstract class Plugin {
+    public abstract String getGameName();
+
+    public abstract Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection);
 }

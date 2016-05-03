@@ -1,70 +1,75 @@
 package knof.model;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import knof.app.KnofApplication;
 import knof.command.Command;
 import knof.command.CommandTask;
 import knof.connection.Connection;
 import knof.controllers.PopupController;
-import knof.controllers.ServerController;
 import knof.event.EventHandler;
+import knof.event.events.*;
+import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
-import knof.event.events.ListEvent.Games;
-
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.Timer;
 
 /**
  * A model representing a server that has been connected to
  */
-public class Server {
-	public final Connection connection;
-	public final ObservableList<String> games;
-	public final ObservableList<String> players;
-	public final ObservableList<Challenge> challenges;
+public class Server implements InvalidationListener {
+    public final Connection connection;
+    public final ObservableList<String> games;
+    public final ObservableList<String> players;
+    public final ObservableList<Challenge> challenges;
 
-	private final Timer timer = new Timer(true);
+    public final ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
 
-	public Server(Connection connection) {
-		this.connection = connection;
+    public String playerName;
 
-		ObservableList<String> gameList = FXCollections.observableArrayList();
-		this.games = FXCollections.synchronizedObservableList(gameList);
+    private final Timer timer = new Timer(true);
 
-		ObservableList<String> playerList = FXCollections.observableArrayList();
-		this.players = FXCollections.synchronizedObservableList(playerList);
+    public Server(Connection connection, String playerName) {
+        this.connection = connection;
+        this.playerName = playerName;
+        ObservableList<String> gameList = FXCollections.observableArrayList();
+        this.games = FXCollections.synchronizedObservableList(gameList);
+
+        ObservableList<String> playerList = FXCollections.observableArrayList();
+        this.players = FXCollections.synchronizedObservableList(playerList);
 
         ObservableList<Challenge> challengeList = FXCollections.observableArrayList();
         this.challenges = FXCollections.synchronizedObservableList(challengeList);
 
-		this.connection.eventSystem.register(this);
+        this.connection.eventSystem.register(this);
 
-		this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_PLAYERLIST), 0, 4000);
-		this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_GAMELIST), 0, 60000);
-	}
+        this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_PLAYERLIST), 0, 4000);
+        this.timer.scheduleAtFixedRate(new CommandTask(connection, this, Command.GET_GAMELIST), 0, 60000);
+    }
 
 
-	@EventHandler
-	public void onGameList(ListEvent.Games event) {
-		Platform.runLater(() -> {
-			System.out.println(event);
-			this.games.removeIf((String game) -> !event.contains(game));
-			event.removeIf(this.games::contains);
+    @EventHandler(later = true)
+    public void onGameList(ListEvent.Games event) {
+        System.out.println(event);
+        this.games.removeIf((String game) -> !event.contains(game));
+        event.removeIf(this.games::contains);
 
 			this.games.addAll(event);
 			System.out.println(this.games);
-		});
+
 	}
-	
+
 	public void challengePlayer(String playerName){
-		
+
 	}
 
 
@@ -83,8 +88,8 @@ public class Server {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-		});
-	}
+        });
+    }
 
     @EventHandler(later = true)
     public void onPlayerList(ListEvent.Players event) {
@@ -92,6 +97,44 @@ public class Server {
 		event.removeIf(this.players::contains);
 		event.remove(connection.getPlayerName());
 		this.players.addAll(event);
+    }
+
+    @EventHandler(later = true)
+    public void onMatch(MatchEvent event) {
+        String playerOne, playerTwo;
+        boolean playerOneLocal;
+        //TODO Build jar and use it
+        Plugin p = KnofApplication.getPlugin(event.gameType);
+        if(p != null) {
+            if (event.playerToMove.equals(event.opponent)) {
+                playerOne = event.opponent;
+                playerTwo = playerName;
+                playerOneLocal = false;
+            } else {
+                playerOne = playerName;
+                playerTwo = event.opponent;
+                playerOneLocal = true;
+            }
+            Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
+            game.addListener(this);
+            currentGame.setValue(game);
+            game.startGame(event);
+        }
+    }
+
+
+    private void terminate(){
+        currentGame.setValue(null);
+    }
+
+    @Override
+    public void invalidated(Observable observable) {
+        if(observable instanceof Game){
+            Game game = (Game) observable;
+            if(game.latestEvent instanceof GameResultEvent){
+                terminate();
+            }
+        }
     }
 
     @EventHandler (later=true)
