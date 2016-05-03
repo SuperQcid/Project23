@@ -3,6 +3,7 @@ package knof.model.game;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleObjectProperty;
 import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.event.EventHandler;
@@ -25,7 +26,7 @@ public abstract class Game implements Observable {
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
 
-    public IEvent latestEvent;
+    public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
     public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
         if(playerOneIsLocal){
@@ -80,12 +81,7 @@ public abstract class Game implements Observable {
         localPlayer.setTurn();
     }
 
-    public final IEvent getLatestEvent(){
-        return latestEvent;
-    }
-
     private synchronized final void invalidate(IEvent event){
-        this.latestEvent = event;
         for(InvalidationListener il : listeners){
             Platform.runLater(() -> {
                 il.invalidated(this);
@@ -123,6 +119,7 @@ public abstract class Game implements Observable {
 
     @EventHandler(later = true)
     public final void onGameResult(GameResultEvent event){
+        this.result.set(new GameResult(event));
         invalidate(event);
     }
 }
