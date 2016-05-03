@@ -10,7 +10,7 @@ public abstract class Player {
     protected final String side;
     protected final String name;
     protected boolean turn = false;
-    private Connection connection;
+    protected Connection connection;
 
     public Player(String name, String side, Connection connection){
         this.name = name;

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public abstract class Game implements Observable {
 
     protected LocalPlayer localPlayer;
-    protected RemotePlayer remotePlayer;
+    protected DummyPlayer remotePlayer;
     protected Connection connection;
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
@@ -54,7 +54,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract RemotePlayer initRemotePlayer(String playerName, String side, Connection connection);
+    protected abstract DummyPlayer initRemotePlayer(String playerName, String side, Connection connection);
 
     /**
      * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
