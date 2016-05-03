@@ -1,6 +1,5 @@
 package knof.model;
 
-import guess.GuessGame;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
