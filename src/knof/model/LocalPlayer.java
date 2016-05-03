@@ -13,7 +13,7 @@ public abstract class LocalPlayer extends Player {
      */
     protected Game game;
 
-    public LocalPlayer(String name, Side side, Connection connection, Game game) {
+    public LocalPlayer(String name, String side, Connection connection, Game game) {
         super(name, side, connection);
         this.game = game;
     }
