@@ -5,6 +5,8 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,8 @@ import knof.connection.Connection;
 import knof.controllers.PopupController;
 import knof.event.EventHandler;
 import knof.event.events.*;
+import knof.model.game.Game;
+import knof.model.game.GameResult;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
@@ -117,6 +121,10 @@ public class Server implements InvalidationListener {
             }
             Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
             game.addListener(this);
+            game.result.addListener((observable, oldValue, newValue) -> {
+                //TODO: Display message informing user whether they have won
+                terminate();
+            });
             currentGame.setValue(game);
             game.startGame(event);
         }
@@ -131,9 +139,6 @@ public class Server implements InvalidationListener {
     public void invalidated(Observable observable) {
         if(observable instanceof Game){
             Game game = (Game) observable;
-            if(game.latestEvent instanceof GameResultEvent){
-                terminate();
-            }
         }
     }
 
