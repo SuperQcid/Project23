@@ -1,6 +1,6 @@
 package knof.gamelogic;
 
-import knof.model.Player;
+import knof.model.game.Player;
 
 /**
  * This class represents a piece as placed on the board

@@ -1,4 +1,4 @@
-package knof.model;
+package knof.model.game;
 
 import knof.command.Command;
 import knof.connection.Connection;

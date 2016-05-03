@@ -1,4 +1,4 @@
-package knof.model;
+package knof.model.game;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -25,7 +25,7 @@ public abstract class Game implements Observable {
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
 
-    protected IEvent latestEvent;
+    public IEvent latestEvent;
 
     public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
         if(playerOneIsLocal){

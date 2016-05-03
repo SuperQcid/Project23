@@ -1,23 +1,12 @@
 package knof.controllers;
 
 
-import java.io.IOException;
-
-import javafx.application.Platform;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import knof.controllers.listcell.ChallengeCell;
 import knof.controllers.listcell.GameCell;
 import knof.controllers.listcell.PlayerCell;
-import knof.event.events.MatchEvent;
 import knof.model.Challenge;
-import knof.model.Game;
 import knof.model.Server;
 
 public class ServerController {

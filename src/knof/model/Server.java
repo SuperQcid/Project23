@@ -17,6 +17,7 @@ import knof.connection.Connection;
 import knof.controllers.PopupController;
 import knof.event.EventHandler;
 import knof.event.events.*;
+import knof.model.game.Game;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;

@@ -1,7 +1,7 @@
 package knof.plugin;
 
 import knof.connection.Connection;
-import knof.model.Game;
+import knof.model.game.Game;
 
 /**
  * Interface for game plugins.
