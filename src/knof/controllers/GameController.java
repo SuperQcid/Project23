@@ -2,11 +2,6 @@ package knof.controllers;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.property.SimpleListProperty;
-import javafx.fxml.FXML;
-import knof.event.IEvent;
-import knof.event.events.GameResultEvent;
-import knof.gamelogic.Move;
 import knof.model.Game;
 
 /**
