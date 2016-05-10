@@ -8,7 +8,7 @@ import java.util.List;
  * The board is an array of size 'width' times 'height'.
  * Pieces on the board are stored as Piece.
  */
-public abstract class Board implements Cloneable {
+public abstract class Board {
 	public final int width;
 	public final int height;
 	private Piece[] board;
@@ -36,6 +36,8 @@ public abstract class Board implements Cloneable {
 	public boolean isEmpty(int index) {
 		return board[index] == null;
 	}
+
+	public abstract Board clone();
 
 	/**
 	 * Check if a given piece can be placed on a certain index.
