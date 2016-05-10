@@ -1,11 +1,14 @@
 package knof.gamelogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Contains the board.
  * The board is an array of size 'width' times 'height'.
  * Pieces on the board are stored as Piece.
  */
-public abstract class Board implements Cloneable {
+public abstract class Board {
 	public final int width;
 	public final int height;
 	private Piece[] board;
@@ -34,6 +37,8 @@ public abstract class Board implements Cloneable {
 		return board[index] == null;
 	}
 
+	public abstract Board clone();
+
 	/**
 	 * Check if a given piece can be placed on a certain index.
 	 * You may override this method with an optional super call when implementing
@@ -43,6 +48,16 @@ public abstract class Board implements Cloneable {
 	 */
 	public boolean isValid(int index, Piece piece) {
 		return validIndex(index) && isEmpty(index);
+	}
+
+	public List<Pos> getValidPositions(Piece piece) {
+		ArrayList<Pos> positions = new ArrayList<>(board.length/2);
+		for (int idx=0; idx<board.length; idx++) {
+			if(this.isValid(idx, piece)) {
+				positions.add(new Pos(idx));
+			}
+		}
+		return positions;
 	}
 
 	/**
@@ -58,6 +73,15 @@ public abstract class Board implements Cloneable {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Get piece at index
+	 * @param index
+	 * @return piece
+	 */
+	public Piece getPiece(int index) {
+		return board[index];
 	}
 
 	public Pos pos(int i) {
