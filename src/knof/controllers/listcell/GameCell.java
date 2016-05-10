@@ -16,7 +16,7 @@ public class GameCell extends Cell<String> {
 		Plugin p = KnofApplication.getPlugin(item);
 		if(p != null) {
 			controller.button.setText("Subscribe");
-			controller.pupulateAIChoiceBox(p.getPlayerTypes(true));
+			controller.populateAIChoiceBox(p.getPlayerTypes(true));
 		} else {
 			controller.getChildren().remove(controller.ai);
 			controller.button.setText("Unavailable");
