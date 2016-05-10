@@ -69,7 +69,6 @@ public class ConnectionController {
             if (e instanceof UnknownHostException) {
                 createDialogPane("Unknown host!");
             } else {
-                System.out.println("komt de error dan:");
                 e.printStackTrace();
             }
             return;
@@ -79,7 +78,7 @@ public class ConnectionController {
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);
-                createDialogPane("Duplicate username, please choose different username.");
+                createDialogPane("Username taken! Please use a different one.");
                 return;
             }
 
