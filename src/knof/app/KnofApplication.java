@@ -21,6 +21,10 @@ public class KnofApplication extends Application {
 	public static Plugin getPlugin(String name){
 		return pluginList.get(name);
 	}
+	
+	public static HashMap<String, Plugin> getPluginList() {
+		return pluginList;
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {

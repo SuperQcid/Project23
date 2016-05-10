@@ -11,14 +11,14 @@
 <?import javafx.scene.text.Text?>
 <?import knof.controllers.NumberTextField?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.popup.ChallengePopupController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.popup.ChallengePopupController">
   <children>
     <GridPane alignment="CENTER" hgap="20.0" layoutX="40.0" layoutY="25.0" prefHeight="200.0" prefWidth="300.0" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <NumberTextField fx:id="turntime" disable="true" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Button fx:id="challengeButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#challenge" text="Challenge" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" GridPane.columnIndex="0" />
-            <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+            <ChoiceBox fx:id="gameBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
             <CheckBox fx:id="turntimeBox" mnemonicParsing="false" onAction="#customTurntime" text="Custom turntime" GridPane.rowIndex="1" />
       </children>
       <columnConstraints>
