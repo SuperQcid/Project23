@@ -104,6 +104,7 @@ public class ConnectionController {
             } else {
                 this.serverController.setServer(new Server(connection, user));
                 this.serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                newWindow = true;
             }
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
