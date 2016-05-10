@@ -2,6 +2,7 @@ package knof.ai;
 
 import javafx.geometry.Side;
 import knof.gamelogic.Board;
+import knof.gamelogic.Piece;
 
 import java.util.List;
 
@@ -18,88 +19,83 @@ public class BackTracker {
         this.depth = depth;
     }
 
-    @Override
-    public Move getMove(Side side) {
-        return this.getBestMove(side, this.board, this.depth).move;
-    }
-
     /**
      *
-     * @param side The side for which the move is being calculated
+     * @param piece The side for which the move is being calculated
      * @param board The board for which the move is being calculated
      * @param depth The amount of depth the recursive function is allowed to go
      * @return The best move the functions are able to calculate
      */
-    public BestMove getBestMove(Side side, Board board, int depth) {
+    public BestMove getBestMove(Piece piece, Board board, int depth) {
         if(depth==0) {
-            return getBestScoringMove(board, side);
+            return getBestScoringMove(board, piece);
         }
         else {
-            return getBestMoveRecursive(board, side, depth);
+            return getBestMoveRecursive(board, piece, depth);
         }
     }
 
     /**
      *
-     * @param side The side for which the move is being calculated
+     * @param piece The side for which the move is being calculated
      * @param board The board for which the move is being calculated
      * @param depth The amount of depth the function is allowed to go
      * @return The best move the function is able to calculate
      */
-    private BestMove getBestMoveRecursive(Board board, Side side, int depth) {
-        List<Move> legalMoves = board.getLegalMoves(side);
-        BestMove bm = null;
-        for(Move move: legalMoves) {
-            Board newState = board.clone();
-            newState.place(move);
+    private BestMove getBestMoveRecursive(Board board, Piece piece, int depth) {
+        List<Board.Pos> legalMoves = board.getValidPositions();
+        BestMove bestMove = null;
+        for(Board.Pos move: legalMoves) {
+            Board clonedBoard = board.clone();
+            clonedBoard.place(move.toInt(), new Piece());
 
-            Side nextTurn = newState.getNextTurn(side);
-            BestMove newBM;
+            Piece nextPiece = clonedBoard.getNextPiece();
+            BestMove newBestMove;
 
-            if(!newState.getLegalMoves(nextTurn).isEmpty()) {
-                newBM = getBestMove(nextTurn, newState, depth - 1);
+            if(!clonedBoard.getValidPositions(nextPiece).isEmpty()) {
+                newBestMove = getBestMove(nextPiece, clonedBoard, depth - 1);
 
             }
             else {
-                newBM = new BestMove(move, newState);
+                newBestMove = new BestMove(move, clonedBoard);
             }
 
-            if (bm == null || newBM.endState.getScore(side) > bm.endState.getScore(side)) {
-                bm = new BestMove(move, newBM.endState);
+            if (bestMove == null || newBestMove.endState.getScore(piece) > bestMove.endState.getScore(piece)) {
+                bestMove = new BestMove(move, newBestMove.endState);
             }
-
         }
-        return bm;
+        return bestMove;
     }
 
     /**
      * Get move that results in the highest score for side, return null if no more moves can be made
      * @param board
-     * @param side
+     * @param piece
      * @return best move
      */
-    private BestMove getBestScoringMove(Board board, Side side) {
-        List<Move> legalMoves = board.getLegalMoves(side);
-        if(legalMoves.isEmpty()) return null;
-        BestMove bm = null;
-        for(Move move: legalMoves) {
+    private BestMove getBestScoringMove(Board board, Piece piece) {
+        List<Board.Pos> legalPositions = board.getValidPositions(piece);
+        if(legalPositions.isEmpty()) return null;
+        BestMove bestMove = null;
+
+        for(Board.Pos position: legalPositions) {
             Board newState = board.clone();
-            newState.place(move);
+            newState.place(position.toInt(), piece);
 
             int score = newState.getScore(side);
-            if(bm==null || score > bm.endState.getScore(side)) {
-                bm = new BestMove(move, newState);
+            if(bestMove==null || score > bestMove.endState.getScore(side)) {
+                bestMove = new BestMove(position, newState);
             }
         }
-        return bm;
+        return bestMove;
     }
 
     public static class BestMove {
         public Board endState;
-        public final Move move;
+        public final Board.Pos position;
 
-        public BestMove(Move move, Board endState) {
-            this.move = move;
+        public BestMove(Board.Pos position, Board endState) {
+            this.position = position;
             this.endState = endState;
 
         }

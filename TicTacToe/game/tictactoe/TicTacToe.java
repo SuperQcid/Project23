@@ -16,7 +16,8 @@ public class TicTacToe extends Plugin {
 
     @Override
     public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        return new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
+        TicTacToeGame tttGame = new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
+        return tttGame;
     }
 
     @Override
