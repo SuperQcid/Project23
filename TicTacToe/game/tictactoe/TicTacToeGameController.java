@@ -1,4 +1,4 @@
-package src.game.tictactoe;
+package game.tictactoe;
 
 /**
  * Created by Thijs on 10/05/2016.
