@@ -1,195 +1,138 @@
 package knof.gamelogic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Contains the board.
- * The board is a multidimensional array of size 'width' and 'height'.
- * Pieces on the board are stored as Side.
+ * The board is an array of size 'width' times 'height'.
+ * Pieces on the board are stored as Piece.
  */
-public abstract class Board {
-
-	protected Side[][] board;
-	public final int height;
+public abstract class Board implements Cloneable {
 	public final int width;
-	
+	public final int height;
+	private Piece[] board;
+
 	public Board(int width, int height) {
-		board = new Side[width][height];
-		this.height = height;
 		this.width = width;
-		clear();
+		this.height = height;
+		this.board = new Piece[width*height];
 	}
-	
+
 	/**
-	 * Converts the board to a string.
-	 * @return a string representation of the object.
+	 * Get if the given index is a valid position on the board
+	 * @param index index to check validity for
+	 * @return if the index is valid
 	 */
-	public String toString() {
-		String string = "";
-		for(int y = 0; y < width; y++) {
-			for(int x = 0; x < height; x++) {
-				string += get(new Pos(x, y)).character; 
+	public boolean validIndex(int index) {
+		return (index>=0 && index<board.length);
+	}
+
+	/**
+	 * Check if the cell at the given index is empty
+	 * @param index index to check
+	 * @return whether the cell at the index is empty
+	 */
+	public boolean isEmpty(int index) {
+		return board[index] == null;
+	}
+
+	/**
+	 * Check if a given piece can be placed on a certain index.
+	 * You may override this method with an optional super call when implementing
+	 * @param index position to check for
+	 * @param piece piece to check for
+	 * @return whether a piece can be placed there
+	 */
+	public boolean isValid(int index, Piece piece) {
+		return validIndex(index) && isEmpty(index);
+	}
+
+	/**
+	 * Place a piece at a certain index if allowed
+	 * You should override this method for custom place behaviour
+	 * @param index index to place on
+	 * @param piece piece to place
+	 * @return success value
+	 */
+	public boolean place(int index, Piece piece) {
+		if(isValid(index, piece)) {
+			this.board[index] = piece;
+			return true;
+		}
+		return false;
+	}
+
+	public Pos pos(int i) {
+		return new Pos(i);
+	}
+
+	public Pos pos(int x, int y) {
+		return new Pos(x, y);
+	}
+
+	/**
+	 * Position object containing an x and y coordinate representing a space on the board.
+	 */
+	public class Pos {
+
+		public int x;
+		public int y;
+
+		/**
+		 * Create pos from integer
+		 * @param i
+		 */
+		public Pos(int i) {
+			this.x = i % width;
+			this.y = i / width;
+		}
+
+		/**
+		 * Make a new position object
+		 * @param x
+		 * @param y
+		 */
+		public Pos(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		/**
+		 * Move the pos one coordinate in a Direction.
+		 * @param dir
+		 * @return pos
+		 */
+		public Pos add(Direction dir) {
+			return new Pos(this.x+dir.dx, this.y+dir.dy);
+		}
+
+		public String toString() {
+			return "[" + x + ", " + y + "]";
+		}
+
+		/**
+		 * Check if an object is an instance of Pos
+		 * @return true if the provided object is equal
+		 */
+		public boolean equals(Object other) {
+			if(other instanceof Pos) {
+				return ((Pos) other).x == this.x && ((Pos) other).y == this.y;
 			}
-			string += '\n';
-		}
-		return string;
-	}
-
-	/**
-	 * Places a piece on the board.
-	 * @param move
-	 * @return success
-	 */
-	public boolean place(Move move) {
-		return place(move.side, move.position);
-	}
-	
-	/**
-	 * Places a piece on the board. 
-	 * @param side
-	 * @param pos
-	 * @return success
-	 */
-	public boolean place(Side side, Pos pos) {
-		if(valid(pos) && board[pos.x][pos.y] == Side.EMPTY) {
-			board[pos.x][pos.y] = side;
-			return true;
-		} else {
 			return false;
 		}
-	}
-	
-	/**
-	 * Force places a piece on the board.
-	 * Overwrites other pieces that might be in this spot.
-	 * @param side
-	 * @param pos
-	 * @return boolean
-	 */
-	public boolean placeForce(Side side, Pos pos) {
-		if(valid(pos)) {
-			board[pos.x][pos.y] = side;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Clears board at (x,y).
-	 * @param pos
-	 * @return boolean
-	 */
-	public boolean clear(Pos pos) {
-		if(valid(pos)) {
-			board[pos.x][pos.y] = Side.EMPTY;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Clears the whole board.
-	 */
-	public void clear() {
-		for(int y = 0; y < width; y++) {
-			for(int x = 0; x < height; x++) {
-				board[x][y] = Side.EMPTY;
-			}
-		}
-	}
-	
-	/**
-	 * Returns the piece at (x,y).
-	 * @param pos
-	 * @return Side
-	 */
-	public Side get(Pos pos) {
-		if(valid(pos)) return board[pos.x][pos.y];
-		else return null;
-	}
-	
-	/**
-	 * Returns the board.
-	 * @return Side[][]
-	 */
-	public Side[][] get() {
-		return board;
-	}
-	
-	/**
-	 * Gets an adjacent Position of a Position on the board.
-	 * Returns null if Position is invalid.
-	 * @param direction
-	 * @param pos
-	 * @return side
-	 */
-	public Side getAdjacent(Direction direction, Pos pos) {
-		pos.x += direction.dx;
-		pos.y += direction.dy;
-		if(valid(pos)) return board[pos.x][pos.y];
-		else return null;
-	}
-	
-	/**
-	 * Checks if board position is valid.
-	 * @param pos
-	 * @return boolean
-	 */
-	public boolean valid(Pos pos) {
-		if(pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height) return true;
-		else return false;
-	}
 
-	/**
-	 * Return legal moves for board.
-	 * Can be used for highlighting legal move in the interface or for making a generic AI.
-	 * @param side to check moves for
-	 * @return list of legal moves
-	 */
-	public abstract List<Move> getLegalMoves(Side side);
-	
-	/**
-	 * Return legal moves for the board in positions.
-	 * Kind of like a type changed version of getLegalMoves().
-	 * @param side side to check moves for
-	 * @return list of legal positions
-	 */
-	public List<Pos> getLegalPositions(Side side) {
-		List<Move> legalMoves = getLegalMoves(side);
-		List<Pos> legalPositions = new ArrayList<>();
-		for(Move move : legalMoves) {
-			legalPositions.add(move.position);
+		/**
+		 * Get the hashcode of a position
+		 * @return a hashcode of the position
+		 */
+		public int hashCode() {
+			return this.x << 16 + this.y;
 		}
-		return legalPositions;
-	}
 
-	/**
-	 * Returns a score that can be used by AIs.
-	 * Example: TicTacToe backtracking
-	 *     TIE: 0
-	 *     WIN: MAXINT
-	 *     LOSS: MININT
-	 *     Make moves until getLegalMoves() returns empty list, score is final score
-	 * @param side
-	 * @return score
-	 */
-	public abstract int getScore(Side side);
-
-	/**
-	 * Clone for AI
-	 * @return clone of board
-	 */
-	public abstract Board clone();
-
-	/**
-	 * Get the next turn.
-	 * @param lastTurn
-	 * @return next turn
-	 */
-	public Side getNextTurn(Side lastTurn) {
-		return lastTurn==Side.PLAYERONE?Side.PLAYERTWO:Side.PLAYERONE;
+		/**
+		 * Convert this to an int
+		 * @return int
+		 */
+		public int toInt() {
+			return width * y + x;
+		}
 	}
 }

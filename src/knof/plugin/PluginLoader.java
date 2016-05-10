@@ -76,7 +76,7 @@ public class PluginLoader {
      */
     @SuppressWarnings(value = { "rawtypes", "resource"})
     public static Plugin loadPlugin(String file){
-        File game = new File(file);
+        File game = new File(pluginDir + File.separator + file);
         try {
             JarFile jarFile = new JarFile(game);
             URLClassLoader classLoader = new URLClassLoader(new URL[]{game.toURI().toURL()}, ClassLoader.getSystemClassLoader());
