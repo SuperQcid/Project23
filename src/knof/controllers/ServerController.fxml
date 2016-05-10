@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -14,21 +15,26 @@
 
 <AnchorPane id="AnchorPane" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.ServerController">
   <children>
+      <Label fx:id="labelPlayerName" alignment="TOP_RIGHT" text="Name hallo" textAlignment="RIGHT" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="2.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
     <MenuBar prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu text="_File" mnemonicParsing="true">
           <items>
             <MenuItem fx:id="menuItemConnect" mnemonicParsing="false" onAction="#connect" text="Connect to server..." />
             <MenuItem fx:id="menuItemConnectNewWindow" mnemonicParsing="false" onAction="#connect" text="Connect to server in new window..." />
             <MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#close" text="Close" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
+        <Menu text="_Edit" mnemonicParsing="true">
           <items>
             <MenuItem mnemonicParsing="false" text="Delete" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Help">
+        <Menu text="_Help" mnemonicParsing="true">
           <items>
             <MenuItem mnemonicParsing="false" text="About" />
           </items>

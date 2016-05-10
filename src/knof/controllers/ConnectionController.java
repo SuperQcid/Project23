@@ -94,7 +94,7 @@ public class ConnectionController {
 
                     ServerController serverController = loader.getController();
                     serverController.setServer(new Server(connection, user));
-
+                    //serverController.labelPlayerName.setText(user);
                     stage.show();
 
 
@@ -104,8 +104,11 @@ public class ConnectionController {
             } else {
                 this.serverController.setServer(new Server(connection, user));
                 this.serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                this.serverController.labelPlayerName.setText(user);
+                //this.serverController.labelPlayerName.setVisible(true);
                 newWindow = true;
             }
+            System.out.println("User " + user);
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
     }
@@ -144,9 +147,11 @@ public class ConnectionController {
         //gridPane.add(portNumber,1,1);
 
         portNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(Integer.parseInt(newValue) > 65535){
-                portNumber.setText("65535");
-            }
+            try {
+                if (Integer.parseInt(newValue) > 65535) {
+                    portNumber.setText("65535");
+                }
+            } catch (NumberFormatException nfe){}
         });
 
         /**
