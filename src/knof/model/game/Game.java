@@ -81,6 +81,16 @@ public abstract class Game implements Observable {
         localPlayer.setTurn();
     }
 
+    public Player getSidePlayer(String side) {
+        if(localPlayer.side.equals(side)) {
+            return localPlayer;
+        }
+        else if(remotePlayer.side.equals(side)) {
+            return remotePlayer;
+        }
+        return null;
+    }
+
     private synchronized final void invalidate(IEvent event){
         for(InvalidationListener il : listeners){
             Platform.runLater(() -> {

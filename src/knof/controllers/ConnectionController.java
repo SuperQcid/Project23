@@ -22,7 +22,7 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 public class ConnectionController {
-
+    private boolean newWindow = true;
     private final int PORT_NUMBER_LENGTH = 5;
 
     @FXML
@@ -36,9 +36,12 @@ public class ConnectionController {
 
     @FXML
     GridPane gridPane;
+    private ServerController serverController;
+    private Stage serverControllerStage;
 
     @FXML
     public void connect(ActionEvent event) {
+
         String host;
         int port;
         String user;
@@ -81,22 +84,42 @@ public class ConnectionController {
                 createDialogPane("Username taken! Please use a different one.");
                 return;
             }
+            if(newWindow) {
+                Stage stage = new Stage();
+                FXMLLoader loader = new FXMLLoader();
+                try {
 
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            try {
-                stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
-                stage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                    stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
+                    stage.setTitle(hostName.getText() + ":" + portNumber.getText());
 
-                ServerController serverController = loader.getController();
-                serverController.setServer(new Server(connection, user));
+                    ServerController serverController = loader.getController();
+                    serverController.setServer(new Server(connection, user));
 
-                stage.show();
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    stage.show();
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.serverController.setServer(new Server(connection, user));
+                this.serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                newWindow = true;
             }
+            ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
+    }
+
+    public void setNewWindow(boolean newWindow){
+        this.newWindow = newWindow;
+    }
+
+    public void setServerController(ServerController serverController){
+        this.serverController = serverController;
+    }
+
+    public void setServerControllerStage(Stage serverControllerStage){
+        this.serverControllerStage = serverControllerStage;
     }
 
     private void createDialogPane(String content) {
