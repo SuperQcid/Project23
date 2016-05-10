@@ -1,5 +1,8 @@
 package knof.gamelogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Contains the board.
  * The board is an array of size 'width' times 'height'.
@@ -43,6 +46,16 @@ public abstract class Board implements Cloneable {
 	 */
 	public boolean isValid(int index, Piece piece) {
 		return validIndex(index) && isEmpty(index);
+	}
+
+	public List<Pos> getValidPositions(Piece piece) {
+		ArrayList<Pos> positions = new ArrayList<>(board.length/2);
+		for (int idx=0; idx<board.length; idx++) {
+			if(this.isValid(idx, piece)) {
+				positions.add(new Pos(idx));
+			}
+		}
+		return positions;
 	}
 
 	/**
