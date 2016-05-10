@@ -60,6 +60,15 @@ public abstract class Board implements Cloneable {
 		return false;
 	}
 
+	/**
+	 * Get piece at index
+	 * @param index
+	 * @return piece
+	 */
+	public Piece getPiece(int index) {
+		return board[index];
+	}
+
 	public Pos pos(int i) {
 		return new Pos(i);
 	}
