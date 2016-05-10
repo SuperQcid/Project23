@@ -1,13 +1,18 @@
-package knof.controllers;
+package knof.controllers.popup;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import knof.command.Command;
 import knof.controllers.NumberTextField;
+import knof.model.Server;
 
 public class ChallengePopupController {
 
+	public Server server;
+	public String player;
+	
     @FXML
     private NumberTextField turntime;
 
@@ -19,7 +24,7 @@ public class ChallengePopupController {
 
     @FXML
     public void challenge(ActionEvent event) {
-
+        server.connection.sendCommand(Command.CHALLENGE, player, "Reversi");
     }
 
     @FXML
