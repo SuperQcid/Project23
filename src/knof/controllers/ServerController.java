@@ -59,9 +59,5 @@ public class ServerController {
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
     }
-
-    private void populateAIDropdown(){
-
-    }
 }
 

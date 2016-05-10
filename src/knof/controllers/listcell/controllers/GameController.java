@@ -1,8 +1,14 @@
 package knof.controllers.listcell.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import knof.app.KnofApplication;
+import knof.plugin.Plugin;
+
+import java.util.Set;
 
 public class GameController extends ListCellController {
 	
@@ -28,5 +34,10 @@ public class GameController extends ListCellController {
     @Override
     public String getViewName() {
     	return "GameListCell";
+    }
+
+    public void pupulateAIChoiceBox(Set<String> playerTypes){
+        ObservableList<String> ais  = FXCollections.observableArrayList(playerTypes);
+        ai.setItems(ais);
     }
 }
