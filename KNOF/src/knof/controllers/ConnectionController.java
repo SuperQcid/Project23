@@ -54,8 +54,7 @@ public class ConnectionController {
         }).start();
     }
 
-    @FXML
-    public void doConnect(ActionEvent event, Button connect) {
+    private void doConnect(ActionEvent event, Button connect) {
         String host;
         int port;
         String user;
