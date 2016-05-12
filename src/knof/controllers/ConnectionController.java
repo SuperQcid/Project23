@@ -40,9 +40,6 @@ public class ConnectionController {
     TextField userName;
 
     @FXML
-    Button connectButton;
-
-    @FXML
     GridPane gridPane;
 
     @FXML

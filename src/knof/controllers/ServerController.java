@@ -46,14 +46,18 @@ public class ServerController {
 
     public Server server;
 
+    @FXML
+    public void initialize() {
+        this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
+        this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
+        this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
+    }
+
     public void setServer(Server server) {
         if(this.server != null){
             this.server.connection.sendCommand(Command.LOGOUT);
         }
         this.server = server;
-    	this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
-        this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
-        this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
         this.labelPlayerName.setText(server.playerName);
         /*
         this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
