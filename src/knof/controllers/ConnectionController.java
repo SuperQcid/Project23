@@ -22,6 +22,7 @@ import knof.event.events.StatusEvent;
 import knof.model.Server;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
@@ -81,15 +82,7 @@ public class ConnectionController {
         Connection connection;
         try {
             connection = new Connection(host, port);
-        } catch (IOException e) {
-            if (e instanceof UnknownHostException) {
-                createDialogPane("Unknown host!");
-                connect.setDisable(false);
-            } else {
-                e.printStackTrace();
-            }
-            return;
-        }
+
         connection.setPlayerName(user);
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
@@ -123,6 +116,18 @@ public class ConnectionController {
             }
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
+
+        } catch (UnknownHostException e) {
+            createDialogPane("Unknown host!");
+            connect.setDisable(false);
+            return;
+        } catch (ConnectException e) {
+            createDialogPane(e.getMessage());
+            connect.setDisable(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+            connect.setDisable(false);
+        }
     }
 
     public void setNewWindow(boolean newWindow){
