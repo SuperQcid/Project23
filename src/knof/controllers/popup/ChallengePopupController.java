@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.stage.Stage;
 import knof.app.KnofApplication;
 import knof.command.Command;
 import knof.controllers.NumberTextField;
@@ -18,6 +19,7 @@ public class ChallengePopupController {
 
 	public Server server;
 	public String player;
+	public String game;
 	
     @FXML
     private NumberTextField turntime;
@@ -33,10 +35,15 @@ public class ChallengePopupController {
 
     @FXML
     public void challenge(ActionEvent event) {
-    	if(turntimeBox.isSelected()) {
-    		server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, gameBox.getValue(), turntime.getText());
-    	} else {
-    		server.connection.sendCommand(Command.CHALLENGE, player, gameBox.getValue());
+    	game = gameBox.getValue();
+    	if(game != null) {
+			if(turntimeBox.isSelected()) {
+				server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, game, turntime.getText());
+			} else {
+				server.connection.sendCommand(Command.CHALLENGE, player, game);
+			}
+			Stage stage = (Stage) challengeButton.getScene().getWindow();
+			stage.close();
     	}
     }
     
