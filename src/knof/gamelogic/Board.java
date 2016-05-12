@@ -26,6 +26,13 @@ public abstract class Board {
 		this.game = game;
 	}
 
+	public Piece getPieceAtPosition(int position){
+		if(board != null) {
+			return this.board[position];
+		}
+		return null;
+	}
+
 	/**
 	 * Get if the given index is a valid position on the board
 	 * @param index index to check validity for
@@ -46,7 +53,10 @@ public abstract class Board {
 
 	public abstract Board clone();
 
+	public abstract int getScore(String side);
+
 	public Piece getNextPiece(){
+
 		// First move: there is no previouspiece yet. Return localplayer
 		if(previousPiece == null){
 			return new Piece(game.getLocalPlayer());

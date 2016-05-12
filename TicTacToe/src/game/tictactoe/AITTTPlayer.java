@@ -14,6 +14,6 @@ public class AITTTPlayer extends AIPlayer {
 
     @Override
     protected int calculateMove() {
-
+        return 0;
     }
 }

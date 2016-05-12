@@ -60,7 +60,7 @@ public class BackTracker {
                 newBestMove = new BestMove(move, clonedBoard);
             }
 
-            if (bestMove == null || newBestMove.endState.getScore(piece) > bestMove.endState.getScore(piece)) {
+            if (bestMove == null || newBestMove.endState.getScore(piece.getSide()) > bestMove.endState.getScore(piece.getSide())) {
                 bestMove = new BestMove(move, newBestMove.endState);
             }
         }
@@ -82,8 +82,8 @@ public class BackTracker {
             Board newState = board.clone();
             newState.place(position.toInt(), piece);
 
-            int score = newState.getScore(side);
-            if(bestMove==null || score > bestMove.endState.getScore(side)) {
+            int score = newState.getScore(piece.getSide());
+            if(bestMove==null || score > bestMove.endState.getScore(piece.getSide())) {
                 bestMove = new BestMove(position, newState);
             }
         }
