@@ -37,5 +37,6 @@ public class GameController extends ListCellController {
     public void populateAIChoiceBox(Set<String> playerTypes){
         ObservableList<String> ais  = FXCollections.observableArrayList(playerTypes);
         ai.setItems(ais);
+        ai.getSelectionModel().selectFirst();
     }
 }
