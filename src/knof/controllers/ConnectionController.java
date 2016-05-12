@@ -1,5 +1,6 @@
 package knof.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,12 +44,18 @@ public class ConnectionController {
 
     @FXML
     GridPane gridPane;
+
+    @FXML
+    Button connectButton;
+
     private ServerController serverController;
     private Stage serverControllerStage;
 
     @FXML
     public void connect(ActionEvent event) {
-
+        if(event.getSource() instanceof Button) {
+            ((Button) event.getSource()).setDisable(true);
+        }
         String host;
         int port;
         String user;
@@ -83,7 +90,6 @@ public class ConnectionController {
             }
             return;
         }
-        
         connection.setPlayerName(user);
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
@@ -99,9 +105,8 @@ public class ConnectionController {
                     stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
                     stage.setTitle(hostName.getText() + ":" + portNumber.getText());
 
-                    ServerController serverController = loader.getController();
+                    serverController = loader.getController();
                     serverController.setServer(new Server(connection, user));
-
                     stage.show();
 
 
@@ -109,8 +114,9 @@ public class ConnectionController {
                     e.printStackTrace();
                 }
             } else {
-                this.serverController.setServer(new Server(connection, user));
-                this.serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                serverController.setServer(new Server(connection, user));
+                serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+
                 newWindow = true;
             }
             ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -151,9 +157,11 @@ public class ConnectionController {
         //gridPane.add(portNumber,1,1);
 
         portNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(Integer.parseInt(newValue) > 65535){
-                portNumber.setText("65535");
-            }
+            try {
+                if (Integer.parseInt(newValue) > 65535) {
+                    portNumber.setText("65535");
+                }
+            } catch (NumberFormatException nfe){}
         });
 
         /**

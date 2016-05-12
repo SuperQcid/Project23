@@ -6,9 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import knof.command.Command;
 import knof.controllers.listcell.ChallengeCell;
 import knof.controllers.listcell.GameCell;
 import knof.controllers.listcell.PlayerCell;
@@ -37,13 +39,22 @@ public class ServerController {
     @FXML
     public MenuItem menuItemClose;
 
+    @FXML
+    public Label labelPlayerName;
+
     public GameController currentGameController;
 
+    public Server server;
+
     public void setServer(Server server) {
+        if(this.server != null){
+            this.server.connection.sendCommand(Command.LOGOUT);
+        }
+        this.server = server;
     	this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
         this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
-
+        this.labelPlayerName.setText(server.playerName);
         /*
         this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
