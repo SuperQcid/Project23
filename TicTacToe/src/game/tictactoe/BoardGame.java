@@ -4,21 +4,59 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import knof.gamelogic.Piece;
-import knof.gamelogic.Board;
 import knof.gamelogic.Board.Pos;
 
 public class BoardGame extends Canvas {
 	
 	private TicTacToeGame game;
+   	private GraphicsContext gc = getGraphicsContext2D();
 	public Color colorPlayerOne;
 	public Color colorPlayerTwo;
+	public Color backgroundColor;
 	public Pieces pieceType;
     public double piecePadding = 4;
     public double pieceLineWidth = 10;
     public double gridLineWidth = 1;
+    
+    public BoardGame() {
+    	drawBoard();
+    }
+    
+    public BoardGame(TicTacToeGame game) {
+    	this.game = game;
+    }
 	
 	public void setGame(TicTacToeGame game) {
 		this.game = game;
+	}
+	
+	/*
+	 * Clears and draws the board.
+	 */
+	private void drawBoard() {
+		clear();
+    	gc.setFill(backgroundColor);
+    	gc.setStroke(Color.BLACK);
+    	gc.fillRect(0, 0, getWidth(), getHeight());
+    	gc.setLineWidth(gridLineWidth);
+    	// Horizontal lines
+    	for(int x = 0; x <= game.board.width; x++) {
+    		double rowX = getRowX(x);
+    		gc.strokeLine(rowX, 0, rowX, getHeight());
+    	}
+    	// Vertical lines
+    	for(int y = 0; y <= game.board.height; y++) {
+    		double colY = getColY(y);
+    		gc.strokeLine(0, colY, getWidth(), colY);    		
+    	}
+    	// Pieces
+    	for(int y = 0; y < game.board.height; y++) {
+    		for(int x = 0; x < game.board.width; x++) {
+    			Pos pos = game.board.new Pos(x, y);
+    			Piece piece = game.board.getPieceAtPosition(pos.toInt());
+    			drawPiece(pos, piece);
+    		}
+    	}
 	}
 	
     /**
@@ -26,7 +64,6 @@ public class BoardGame extends Canvas {
      * @param move 
      */
 	private void drawPiece(Pos pos, Piece piece) {
-    	GraphicsContext gc = getGraphicsContext2D();
     	switch(piece.getSide()) {
 			case "BLACK":
 				gc.setFill(colorPlayerOne);
@@ -87,8 +124,15 @@ public class BoardGame extends Canvas {
 				}
 				break;
     	}
-    }
+	}
 	
+    /**
+     * Clears the canvas.
+     */
+    private void clear() {
+    	gc.clearRect(0, 0, getWidth(), getHeight());
+    }
+    
 	/**
 	 * Gets the row the canvas X coordinate is in.
 	 * @param x
@@ -106,6 +150,7 @@ public class BoardGame extends Canvas {
 	private int getCol(Double y) {
 		return (int) Math.floor(y.intValue() / getCellHeight());
 	}   
+	
 	
     /**
      * Gets the X coordinate of board row on canvas.
