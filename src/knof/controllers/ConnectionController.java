@@ -40,9 +40,6 @@ public class ConnectionController {
     TextField userName;
 
     @FXML
-    Button connectButton;
-
-    @FXML
     GridPane gridPane;
 
     @FXML
@@ -53,9 +50,9 @@ public class ConnectionController {
 
     @FXML
     public void connect(ActionEvent event) {
-        if(event.getSource() instanceof Button) {
-            ((Button) event.getSource()).setDisable(true);
-        }
+
+        Button connect = (Button) event.getSource();
+
         String host;
         int port;
         String user;
@@ -73,9 +70,11 @@ public class ConnectionController {
 
         } catch (NumberFormatException nfe) {
             createDialogPane("Invalid Port Number!");
+            connect.setDisable(false);
             return;
         } catch (IllegalArgumentException iae) {
             createDialogPane("Please fill out all the form fields");
+            connect.setDisable(false);
             return;
         }
 
@@ -85,6 +84,7 @@ public class ConnectionController {
         } catch (IOException e) {
             if (e instanceof UnknownHostException) {
                 createDialogPane("Unknown host!");
+                connect.setDisable(false);
             } else {
                 e.printStackTrace();
             }
@@ -95,6 +95,7 @@ public class ConnectionController {
             if (status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);
                 createDialogPane("Username taken! Please use a different one.");
+                connect.setDisable(false);
                 return;
             }
             if(newWindow) {
@@ -112,6 +113,7 @@ public class ConnectionController {
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    connect.setDisable(false);
                 }
             } else {
                 serverController.setServer(new Server(connection, user));
