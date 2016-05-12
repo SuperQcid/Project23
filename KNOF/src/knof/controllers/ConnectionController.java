@@ -1,5 +1,6 @@
 package knof.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import knof.model.Server;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class ConnectionController {
@@ -44,10 +46,16 @@ public class ConnectionController {
     private Stage serverControllerStage;
 
     @FXML
-    public void connect(ActionEvent event) {
-
+    public void connect(ActionEvent event){
         Button connect = (Button) event.getSource();
+        connect.setDisable(true);
+        new Thread(()->{
+            doConnect(event, connect);
+        }).start();
+    }
 
+    @FXML
+    public void doConnect(ActionEvent event, Button connect) {
         String host;
         int port;
         String user;
@@ -77,50 +85,61 @@ public class ConnectionController {
         try {
             connection = new Connection(host, port);
 
-        connection.setPlayerName(user);
-        connection.sendCommandWithCallBackLater((StatusEvent status) -> {
-            if (status instanceof StatusEvent.Error) {
-                System.err.println(((StatusEvent.Error) status).reason);
-                createDialogPane("Username taken! Please use a different one.");
-                connect.setDisable(false);
-                return;
-            }
-            if(newWindow) {
-                Stage stage = new Stage();
-                FXMLLoader loader = new FXMLLoader();
-                try {
-
-                    stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
-                    stage.setTitle(hostName.getText() + ":" + portNumber.getText());
-
-                    serverController = loader.getController();
-                    serverController.setServer(new Server(connection, user));
-                    stage.show();
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+            connection.setPlayerName(user);
+            connection.sendCommandWithCallBackLater((StatusEvent status) -> {
+                if (status instanceof StatusEvent.Error) {
+                    System.err.println(((StatusEvent.Error) status).reason);
+                    createDialogPane("Username taken! Please use a different one.");
                     connect.setDisable(false);
+                    return;
                 }
-            } else {
-                serverController.setServer(new Server(connection, user));
-                serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+                if(newWindow) {
+                    Stage stage = new Stage();
+                    FXMLLoader loader = new FXMLLoader();
+                    try {
 
-                newWindow = true;
-            }
-            ((Node) (event.getSource())).getScene().getWindow().hide();
-        }, Command.LOGIN, user);
+                        stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
+                        stage.setTitle(hostName.getText() + ":" + portNumber.getText());
+
+                        serverController = loader.getController();
+                        serverController.setServer(new Server(connection, user));
+                        stage.show();
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        connect.setDisable(false);
+                    }
+                } else {
+                    serverController.setServer(new Server(connection, user));
+                    serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+
+                    newWindow = true;
+                }
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+            }, Command.LOGIN, user);
 
         } catch (UnknownHostException e) {
             createDialogPane("Unknown host!");
-            connect.setDisable(false);
+            Platform.runLater(()->{
+                connect.setDisable(false);
+            });
             return;
         } catch (ConnectException e) {
             createDialogPane(e.getMessage());
-            connect.setDisable(false);
+            Platform.runLater(()->{
+                connect.setDisable(false);
+            });
+        } catch (SocketException e){
+            createDialogPane("Invalid server");
+            Platform.runLater(()->{
+                connect.setDisable(false);
+            });
         } catch (IOException e) {
             e.printStackTrace();
-            connect.setDisable(false);
+            Platform.runLater(()->{
+                connect.setDisable(false);
+            });
         }
     }
 
@@ -137,12 +156,14 @@ public class ConnectionController {
     }
 
     private void createDialogPane(String content) {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setContentText(content);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.showAndWait()
-                .filter(response -> response == (ButtonType.OK))
-                .ifPresent(response -> dialog.close());
+        Platform.runLater(()->{
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setContentText(content);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.showAndWait()
+                    .filter(response -> response == (ButtonType.OK))
+                    .ifPresent(response -> dialog.close());
+        });
     }
 
 
