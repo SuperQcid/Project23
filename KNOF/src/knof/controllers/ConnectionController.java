@@ -46,7 +46,7 @@ public class ConnectionController {
     private Stage serverControllerStage;
 
     @FXML
-    public void connect(ActionEvent event){
+    public void connect(ActionEvent event) {
         Button connect = (Button) event.getSource();
         connect.setDisable(true);
         new Thread(()->{
@@ -143,15 +143,15 @@ public class ConnectionController {
         }
     }
 
-    public void setNewWindow(boolean newWindow){
+    public void setNewWindow(boolean newWindow) {
         this.newWindow = newWindow;
     }
 
-    public void setServerController(ServerController serverController){
+    public void setServerController(ServerController serverController) {
         this.serverController = serverController;
     }
 
-    public void setServerControllerStage(Stage serverControllerStage){
+    public void setServerControllerStage(Stage serverControllerStage) {
         this.serverControllerStage = serverControllerStage;
     }
 
