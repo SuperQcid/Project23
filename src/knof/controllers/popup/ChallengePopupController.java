@@ -18,7 +18,6 @@ public class ChallengePopupController {
 
 	public Server server;
 	public String player;
-	private String game;
 	
     @FXML
     private NumberTextField turntime;
@@ -35,12 +34,12 @@ public class ChallengePopupController {
     @FXML
     public void challenge(ActionEvent event) {
     	if(turntimeBox.isSelected()) {
-    		server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, game, turntime.getText());
+    		server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, gameBox.getValue(), turntime.getText());
     	} else {
-    		server.connection.sendCommand(Command.CHALLENGE, player, game);
+    		server.connection.sendCommand(Command.CHALLENGE, player, gameBox.getValue());
     	}
     }
-
+    
     @FXML
     public void customTurntime(ActionEvent event) {
     	if(turntimeBox.isSelected()) {
