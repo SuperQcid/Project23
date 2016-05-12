@@ -2,6 +2,8 @@ package game.tictactoe;
 
 import knof.connection.Connection;
 import knof.model.game.Game;
+import knof.model.game.HumanPlayer;
+import knof.model.game.Player;
 import knof.plugin.Plugin;
 
 /**
@@ -9,9 +11,13 @@ import knof.plugin.Plugin;
  */
 public class TicTacToe extends Plugin {
 
+    public TicTacToe() {
+        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection));
+    }
+
     @Override
     public String getGameName() {
-        return "TicTacToe";
+        return "Tic-tac-toe";
     }
 
     @Override
@@ -19,7 +25,6 @@ public class TicTacToe extends Plugin {
         TicTacToeGame tttGame = new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
         return tttGame;
     }
-
     @Override
     public String getPlayerTypeName() {
         return "bot";
