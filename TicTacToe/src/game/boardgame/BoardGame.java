@@ -1,11 +1,15 @@
 package knof.controllers.boardgame;
 
 import javafx.scene.canvas.Canvas;
+import knof.gamelogic.Board;
+import knof.model.game.Game;
 
 public class BoardGame extends Canvas {
-
-	public BoardGame() {
-		
+	
+	protected TicTacToeGame game;
+	
+	public void setGame(Game game) {
+		this.game = game;
 	}
 	
 	/**
