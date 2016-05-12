@@ -1,11 +1,8 @@
 package knof.controllers;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +10,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import knof.command.Command;
@@ -23,9 +19,7 @@ import knof.model.Server;
 
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.ResourceBundle;
 
 public class ConnectionController {
     private boolean newWindow = true;
@@ -165,10 +159,12 @@ public class ConnectionController {
 
         portNumber.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                if (Integer.parseInt(newValue) > 65535) {
+                if (!newValue.equals("") && Integer.parseInt(newValue) > 65535) {
                     portNumber.setText("65535");
                 }
-            } catch (NumberFormatException nfe){}
+            } catch (NumberFormatException nfe){
+                nfe.printStackTrace();
+            }
         });
 
         /**
