@@ -120,26 +120,23 @@ public class ConnectionController {
 
         } catch (UnknownHostException e) {
             createDialogPane("Unknown host!");
-            Platform.runLater(()->{
-                connect.setDisable(false);
-            });
-            return;
+            enableButton(connect);
         } catch (ConnectException e) {
             createDialogPane(e.getMessage());
-            Platform.runLater(()->{
-                connect.setDisable(false);
-            });
+            enableButton(connect);
         } catch (SocketException e){
             createDialogPane("Invalid server");
-            Platform.runLater(()->{
-                connect.setDisable(false);
-            });
+            enableButton(connect);
         } catch (IOException e) {
             e.printStackTrace();
-            Platform.runLater(()->{
-                connect.setDisable(false);
-            });
+            enableButton(connect);
         }
+    }
+
+    private void enableButton(Button connect){
+        Platform.runLater(()->{
+            connect.setDisable(false);
+        });
     }
 
     public void setNewWindow(boolean newWindow) {
