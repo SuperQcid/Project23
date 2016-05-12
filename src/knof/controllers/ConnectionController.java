@@ -1,14 +1,18 @@
 package knof.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import knof.command.Command;
@@ -33,6 +37,9 @@ public class ConnectionController {
 
     @FXML
     TextField userName;
+
+    @FXML
+    Button connectButton;
 
     @FXML
     GridPane gridPane;
@@ -159,5 +166,28 @@ public class ConnectionController {
                 portNumber.setText(portNumber.getText().substring(0, PORT_NUMBER_LENGTH));
             }
         });
+
+        /*
+            Add enter functionality to the text fields
+
+         */
+        hostName.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                connectButton.fire();
+            }
+        });
+
+        userName.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                connectButton.fire();
+            }
+        });
+
+        portNumber.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                connectButton.fire();
+            }
+        });
+
     }
 }
