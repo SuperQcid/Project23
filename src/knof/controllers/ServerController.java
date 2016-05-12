@@ -59,31 +59,10 @@ public class ServerController {
         }
         this.server = server;
         this.labelPlayerName.setText(server.playerName);
-        /*
-        this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
-        this.gameList.setItems(server.games);
+        this.server.currentGame.addListener((observable, oldValue, newValue) -> {
 
-        //this might be a crappy way of adding a listener...
-        this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				server.onGameClicked(gameList.getSelectionModel().getSelectedItem());
-                server.currentGame.addListener((observable, oldValue, newValue) -> {
-                    if(newValue != null){
-                        newValue.addListener(observable1 -> {
-                            if(observable1 instanceof Game){
-                                Game game = (Game) observable1;
-                                if(game.getLatestEvent() instanceof MatchEvent){
-                                    currentGameController = game.createGameController();
-                                }
-                            }
-                        });
-                    }
-                });
-			}
         });
-        */
 
         this.gameList.setItems(server.games);
 

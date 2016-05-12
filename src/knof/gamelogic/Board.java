@@ -1,5 +1,9 @@
 package knof.gamelogic;
 
+import knof.model.game.DummyPlayer;
+import knof.model.game.Game;
+import knof.model.game.LocalPlayer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +16,21 @@ public abstract class Board {
 	public final int width;
 	public final int height;
 	private Piece[] board;
+	private Piece previousPiece;
+	private Game game;
 
-	public Board(int width, int height) {
+	public Board(int width, int height, Game game) {
 		this.width = width;
 		this.height = height;
 		this.board = new Piece[width*height];
+		this.game = game;
+	}
+
+	public Piece getPieceAtPosition(int position){
+		if(board != null) {
+			return this.board[position];
+		}
+		return null;
 	}
 
 	/**
@@ -39,6 +53,23 @@ public abstract class Board {
 
 	public abstract Board clone();
 
+	public abstract int getScore(String side);
+
+	public Piece getNextPiece(){
+
+		// First move: there is no previouspiece yet. Return localplayer
+		if(previousPiece == null){
+			return new Piece(game.getLocalPlayer());
+		}
+
+		// Return local or remote player based on previousPiece
+		if(previousPiece.owner == game.getLocalPlayer()){
+			return new Piece(game.getRemotePlayer());
+		} else {
+			return new Piece(game.getLocalPlayer());
+		}
+	}
+
 	/**
 	 * Check if a given piece can be placed on a certain index.
 	 * You may override this method with an optional super call when implementing
@@ -60,6 +91,17 @@ public abstract class Board {
 		return positions;
 	}
 
+	public List<Pos> getValidPositions() {
+		ArrayList<Pos> positions = new ArrayList<>(board.length/2);
+		for (int idx=0; idx<board.length; idx++) {
+			if(this.isValid(idx, null)) {
+				positions.add(new Pos(idx));
+			}
+		}
+		return positions;
+	}
+
+
 	/**
 	 * Place a piece at a certain index if allowed
 	 * You should override this method for custom place behaviour
@@ -69,6 +111,7 @@ public abstract class Board {
 	 */
 	public boolean place(int index, Piece piece) {
 		if(isValid(index, piece)) {
+			previousPiece = piece;
 			this.board[index] = piece;
 			return true;
 		}

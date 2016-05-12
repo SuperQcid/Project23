@@ -67,6 +67,14 @@ public abstract class Game implements Observable {
 
     protected abstract GameController initGameController();
 
+    public Player getLocalPlayer(){
+        return this.localPlayer;
+    }
+
+    public Player getRemotePlayer(){
+        return this.remotePlayer;
+    }
+
     public final GameController createGameController(){
         GameController gc = initGameController();
         addListener(gc);
