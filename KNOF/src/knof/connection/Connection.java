@@ -20,7 +20,7 @@ public class Connection implements Runnable {
     private CommandHandler commandHandler;
     private String playerName;
 
-    public Connection(String host, int port) throws IOException{
+    public Connection(String host, int port) throws IOException {
         Socket socket = new Socket(host, port);
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
