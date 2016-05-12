@@ -17,4 +17,8 @@ public class Piece {
     public Piece(Player owner) {
         this.owner = owner;
     }
+
+    public  String getSide() {
+        return this.owner.getSide();
+    }
 }
