@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import knof.connection.Connection;
+import knof.model.game.Game;
 import knof.plugin.Plugin;
 import knof.plugin.PluginLoader;
 
@@ -20,6 +22,10 @@ public class KnofApplication extends Application {
 
 	public static Plugin getPlugin(String name){
 		return pluginList.get(name);
+	}
+	
+	public static HashMap<String, Plugin> getPluginList() {
+		return pluginList;
 	}
 
 	@Override

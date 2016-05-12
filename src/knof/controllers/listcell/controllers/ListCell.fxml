@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-
 <fx:root maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" type="BorderPane" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Label fx:id="cell" textAlignment="CENTER" BorderPane.alignment="CENTER" />
@@ -14,7 +13,7 @@
    <left>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="button" mnemonicParsing="false" text="Button" />
+            <Button fx:id="button" mnemonicParsing="false" onAction="#onButton" text="Button" />
             <ProgressIndicator fx:id="loadingSign" layoutX="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" visible="false" />
          </children>
       </Pane>
