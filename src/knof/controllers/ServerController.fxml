@@ -15,26 +15,21 @@
 
 <AnchorPane id="AnchorPane" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.ServerController">
   <children>
-      <Label fx:id="labelPlayerName" alignment="TOP_RIGHT" text="Name hallo" textAlignment="RIGHT" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="2.0">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
     <MenuBar prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
-        <Menu text="_File" mnemonicParsing="true">
+        <Menu mnemonicParsing="true" text="_File">
           <items>
             <MenuItem fx:id="menuItemConnect" mnemonicParsing="false" onAction="#connect" text="Connect to server..." />
             <MenuItem fx:id="menuItemConnectNewWindow" mnemonicParsing="false" onAction="#connect" text="Connect to server in new window..." />
             <MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#close" text="Close" />
           </items>
         </Menu>
-        <Menu text="_Edit" mnemonicParsing="true">
+        <Menu mnemonicParsing="true" text="_Edit">
           <items>
             <MenuItem mnemonicParsing="false" text="Delete" />
           </items>
         </Menu>
-        <Menu text="_Help" mnemonicParsing="true">
+        <Menu mnemonicParsing="true" text="_Help">
           <items>
             <MenuItem mnemonicParsing="false" text="About" />
           </items>
@@ -67,6 +62,11 @@
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="-1.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
+      <Label fx:id="labelPlayerName" alignment="TOP_RIGHT" text="Name hallo" textAlignment="RIGHT" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="2.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
   </children>
   <padding>
     <Insets />

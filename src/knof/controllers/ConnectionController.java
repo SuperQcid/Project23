@@ -92,9 +92,8 @@ public class ConnectionController {
                     stage.setScene(new Scene(loader.load(getClass().getResource("ServerController.fxml").openStream())));
                     stage.setTitle(hostName.getText() + ":" + portNumber.getText());
 
-                    ServerController serverController = loader.getController();
+                    serverController = loader.getController();
                     serverController.setServer(new Server(connection, user));
-                    //serverController.labelPlayerName.setText(user);
                     stage.show();
 
 
@@ -102,13 +101,12 @@ public class ConnectionController {
                     e.printStackTrace();
                 }
             } else {
-                this.serverController.setServer(new Server(connection, user));
-                this.serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
-                this.serverController.labelPlayerName.setText(user);
-                //this.serverController.labelPlayerName.setVisible(true);
+                serverController.setServer(new Server(connection, user));
+                serverControllerStage.setTitle(hostName.getText() + ":" + portNumber.getText());
+
                 newWindow = true;
             }
-            System.out.println("User " + user);
+            serverController.labelPlayerName.setText(user);
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
     }
