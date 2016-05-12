@@ -1,14 +1,13 @@
-package knof.controllers.boardgame;
+package game.tictactoe;
 
 import javafx.scene.canvas.Canvas;
 import knof.gamelogic.Board;
-import knof.model.game.Game;
 
 public class BoardGame extends Canvas {
 	
-	protected TicTacToeGame game;
+	private TicTacToeGame game;
 	
-	public void setGame(Game game) {
+	public void setGame(TicTacToeGame game) {
 		this.game = game;
 	}
 	
@@ -53,7 +52,7 @@ public class BoardGame extends Canvas {
      * @return width
      */
     private double getCellWidth() {
-    	return getWidth() / board.width;
+    	return getWidth() / game.board.width;
     }
     
     /**
@@ -61,6 +60,6 @@ public class BoardGame extends Canvas {
      * @return height
      */
     private double getCellHeight() {
-    	return getHeight() / board.height;
+    	return getHeight() / game.board.height;
     }
 }
