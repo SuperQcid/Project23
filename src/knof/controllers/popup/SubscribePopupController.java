@@ -1,4 +1,4 @@
-package knof.controllers;
+package knof.controllers.popup;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,7 +10,7 @@ import knof.event.EventHandler;
 import knof.event.events.MatchEvent;
 import knof.model.Server;
 
-public class PopupController {
+public class SubscribePopupController {
 	
 	@FXML
 	public Button cancel;

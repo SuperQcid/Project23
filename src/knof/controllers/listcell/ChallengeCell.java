@@ -1,6 +1,5 @@
 package knof.controllers.listcell;
 
-import javafx.scene.control.Label;
 import knof.controllers.listcell.controllers.ChallengeController;
 import knof.controllers.listcell.controllers.ListCellController;
 import knof.model.Challenge;
