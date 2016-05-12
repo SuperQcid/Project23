@@ -22,6 +22,7 @@ import knof.event.events.StatusEvent;
 import knof.model.Server;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
@@ -50,9 +51,9 @@ public class ConnectionController {
 
     @FXML
     public void connect(ActionEvent event) {
-        if(event.getSource() instanceof Button) {
-            ((Button) event.getSource()).setDisable(true);
-        }
+
+        Button connect = (Button) event.getSource();
+
         String host;
         int port;
         String user;
@@ -70,28 +71,24 @@ public class ConnectionController {
 
         } catch (NumberFormatException nfe) {
             createDialogPane("Invalid Port Number!");
+            connect.setDisable(false);
             return;
         } catch (IllegalArgumentException iae) {
             createDialogPane("Please fill out all the form fields");
+            connect.setDisable(false);
             return;
         }
 
         Connection connection;
         try {
             connection = new Connection(host, port);
-        } catch (IOException e) {
-            if (e instanceof UnknownHostException) {
-                createDialogPane("Unknown host!");
-            } else {
-                e.printStackTrace();
-            }
-            return;
-        }
+
         connection.setPlayerName(user);
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
                 System.err.println(((StatusEvent.Error) status).reason);
                 createDialogPane("Username taken! Please use a different one.");
+                connect.setDisable(false);
                 return;
             }
             if(newWindow) {
@@ -109,6 +106,7 @@ public class ConnectionController {
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    connect.setDisable(false);
                 }
             } else {
                 serverController.setServer(new Server(connection, user));
@@ -118,6 +116,18 @@ public class ConnectionController {
             }
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
+
+        } catch (UnknownHostException e) {
+            createDialogPane("Unknown host!");
+            connect.setDisable(false);
+            return;
+        } catch (ConnectException e) {
+            createDialogPane(e.getMessage());
+            connect.setDisable(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+            connect.setDisable(false);
+        }
     }
 
     public void setNewWindow(boolean newWindow){
