@@ -1,7 +1,0 @@
-Wanneer u geen verbinding kan maken met de online-diensten
-kunt u een van de volgende methoden proberen.
-- controleer uw internetverbinding
-- herstart de applicatie
-- Herstart uw computer
-Wanneer een van deze methoden het probleem
-niet verhelpt neem dan contact op met de helpdesk.
