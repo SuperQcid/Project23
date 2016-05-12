@@ -1,30 +1,40 @@
 package knof.controllers.listcell.controllers;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import knof.command.Command;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import knof.controllers.popup.ChallengePopupController;
 import knof.model.Server;
 
 public class PlayerController extends ListCellController {
     
-    
-   
-    
     public Server server;
+	protected Parent loaded;
     
     @FXML
     public void onButton(ActionEvent e) {
-
         System.out.println("CHALLENGE!!!");
         loadingSign.setVisible(true);
-
         button.setVisible(false);
         button.setDisable(true);
         if(isServerSet()){
-        	server.connection.sendCommand(Command.CHALLENGE, cell.getText(), "Reversi");
+			try {
+				FXMLLoader loader = new FXMLLoader();
+				loaded = loader.load(getClass().getResource("../../popup/ChallengePopupController.fxml").openStream());
+				ChallengePopupController controller = loader.getController();
+				controller.server = server;
+				controller.player = cell.getText();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(loaded));
+				stage.show();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
         }
     }    
     public void setServer(Server server){
