@@ -45,15 +45,15 @@ public abstract class Plugin {
      * @param playerName username of player
      * @return player
      */
-    public Player createPlayer(String type, Connection connection, Game game, String playerName) {
+    public Player createPlayer(String type, Connection connection, Game game, String side, String playerName) {
         PlayerFactory factory = playerTypes.get(type);
         if(factory==null) return null;
 
-        return factory.createPlayer(connection, game, playerName);
+        return factory.createPlayer(connection, game, side, playerName);
     }
 
     @FunctionalInterface
     public interface PlayerFactory {
-        Player createPlayer(Connection connection, Game game, String playerName, Object... options);
+        Player createPlayer(Connection connection, Game game, String side, String playerName, Object... options);
     }
 }

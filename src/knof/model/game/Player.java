@@ -20,7 +20,7 @@ public abstract class Player {
 
     public String getName(){ return name; }
 
-    public String getSide(){ return  side; }
+    public String getSide(){ return side; }
 
     /**
      * Method used to notify the player it's its turn
