@@ -1,11 +1,13 @@
 package knof.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
@@ -36,12 +38,18 @@ public class ConnectionController {
 
     @FXML
     GridPane gridPane;
+
+    @FXML
+    Button connectButton;
+
     private ServerController serverController;
     private Stage serverControllerStage;
 
     @FXML
     public void connect(ActionEvent event) {
-
+        if(event.getSource() instanceof Button) {
+            ((Button) event.getSource()).setDisable(true);
+        }
         String host;
         int port;
         String user;
@@ -76,7 +84,6 @@ public class ConnectionController {
             }
             return;
         }
-        
         connection.setPlayerName(user);
         connection.sendCommandWithCallBackLater((StatusEvent status) -> {
             if (status instanceof StatusEvent.Error) {
@@ -106,7 +113,6 @@ public class ConnectionController {
 
                 newWindow = true;
             }
-            serverController.labelPlayerName.setText(user);
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }, Command.LOGIN, user);
     }

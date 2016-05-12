@@ -54,7 +54,7 @@ public class ServerController {
     	this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
         this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
-
+        this.labelPlayerName.setText(server.playerName);
         /*
         this.gameList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
