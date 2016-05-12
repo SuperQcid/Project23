@@ -27,6 +27,6 @@ public class TicTacToe extends Plugin {
     }
     @Override
     public String getPlayerTypeName() {
-        return "bot";
+        return "human";
     }
 }
