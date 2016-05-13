@@ -156,13 +156,8 @@ public class Server implements InvalidationListener {
     }
 
     @EventHandler
-    public void onWin(GameResultEvent.Win winEvent){
-        DialogHelper.createDialogPane("Game has ended","You Won!");
-    }
-
-    @EventHandler
-    public void onLose (GameResultEvent.Loss lossEvent) {
-        DialogHelper.createDialogPane("Game has ended","You have lost!");
+    public void onGameEndEvent(GameResultEvent gameResultEvent) {
+        DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage());
     }
 
 }
