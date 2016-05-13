@@ -2,6 +2,7 @@ package game.tictactoe;
 
 
 import knof.gamelogic.Board;
+import knof.gamelogic.Side;
 
 /**
  * Created by Thijs on 04/04/2016.
@@ -18,9 +19,9 @@ public class TicTacToeBoard extends Board {
     }
 
     @Override
-    public int getScore(String side) {
+    public int getScore(Side side) {
 
-        String opponentSide = getNextPiece().getSide();
+        Side opponentSide = getNextPiece().getSide();
 
         if(isAWin(side)){
             return 1;
@@ -37,7 +38,7 @@ public class TicTacToeBoard extends Board {
      * @param side Side to check
      * @return true if the side wins
      */
-    public boolean isAWin(String side){
+    public boolean isAWin(Side side){
         // Horizontal Win
         if(getPieceAtPosition(0).getSide().equals(side) && getPieceAtPosition(1).getSide().equals(side) && getPieceAtPosition(2).getSide().equals(side)){ return true; }
         else if (getPieceAtPosition(3).getSide().equals(side) && getPieceAtPosition(4).getSide().equals(side) && getPieceAtPosition(5).getSide().equals(side)){ return true; }

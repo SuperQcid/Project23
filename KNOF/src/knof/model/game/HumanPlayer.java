@@ -2,11 +2,12 @@ package knof.model.game;
 
 import knof.command.Command;
 import knof.connection.Connection;
+import knof.gamelogic.Side;
 
 public class HumanPlayer extends Player {
     private boolean ready = false;
 
-    public HumanPlayer(String name, String side, Connection connection) {
+    public HumanPlayer(String name, Side side, Connection connection) {
         super(name, side, connection);
     }
 

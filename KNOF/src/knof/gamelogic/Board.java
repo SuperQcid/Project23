@@ -53,7 +53,7 @@ public abstract class Board {
 
 	public abstract Board clone();
 
-	public abstract int getScore(String side);
+	public abstract int getScore(Side side);
 
 	public Piece getNextPiece(){
 
