@@ -15,8 +15,8 @@ public class TicTacToeGame extends Game {
 
     TicTacToeBoard board;
 
-    public TicTacToeGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        super(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public TicTacToeGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection, String remoteName, String localName) {
+        super(playerOneName, playerTwoName, playerOneIsLocal, connection, remoteName, localName);
         board = new TicTacToeBoard(this);
     }
 

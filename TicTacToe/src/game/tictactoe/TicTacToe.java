@@ -11,6 +11,9 @@ import knof.plugin.Plugin;
  */
 public class TicTacToe extends Plugin {
 
+    private final String localName = "X";
+    private final String remoteName = "O";
+
     public TicTacToe() {
         playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection));
     }
@@ -22,7 +25,7 @@ public class TicTacToe extends Plugin {
 
     @Override
     public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        TicTacToeGame tttGame = new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
+        TicTacToeGame tttGame = new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection, remoteName, localName);
         return tttGame;
     }
     @Override

@@ -29,13 +29,13 @@ public abstract class Game implements Observable {
 
     public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
-    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
+    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection, String remoteName, String localName){
         if(playerOneIsLocal){
-            localPlayer = initLocalPlayer(playerOneName, new Side("BLACK"),connection);
-            remotePlayer = initRemotePlayer(playerTwoName, new Side("WHITE"), connection);
+            localPlayer = initLocalPlayer(playerOneName, new Side(localName),connection);
+            remotePlayer = initRemotePlayer(playerTwoName, new Side(remoteName), connection);
         } else {
-            remotePlayer = initRemotePlayer(playerOneName, new Side("BLACK"), connection);
-            localPlayer = initLocalPlayer(playerTwoName, new Side("WHITE"), connection);
+            remotePlayer = initRemotePlayer(playerOneName, new Side(remoteName), connection);
+            localPlayer = initLocalPlayer(playerTwoName, new Side(localName), connection);
         }
         this.connection = connection;
     }

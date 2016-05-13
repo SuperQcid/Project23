@@ -5,7 +5,7 @@ package knof.gamelogic;
  */
 public class Side {
 
-    private String name;
+    private final String name;
 
     public Side(String name) {
         this.name = name;
