@@ -212,7 +212,7 @@ public class ConnectionController {
 
         if (DEBUG) {
             portNumber.setText("7789");
-            hostName.setText("samaranthlynx.nl");
+            hostName.setText("localhost");
             userName.setText("User-" + System.currentTimeMillis());
         }
 
