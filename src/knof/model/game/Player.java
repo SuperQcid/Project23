@@ -28,7 +28,7 @@ public abstract class Player {
     public abstract void setTurn();
 
     /**
-     * When de move is retrieved, sends it to the remote server
+     * When the move is retrieved, send it to the remote server.
      * @param move The move that is sent
      */
     public void sendMove(int move){
