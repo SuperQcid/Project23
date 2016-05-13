@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import knof.app.KnofApplication;
 import knof.command.Command;
@@ -21,6 +23,8 @@ import knof.model.game.Game;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
+import knof.util.DialogHelper;
+
 import java.io.IOException;
 import java.util.Timer;
 
@@ -121,12 +125,6 @@ public class Server implements InvalidationListener {
             Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
             game.addListener(this);
             game.result.addListener((observable, oldValue, newValue) -> {
-                if (newValue.result == WIN) {
-                    // TODO CREATE WIN DISPLAY
-                } else {
-                    //TODO CREATE LOSS DISPLAY
-                }
-
                 terminate();
             });
             currentGame.setValue(game);
@@ -155,6 +153,16 @@ public class Server implements InvalidationListener {
     @EventHandler (later=true)
     public void onChallengeCancelled(ChallengeEvent.Cancel e) {
     	this.challenges.removeIf(challenge -> challenge.id == e.id);
+    }
+
+    @EventHandler
+    public void onWin(GameResultEvent.Win winEvent){
+        DialogHelper.createDialogPane("Game has ended","You Won!");
+    }
+
+    @EventHandler
+    public void onLose (GameResultEvent.Loss lossEvent) {
+        DialogHelper.createDialogPane("Game has ended","You have lost!");
     }
 
 }

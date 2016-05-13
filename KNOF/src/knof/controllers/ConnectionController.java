@@ -23,9 +23,13 @@ import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import static knof.util.DialogHelper.createDialogPane;
+
 public class ConnectionController {
     private boolean newWindow = true;
     private final int PORT_NUMBER_LENGTH = 5;
+
+    private final boolean DEBUG = true;
 
     @FXML
     TextField hostName;
@@ -71,11 +75,11 @@ public class ConnectionController {
             port = Integer.parseInt(portNumber.getText());
 
         } catch (NumberFormatException nfe) {
-            createDialogPane("Invalid Port Number!");
+            createDialogPane("ERROR","Invalid Port Number!");
             connect.setDisable(false);
             return;
         } catch (IllegalArgumentException iae) {
-            createDialogPane("Please fill out all the form fields");
+            createDialogPane("ERROR","Please fill out all the form fields");
             connect.setDisable(false);
             return;
         }
@@ -88,7 +92,7 @@ public class ConnectionController {
             connection.sendCommandWithCallBackLater((StatusEvent status) -> {
                 if (status instanceof StatusEvent.Error) {
                     System.err.println(((StatusEvent.Error) status).reason);
-                    createDialogPane("Username taken! Please use a different one.");
+                    createDialogPane("ERROR","Username taken! Please use a different one.");
                     connect.setDisable(false);
                     return;
                 }
@@ -119,13 +123,13 @@ public class ConnectionController {
             }, Command.LOGIN, user);
 
         } catch (UnknownHostException e) {
-            createDialogPane("Unknown host!");
+            createDialogPane("ERROR","Unknown host!");
             enableButton(connect);
         } catch (ConnectException e) {
-            createDialogPane(e.getMessage());
+            createDialogPane("ERROR",e.getMessage());
             enableButton(connect);
         } catch (SocketException e){
-            createDialogPane("Invalid server");
+            createDialogPane("ERROR","Invalid server");
             enableButton(connect);
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,17 +153,6 @@ public class ConnectionController {
 
     public void setServerControllerStage(Stage serverControllerStage) {
         this.serverControllerStage = serverControllerStage;
-    }
-
-    private void createDialogPane(String content) {
-        Platform.runLater(()->{
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setContentText(content);
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            dialog.showAndWait()
-                    .filter(response -> response == (ButtonType.OK))
-                    .ifPresent(response -> dialog.close());
-        });
     }
 
 
@@ -216,6 +209,12 @@ public class ConnectionController {
                 connectButton.fire();
             }
         });
+
+        if (DEBUG) {
+            portNumber.setText("7789");
+            hostName.setText("samaranthlynx.nl");
+            userName.setText("User-" + System.currentTimeMillis());
+        }
 
     }
 }
