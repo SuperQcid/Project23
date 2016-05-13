@@ -1,6 +1,5 @@
 package knof.ai;
 
-import javafx.geometry.Side;
 import knof.gamelogic.Board;
 import knof.gamelogic.Piece;
 

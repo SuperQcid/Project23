@@ -12,6 +12,7 @@ import knof.event.events.GameResultEvent;
 import knof.event.events.MatchEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
+import knof.gamelogic.Side;
 
 import java.util.ArrayList;
 
@@ -29,13 +30,15 @@ public abstract class Game implements Observable {
     public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
     public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
+
         connection.eventSystem.register(this);
+
         if(playerOneIsLocal){
-            localPlayer = initLocalPlayer(playerOneName, "BLACK",connection);
-            remotePlayer = initRemotePlayer(playerTwoName, "WHITE", connection);
+            localPlayer = initLocalPlayer(playerOneName, connection, getSide1());
+            remotePlayer = initRemotePlayer(playerTwoName, connection, getSide2());
         } else {
-            remotePlayer = initRemotePlayer(playerOneName, "BLACK", connection);
-            localPlayer = initLocalPlayer(playerTwoName, "WHITE", connection);
+            remotePlayer = initRemotePlayer(playerOneName, connection, getSide1());
+            localPlayer = initLocalPlayer(playerTwoName, connection, getSide2());
         }
         this.connection = connection;
     }
@@ -43,20 +46,18 @@ public abstract class Game implements Observable {
     /**
      * Instantiates a local player
      * @param playerName
-     * @param side
      * @param connection
      * @return
      */
-    protected abstract LocalPlayer initLocalPlayer(String playerName, String side, Connection connection);
+    protected abstract LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side);
 
     /**
      * Instatiates a remote player
      * @param playerName
-     * @param side
      * @param connection
      * @return
      */
-    protected abstract DummyPlayer initRemotePlayer(String playerName, String side, Connection connection);
+    protected abstract DummyPlayer initRemotePlayer(String playerName, Connection connection, Side side);
 
     /**
      * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
@@ -64,7 +65,7 @@ public abstract class Game implements Observable {
      * @param side The side of the plaeyr who did the move
      * @return true if the move was legal and successfully placed, false otherwise
      */
-    protected abstract boolean move(int move, String side);
+    protected abstract boolean move(int move, Side side);
 
     protected abstract GameController initGameController();
 
@@ -90,7 +91,7 @@ public abstract class Game implements Observable {
         localPlayer.setTurn();
     }
 
-    public Player getSidePlayer(String side) {
+    public Player getSidePlayer(Side side) {
         if(localPlayer.side.equals(side)) {
             return localPlayer;
         }
@@ -120,7 +121,7 @@ public abstract class Game implements Observable {
 
     @EventHandler(later = true)
     public final void onMove(MoveEvent event) {
-        String side;
+        Side side;
         if(localPlayer.getName().equals(event.player)){
             side = localPlayer.getSide();
         } else {
@@ -141,4 +142,11 @@ public abstract class Game implements Observable {
         this.result.set(new GameResult(event));
         invalidate(event);
     }
+
+    protected Side getSide(int player) {
+        return player==0?getSide1():getSide2();
+    }
+
+    protected abstract Side getSide1();
+    protected abstract Side getSide2();
 }

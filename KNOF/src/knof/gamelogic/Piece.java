@@ -18,7 +18,7 @@ public class Piece {
         this.owner = owner;
     }
 
-    public  String getSide() {
+    public  Side getSide() {
         return this.owner.getSide();
     }
 }

@@ -1,6 +1,7 @@
 package knof.plugin;
 
 import knof.connection.Connection;
+import knof.gamelogic.Side;
 import knof.model.game.Game;
 import knof.model.game.Player;
 
@@ -45,7 +46,7 @@ public abstract class Plugin {
      * @param playerName username of player
      * @return player
      */
-    public Player createPlayer(String type, Connection connection, Game game, String side, String playerName) {
+    public Player createPlayer(String type, Connection connection, Game game, Side side, String playerName) {
         PlayerFactory factory = playerTypes.get(type);
         if(factory==null) return null;
 
@@ -54,6 +55,6 @@ public abstract class Plugin {
 
     @FunctionalInterface
     public interface PlayerFactory {
-        Player createPlayer(Connection connection, Game game, String side, String playerName, Object... options);
+        Player createPlayer(Connection connection, Game game, Side side, String playerName, Object... options);
     }
 }
