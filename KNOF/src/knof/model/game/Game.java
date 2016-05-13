@@ -29,6 +29,7 @@ public abstract class Game implements Observable {
     public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
     public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
+        connection.eventSystem.register(this);
         if(playerOneIsLocal){
             localPlayer = initLocalPlayer(playerOneName, "BLACK",connection);
             remotePlayer = initRemotePlayer(playerTwoName, "WHITE", connection);
