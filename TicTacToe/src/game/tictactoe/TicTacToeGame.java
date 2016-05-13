@@ -3,6 +3,7 @@ package game.tictactoe;
 import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.gamelogic.Piece;
+import knof.gamelogic.Side;
 import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
 import knof.model.game.LocalPlayer;
@@ -20,17 +21,17 @@ public class TicTacToeGame extends Game {
     }
 
     @Override
-    protected LocalPlayer initLocalPlayer(String playerName, String side, Connection connection) {
+    protected LocalPlayer initLocalPlayer(String playerName, Side side, Connection connection) {
         return null;
     }
 
     @Override
-    protected DummyPlayer initRemotePlayer(String playerName, String side, Connection connection) {
+    protected DummyPlayer initRemotePlayer(String playerName, Side side, Connection connection) {
         return null;
     }
 
     @Override
-    protected boolean move(int move, String side) {
+    protected boolean move(int move, Side side) {
         return board.place(move, new Piece(this.getSidePlayer(side)));
     }
 
