@@ -29,15 +29,16 @@ public abstract class Game implements Observable {
 
     public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
-    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection, String remoteName, String localName){
+    public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
+
         connection.eventSystem.register(this);
 
         if(playerOneIsLocal){
-            localPlayer = initLocalPlayer(playerOneName, new Side(localName),connection);
-            remotePlayer = initRemotePlayer(playerTwoName, new Side(remoteName), connection);
+            localPlayer = initLocalPlayer(playerOneName, connection);
+            remotePlayer = initRemotePlayer(playerTwoName, connection);
         } else {
-            remotePlayer = initRemotePlayer(playerOneName, new Side(remoteName), connection);
-            localPlayer = initLocalPlayer(playerTwoName, new Side(localName), connection);
+            remotePlayer = initRemotePlayer(playerOneName, connection);
+            localPlayer = initLocalPlayer(playerTwoName, connection);
         }
         this.connection = connection;
     }
@@ -45,20 +46,18 @@ public abstract class Game implements Observable {
     /**
      * Instantiates a local player
      * @param playerName
-     * @param side
      * @param connection
      * @return
      */
-    protected abstract LocalPlayer initLocalPlayer(String playerName, Side side, Connection connection);
+    protected abstract LocalPlayer initLocalPlayer(String playerName, Connection connection);
 
     /**
      * Instatiates a remote player
      * @param playerName
-     * @param side
      * @param connection
      * @return
      */
-    protected abstract DummyPlayer initRemotePlayer(String playerName, Side side, Connection connection);
+    protected abstract DummyPlayer initRemotePlayer(String playerName, Connection connection);
 
     /**
      * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
