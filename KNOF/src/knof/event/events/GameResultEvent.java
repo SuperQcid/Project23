@@ -17,9 +17,33 @@ public class GameResultEvent extends GameEvent {
     @JsonProperty("COMMENT")
     public String comment;
 
-    public static class Win extends GameResultEvent {}
-    public static class Loss extends GameResultEvent {}
-    public static class Draw extends GameResultEvent {}
-    public static class Forfeit extends GameResultEvent {}
+    public String getMessage() {
+        return "";
+    }
+
+    public static class Win extends GameResultEvent {
+        @Override
+        public String getMessage() {
+            return "You won!";
+        }
+    }
+    public static class Loss extends GameResultEvent {
+        @Override
+        public String getMessage() {
+            return "You lost!";
+        }
+    }
+    public static class Draw extends GameResultEvent {
+        @Override
+        public String getMessage() {
+            return "The game is a draw!";
+        }
+    }
+    public static class Forfeit extends GameResultEvent {
+        @Override
+        public String getMessage() {
+            return "Someone forfeited!";
+        }
+    }
 
 }
