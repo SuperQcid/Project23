@@ -20,6 +20,7 @@ import knof.model.Server;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -211,9 +212,20 @@ public class ConnectionController {
         });
 
         if (DEBUG) {
+
+            String hostname = "";
+            try {
+                InetAddress address;
+                address = InetAddress.getLocalHost();
+                hostname = address.getHostName();
+            } catch (Exception e) {
+                e.printStackTrace();
+                hostname = "User";
+            }
+
             portNumber.setText("7789");
             hostName.setText("samaranthlynx.nl");
-            userName.setText("User-" + System.currentTimeMillis());
+            userName.setText(hostname+"-" + System.currentTimeMillis());
         }
 
     }
