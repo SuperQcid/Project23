@@ -34,11 +34,11 @@ public abstract class Game implements Observable {
         connection.eventSystem.register(this);
 
         if(playerOneIsLocal){
-            localPlayer = initLocalPlayer(playerOneName, connection);
-            remotePlayer = initRemotePlayer(playerTwoName, connection);
+            localPlayer = initLocalPlayer(playerOneName, connection, getSide1());
+            remotePlayer = initRemotePlayer(playerTwoName, connection, getSide2());
         } else {
-            remotePlayer = initRemotePlayer(playerOneName, connection);
-            localPlayer = initLocalPlayer(playerTwoName, connection);
+            remotePlayer = initRemotePlayer(playerOneName, connection, getSide1());
+            localPlayer = initLocalPlayer(playerTwoName, connection, getSide2());
         }
         this.connection = connection;
     }
@@ -49,7 +49,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract LocalPlayer initLocalPlayer(String playerName, Connection connection);
+    protected abstract LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side);
 
     /**
      * Instatiates a remote player
@@ -57,7 +57,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract DummyPlayer initRemotePlayer(String playerName, Connection connection);
+    protected abstract DummyPlayer initRemotePlayer(String playerName, Connection connection, Side side);
 
     /**
      * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
@@ -142,4 +142,11 @@ public abstract class Game implements Observable {
         this.result.set(new GameResult(event));
         invalidate(event);
     }
+
+    protected Side getSide(int player) {
+        return player==0?getSide1():getSide2();
+    }
+
+    protected abstract Side getSide1();
+    protected abstract Side getSide2();
 }

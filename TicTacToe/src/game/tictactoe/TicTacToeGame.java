@@ -14,8 +14,8 @@ import knof.model.game.LocalPlayer;
 public class TicTacToeGame extends Game {
 
     TicTacToeBoard board;
-    private final String LOCAL_SIDE_NAME = "X";
-    private final String REMOTE_SIDE_NAME = "O";
+    private final static Side X = new Side("X");
+    private final static Side O = new Side("O");
 
     public TicTacToeGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
         super(playerOneName, playerTwoName, playerOneIsLocal, connection);
@@ -23,14 +23,12 @@ public class TicTacToeGame extends Game {
     }
 
     @Override
-    protected LocalPlayer initLocalPlayer(String playerName, Connection connection) {
-        Side side = new Side(LOCAL_SIDE_NAME);
+    protected LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side) {
         return new LocalTTTPlayer(playerName, side, connection, this);
     }
 
     @Override
-    protected DummyPlayer initRemotePlayer(String playerName, Connection connection) {
-        Side side = new Side(REMOTE_SIDE_NAME);
+    protected DummyPlayer initRemotePlayer(String playerName, Connection connection, Side side) {
         return new RemoteTTTPlayer(playerName, side, connection);
     }
 
@@ -42,5 +40,15 @@ public class TicTacToeGame extends Game {
     @Override
     protected GameController initGameController() {
         return new TicTacToeGameController();
+    }
+
+    @Override
+    protected Side getSide1() {
+        return TicTacToeGame.X;
+    }
+
+    @Override
+    protected Side getSide2() {
+        return TicTacToeGame.O;
     }
 }
