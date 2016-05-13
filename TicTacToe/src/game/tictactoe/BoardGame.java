@@ -1,7 +1,5 @@
 package game.tictactoe;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,7 +12,7 @@ import knof.gamelogic.Board.Pos;
 
 public class BoardGame extends Canvas {
 	
-	private TicTacToeGame game;
+	public TicTacToeGame game;
    	private GraphicsContext gc = getGraphicsContext2D();
 	public Color colorPlayerOne;
 	public Color colorPlayerTwo;
@@ -40,6 +38,7 @@ public class BoardGame extends Canvas {
     	drawBoard();
     }
 	
+    /*
 	public void setGame(TicTacToeGame game) {
 		this.game = game;
 		game.addListener(
@@ -51,11 +50,12 @@ public class BoardGame extends Canvas {
 			}
 		);
 	}
+	*/
 	
 	/**
 	 * Clears and draws the board.
 	 */
-	private void drawBoard() {
+	public void drawBoard() {
 		clear();
     	gc.setFill(backgroundColor);
     	gc.setStroke(Color.BLACK);

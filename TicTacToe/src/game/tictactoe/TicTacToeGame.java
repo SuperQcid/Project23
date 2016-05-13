@@ -1,7 +1,14 @@
 package game.tictactoe;
 
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
+import knof.controllers.popup.ChallengePopupController;
 import knof.gamelogic.Piece;
 import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
@@ -36,6 +43,17 @@ public class TicTacToeGame extends Game {
 
     @Override
     protected GameController initGameController() {
-        return new TicTacToeGameController();
+    	TicTacToeGameController controller = null;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			Parent loaded = loader.load(getClass().getResource("../../popup/ChallengePopupController.fxml").openStream());
+			controller = loader.getController();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(loaded));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return controller;
     }
 }

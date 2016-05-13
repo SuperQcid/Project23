@@ -29,6 +29,7 @@ local.properties
 .recommenders/
 
 # Locally stored "Eclipse launch configurations"
+*.jardesc
 *.launch
 
 # Intellij
