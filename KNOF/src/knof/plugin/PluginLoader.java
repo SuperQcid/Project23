@@ -77,29 +77,51 @@ public class PluginLoader {
     @SuppressWarnings(value = { "rawtypes", "resource"})
     public static Plugin loadPlugin(String file){
         File game = new File(pluginDir + File.separator + file);
+        Plugin plugin = null;
         try {
             JarFile jarFile = new JarFile(game);
-            URLClassLoader classLoader = new URLClassLoader(new URL[]{game.toURI().toURL()}, ClassLoader.getSystemClassLoader());
+            Enumeration<JarEntry> e = jarFile.entries();
 
-            for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements(); ) {
-                JarEntry jarEntry = entries.nextElement();
+            URL[] urls = { new URL("jar:file:" + game+"!/") };
+            URLClassLoader cl = URLClassLoader.newInstance(urls);
 
-                if (!jarEntry.getName().endsWith(".class")) {
+            while (e.hasMoreElements()) {
+                JarEntry je = e.nextElement();
+                if(je.isDirectory() || !je.getName().endsWith(".class")){
                     continue;
                 }
+                // -6 because of .class
+                String className = je.getName().substring(0,je.getName().length()-6);
+                className = className.replace('/', '.');
+                Class c = cl.loadClass(className);
 
-                String className = jarEntry.getName().replace('/', '.').replace(".class", "");
-                Class<?> pluginClass = Class.forName(className, true, classLoader);
-
-                if (pluginClass.getSuperclass().equals(Plugin.class)){
-                    if (!Modifier.isAbstract(pluginClass.getModifiers()) && !Modifier.isPrivate(pluginClass.getModifiers())){
-                        return (Plugin)pluginClass.newInstance();
-                    }
+                if (Plugin.class.isAssignableFrom(c)) {
+                    plugin = (Plugin) c.newInstance();
                 }
             }
+//            JarFile jarFile = new JarFile(game);
+//            URLClassLoader classLoader = new URLClassLoader(new URL[]{game.toURI().toURL()}, ClassLoader.getSystemClassLoader());
+//
+//            for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements(); ) {
+//                JarEntry jarEntry = entries.nextElement();
+//
+//                if (!jarEntry.getName().endsWith(".class")) {
+//                    continue;
+//                }
+//
+//                String className = jarEntry.getName().replace('/', '.').replace(".class", "");
+//                Class<?> pluginClass = Class.forName(className, true, classLoader);
+//
+//                if (pluginClass.getSuperclass().equals(Plugin.class)){
+//                    if (!Modifier.isAbstract(pluginClass.getModifiers()) && !Modifier.isPrivate(pluginClass.getModifiers())){
+//                        return (Plugin)pluginClass.newInstance();
+//                    }
+//                }
+//            }
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
-        return null;
+        return plugin;
+//        return null;
     }
 }
