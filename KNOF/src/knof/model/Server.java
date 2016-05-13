@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import knof.app.KnofApplication;
 import knof.command.Command;
@@ -21,8 +23,12 @@ import knof.model.game.Game;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
+import knof.util.DialogHelper;
+
 import java.io.IOException;
 import java.util.Timer;
+
+import static knof.model.game.GameResult.Result.WIN;
 
 /**
  * A model representing a server that has been connected to
@@ -119,7 +125,6 @@ public class Server implements InvalidationListener {
             Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
             game.addListener(this);
             game.result.addListener((observable, oldValue, newValue) -> {
-                //TODO: Display message informing user whether they have won
                 terminate();
             });
             currentGame.setValue(game);
@@ -148,6 +153,11 @@ public class Server implements InvalidationListener {
     @EventHandler (later=true)
     public void onChallengeCancelled(ChallengeEvent.Cancel e) {
     	this.challenges.removeIf(challenge -> challenge.id == e.id);
+    }
+
+    @EventHandler
+    public void onGameEndEvent(GameResultEvent gameResultEvent) {
+        DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage());
     }
 
 }
