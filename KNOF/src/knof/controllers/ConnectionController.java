@@ -226,6 +226,7 @@ public class ConnectionController {
             portNumber.setText("7789");
             hostName.setText("samaranthlynx.nl");
             userName.setText(hostname+"-" + System.currentTimeMillis());
+            connectButton.fire();
         }
 
     }

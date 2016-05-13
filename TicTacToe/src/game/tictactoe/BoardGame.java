@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import knof.gamelogic.Piece;
+import knof.model.game.Game;
 import knof.model.game.HumanPlayer;
 import knof.model.game.Player;
 import knof.gamelogic.Board.Pos;
@@ -23,19 +24,7 @@ public class BoardGame extends Canvas {
     public double gridLineWidth = 1;
 
     public BoardGame() {
-    	Player localPlayer = game.getLocalPlayer();
-    	if(localPlayer instanceof HumanPlayer) {
-    		this.addEventHandler(MouseEvent.MOUSE_CLICKED,
-				new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent cursor) {
-						Pos pos = getPos(cursor.getX(), cursor.getY());
-						((HumanPlayer) localPlayer).receiveMove(pos.toInt());
-					}
-				}
-			);
-    	}
-    	drawBoard();
+
     }
 	
     /*
@@ -51,7 +40,21 @@ public class BoardGame extends Canvas {
 		);
 	}
 	*/
-	
+
+	public void setGame(TicTacToeGame game) {
+		this.game = game;
+		Player localPlayer = game.getLocalPlayer();
+		if(localPlayer instanceof HumanPlayer) {
+			this.addEventHandler(MouseEvent.MOUSE_CLICKED,
+					cursor -> {
+						Pos pos = getPos(cursor.getX(), cursor.getY());
+						((HumanPlayer) localPlayer).receiveMove(pos.toInt());
+					}
+			);
+		}
+		drawBoard();
+	}
+
 	/**
 	 * Clears and draws the board.
 	 */
@@ -76,6 +79,9 @@ public class BoardGame extends Canvas {
     		for(int x = 0; x < game.board.width; x++) {
     			Pos pos = game.board.new Pos(x, y);
     			Piece piece = game.board.getPieceAtPosition(pos.toInt());
+				if (piece == null) {
+					continue;
+				}
     			drawPiece(pos, piece);
     		}
     	}

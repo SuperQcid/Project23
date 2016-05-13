@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import knof.controllers.GameController;
 import knof.model.game.Game;
+import knof.model.game.Player;
 
 public class TicTacToeGameController extends GameController {
 
@@ -23,5 +24,8 @@ public class TicTacToeGameController extends GameController {
 		boardGame.game = (TicTacToeGame) game;
 		boardGame.drawBoard();
 	}
-	
+
+	public void setGame(TicTacToeGame game) {
+		boardGame.setGame(game);
+	}
 }

@@ -49,6 +49,7 @@ public class TicTacToeGame extends Game {
             loader.setClassLoader(cl);
 			Parent loaded = loader.load(getClass().getResource("TicTacToeGameController.fxml").openStream());
 			controller = loader.getController();
+            controller.setGame(this);
 			Stage stage = new Stage();
 			stage.setScene(new Scene(loaded));
 			stage.show();
