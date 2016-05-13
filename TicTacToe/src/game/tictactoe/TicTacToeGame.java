@@ -46,7 +46,7 @@ public class TicTacToeGame extends Game {
     	TicTacToeGameController controller = null;
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			Parent loaded = loader.load(getClass().getResource("../../popup/ChallengePopupController.fxml").openStream());
+			Parent loaded = loader.load(getClass().getResource("TicTacToeGameController.fxml").openStream());
 			controller = loader.getController();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(loaded));
