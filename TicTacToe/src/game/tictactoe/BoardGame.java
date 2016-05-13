@@ -1,9 +1,17 @@
 package game.tictactoe;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import knof.gamelogic.Piece;
+import knof.model.game.HumanPlayer;
+import knof.model.game.Player;
 import knof.gamelogic.Board.Pos;
 
 public class BoardGame extends Canvas {
@@ -19,18 +27,34 @@ public class BoardGame extends Canvas {
     public double gridLineWidth = 1;
     
     public BoardGame() {
+    	Player localPlayer = game.getLocalPlayer();
+    	if(localPlayer instanceof HumanPlayer) {
+    		this.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent cursor) {
+						Pos pos = getPos(cursor.getX(), cursor.getY());
+						((HumanPlayer) localPlayer).receiveMove(pos.toInt());
+					}
+				}
+			);
+    	}
     	drawBoard();
-    }
-    
-    public BoardGame(TicTacToeGame game) {
-    	this.game = game;
     }
 	
 	public void setGame(TicTacToeGame game) {
 		this.game = game;
+		game.addListener(
+			new InvalidationListener() {
+				@Override
+				public void invalidated(Observable arg0) {
+					drawBoard();
+				}
+			}
+		);
 	}
 	
-	/*
+	/**
 	 * Clears and draws the board.
 	 */
 	private void drawBoard() {
@@ -124,6 +148,16 @@ public class BoardGame extends Canvas {
 				}
 				break;
     	}
+	}
+	
+	/**
+	 * Gets the position in the grid from screen coordinates
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @return board position
+	 */
+	private Pos getPos(double x, double y) {
+		return game.board.new Pos(getRow(x), getCol(y));
 	}
 	
     /**
