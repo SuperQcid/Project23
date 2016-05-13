@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
-import knof.controllers.popup.ChallengePopupController;
 import knof.gamelogic.Piece;
 import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
@@ -46,6 +45,8 @@ public class TicTacToeGame extends Game {
     	TicTacToeGameController controller = null;
 		try {
 			FXMLLoader loader = new FXMLLoader();
+            ClassLoader cl = TicTacToe.class.getClassLoader();
+            loader.setClassLoader(cl);
 			Parent loaded = loader.load(getClass().getResource("TicTacToeGameController.fxml").openStream());
 			controller = loader.getController();
 			Stage stage = new Stage();

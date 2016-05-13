@@ -21,7 +21,7 @@ public class BoardGame extends Canvas {
     public double piecePadding = 4;
     public double pieceLineWidth = 10;
     public double gridLineWidth = 1;
-    
+
     public BoardGame() {
     	Player localPlayer = game.getLocalPlayer();
     	if(localPlayer instanceof HumanPlayer) {
