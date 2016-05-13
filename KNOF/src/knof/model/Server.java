@@ -24,6 +24,8 @@ import knof.event.events.ListEvent;
 import java.io.IOException;
 import java.util.Timer;
 
+import static knof.model.game.GameResult.Result.WIN;
+
 /**
  * A model representing a server that has been connected to
  */
@@ -119,7 +121,12 @@ public class Server implements InvalidationListener {
             Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
             game.addListener(this);
             game.result.addListener((observable, oldValue, newValue) -> {
-                //TODO: Display message informing user whether they have won
+                if (newValue.result == WIN) {
+                    // TODO CREATE WIN DISPLAY
+                } else {
+                    //TODO CREATE LOSS DISPLAY
+                }
+
                 terminate();
             });
             currentGame.setValue(game);
