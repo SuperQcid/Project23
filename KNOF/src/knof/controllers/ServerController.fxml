@@ -19,19 +19,9 @@
       <menus>
         <Menu mnemonicParsing="true" text="_File">
           <items>
-            <MenuItem fx:id="menuItemConnect" mnemonicParsing="false" onAction="#connect" text="Connect to server..." />
-            <MenuItem fx:id="menuItemConnectNewWindow" mnemonicParsing="false" onAction="#connect" text="Connect to server in new window..." />
-            <MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#close" text="Close" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="true" text="_Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="true" text="_Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem fx:id="menuItemConnect" mnemonicParsing="true" onAction="#connect" text="Connect to _server..." />
+            <MenuItem fx:id="menuItemConnectNewWindow" mnemonicParsing="true" onAction="#connect" text="Connect to server in _new window..." />
+            <MenuItem fx:id="menuItemClose" mnemonicParsing="true" onAction="#close" text="_Close" />
           </items>
         </Menu>
       </menus>
