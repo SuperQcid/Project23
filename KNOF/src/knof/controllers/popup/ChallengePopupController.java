@@ -79,5 +79,7 @@ public class ChallengePopupController {
 	public void setServer(Server server) {
 		this.server = server;
 		this.gamelist.addAll(server.games);
+		this.gamelist.removeIf(gameSettings -> !gameSettings.hasPlugin());
+		this.gameBox.setItems(this.gamelist);
 	}
 }

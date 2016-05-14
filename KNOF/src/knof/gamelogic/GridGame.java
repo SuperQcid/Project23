@@ -11,22 +11,12 @@ import knof.model.game.LocalPlayer;
 public abstract class GridGame<B extends Board> extends Game {
     public final B board;
 
-    public GridGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        super(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public GridGame( Connection connection) {
+        super(connection);
         this.board = createBoard();
     }
 
     public abstract B createBoard();
-
-    @Override
-    protected LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side) {
-        return new HumanPlayer(playerName, side, connection, this);
-    }
-
-    @Override
-    protected DummyPlayer initRemotePlayer(String playerName, Connection connection, Side side) {
-        return new DummyPlayer(playerName, side, connection);
-    }
 
     @Override
     protected boolean move(int move, Side side) {
@@ -37,8 +27,8 @@ public abstract class GridGame<B extends Board> extends Game {
     protected abstract GameController initGameController();
 
     @Override
-    protected abstract Side getSide1();
+    public abstract Side getSide1();
 
     @Override
-    protected abstract Side getSide2();
+    public abstract Side getSide2();
 }

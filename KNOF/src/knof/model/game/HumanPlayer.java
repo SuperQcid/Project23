@@ -15,6 +15,9 @@ public class HumanPlayer extends LocalPlayer {
             this.connection.sendCommand(Command.MOVE, move);
             this.ready = false;
         }
+        else {
+            System.err.println("Not ready!");
+        }
     }
 
     @Override

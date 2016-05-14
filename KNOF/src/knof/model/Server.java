@@ -17,7 +17,10 @@ import knof.connection.Connection;
 import knof.controllers.popup.SubscribePopupController;
 import knof.event.EventHandler;
 import knof.event.events.*;
+import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
+import knof.model.game.Player;
+import knof.model.game.Side;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
@@ -105,22 +108,31 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
-        String playerOne, playerTwo;
-        boolean playerOneLocal;
         //TODO Build jar and use it
         Plugin p = KnofApplication.getPlugin(event.gameType);
         if(p != null) {
-            String playerType = this.getGameSettings(event.gameType).getSelectedAI();
-            if (event.playerToMove.equals(event.opponent)) {
-                playerOne = event.opponent;
-                playerTwo = playerName;
-                playerOneLocal = false;
+
+            Game game = p.createGame(connection);
+
+            boolean playerOneLocal = !event.playerToMove.equals(event.opponent);
+
+            Side localSide, remoteSide;
+            if (playerOneLocal) {
+                localSide = game.getSide1();
+                remoteSide = game.getSide2();
             } else {
-                playerOne = playerName;
-                playerTwo = event.opponent;
-                playerOneLocal = true;
+                localSide = game.getSide2();
+                remoteSide = game.getSide1();
             }
-            Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
+
+            Player localPlayer = p.createPlayer(connection, game, localSide, playerName);
+            Player remotePlayer = new DummyPlayer(event.opponent, remoteSide, connection);
+
+            game.setLocalPlayer(localPlayer);
+            game.setRemotePlayer(remotePlayer);
+
+            this.connection.eventSystem.register(game);
+
             game.addListener(this);
             game.result.addListener((observable, oldValue, newValue) -> {
                 terminate();
