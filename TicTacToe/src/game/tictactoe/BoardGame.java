@@ -47,6 +47,7 @@ public class BoardGame extends Canvas {
 		if(localPlayer instanceof HumanPlayer) {
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED,
 					cursor -> {
+						System.out.println(localPlayer.getName() + " clicked the board at " + cursor.getX() + "," + cursor.getY());
 						Pos pos = getPos(cursor.getX(), cursor.getY());
 						((HumanPlayer) localPlayer).receiveMove(pos.toInt());
 					}

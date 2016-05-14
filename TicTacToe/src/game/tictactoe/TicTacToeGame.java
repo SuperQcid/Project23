@@ -12,6 +12,7 @@ import knof.gamelogic.Piece;
 import knof.gamelogic.Side;
 import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
+import knof.model.game.HumanPlayer;
 import knof.model.game.LocalPlayer;
 
 /**
@@ -30,7 +31,7 @@ public class TicTacToeGame extends Game {
 
     @Override
     protected LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side) {
-        return new LocalTTTPlayer(playerName, side, connection, this);
+        return new HumanPlayer(playerName, side, connection, this);
     }
 
     @Override
