@@ -61,7 +61,9 @@ public class ServerController {
         this.labelPlayerName.setText(server.playerName);
 
         this.server.currentGame.addListener((observable, oldValue, newGame) -> {
-        	newGame.createGameController();
+            if(newGame!=null) {
+                newGame.createGameController();
+            }
         });
 
         this.gameList.setItems(server.games);

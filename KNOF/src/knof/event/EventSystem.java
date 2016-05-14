@@ -14,10 +14,13 @@ import java.util.regex.Pattern;
 
 public class EventSystem {
     private List<EventEntry> eventRegister = new LinkedList<>();
-    private WeakHashMap<Object, Map<Method,Class<? extends IEvent>>> eventReceivers = new WeakHashMap<>();
+    private WeakHashMap<Object, Map<Method,Class<? extends IEvent>>> eventReceivers, nextReceivers;
     private final ObjectMapper mapper;
 
     public EventSystem() {
+        eventReceivers = new WeakHashMap<>();
+        nextReceivers = new WeakHashMap<>();
+
         mapper = new ObjectMapper();
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
@@ -117,6 +120,8 @@ public class EventSystem {
      * @param event event to emit
      */
     public synchronized void emitEvent(IEvent event) {
+        eventReceivers.putAll(nextReceivers);
+        nextReceivers.clear();
         try {
             for (Map.Entry<Object, Map<Method, Class<? extends IEvent>>> receiver : eventReceivers.entrySet()) {
                 Map<Method, Class<? extends IEvent>> receiverMethods = receiver.getValue();
@@ -154,7 +159,7 @@ public class EventSystem {
         HashMap<Method,Class<? extends IEvent>> methodMap = new HashMap<>();
 
         Class receiverClass = receiver.getClass();
-        Method[] classMethods = receiverClass.getDeclaredMethods();
+        Method[] classMethods = receiverClass.getMethods();
         for(Method method: classMethods) {
             if(method.isAnnotationPresent(EventHandler.class)) {
                 if (method.getParameterCount() == 1 && IEvent.class.isAssignableFrom(method.getParameterTypes()[0])) {
@@ -168,7 +173,7 @@ public class EventSystem {
         }
 
         if (!methodMap.isEmpty()) {
-            eventReceivers.put(receiver, methodMap);
+            nextReceivers.put(receiver, methodMap);
         }
     }
 }

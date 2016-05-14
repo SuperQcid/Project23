@@ -122,6 +122,8 @@ public abstract class Game implements Observable {
 
     @EventHandler(later = true)
     public final void onMove(MoveEvent event) {
+        //TODO: Remove debug output
+        System.err.println("ONMOVE");
         Side side;
         if(localPlayer.getName().equals(event.player)){
             side = localPlayer.getSide();
@@ -134,6 +136,8 @@ public abstract class Game implements Observable {
 
     @EventHandler(later = true)
     public final void onTurn(TurnEvent event){
+        //TODO: Remove debug output
+        System.err.println("ONTURN");
         this.yourTurn();
         invalidate(event);
     }
