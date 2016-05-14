@@ -22,6 +22,7 @@ public class TicTacToeGameController extends GameController{
 
 	public void setGame(TicTacToeGame game) {
 		boardGame.setGame(game);
+		boardGame.drawBoard();
 	}
 
 	@FXML
