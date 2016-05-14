@@ -1,10 +1,11 @@
-package game.tictactoe;
+package knof.gamelogic.controllers;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import knof.gamelogic.Board;
+import knof.gamelogic.GridGame;
 import knof.gamelogic.Piece;
 import knof.model.game.HumanPlayer;
 import knof.model.game.Player;
@@ -21,47 +22,13 @@ public class BoardGame extends Canvas {
 	public Color colorPlayerOne;
 	public Color colorPlayerTwo;
 	public Color backgroundColor;
-    public double piecePadding = 4;
-    public double pieceLineWidth = 10;
     public double gridLineWidth = 1;
 
-    public BoardGame() {
-		pieceRenderers.put("X", new PieceRenderer(Color.RED, pieceLineWidth, piecePadding){
+	public void addPieceRenderer(String identifier, PieceRenderer renderer) {
+		this.pieceRenderers.put(identifier, renderer);
+	}
 
-			@Override
-			public void renderShape(GraphicsContext gc, BoardGame boardGame, Pos pos) {
-				double padding = this.lineWidth / 2 + this.piecePadding;
-				gc.strokeLine(
-						getRowX(pos.x) + padding,
-						getColY(pos.y) + padding,
-						getRowX(pos.x) + boardGame.getCellWidth() - padding,
-						getColY(pos.y) + boardGame.getCellHeight() - padding
-				);
-				gc.strokeLine(
-						getRowX(pos.x) + padding,
-						getColY(pos.y) + boardGame.getCellHeight() - padding,
-						getRowX(pos.x) + boardGame.getCellWidth() - padding,
-						getColY(pos.y) + padding
-				);
-			}
-		});
-
-		pieceRenderers.put("O", new PieceRenderer(Color.BLUE, pieceLineWidth, piecePadding){
-
-			@Override
-			public void renderShape(GraphicsContext gc, BoardGame boardGame, Pos pos) {
-				double padding = this.lineWidth / 2 + this.piecePadding;
-				gc.strokeOval(
-						getRowX(pos.x) + padding,
-						getColY(pos.y) + padding,
-						getCellWidth() - 2 * padding,
-						getCellHeight() - 2 * padding
-				);
-			}
-		});
-    }
-
-	public void setGame(TicTacToeGame game) {
+	public void setGame(GridGame game) {
 		this.board = game.board;
 		Player localPlayer = game.getLocalPlayer();
 		if(localPlayer instanceof HumanPlayer) {
@@ -159,7 +126,7 @@ public class BoardGame extends Canvas {
      * @param row
      * @return x
      */
-    private double getRowX(int row) {
+	public double getRowX(int row) {
     	return getCellWidth() * row;
     }
     
@@ -168,7 +135,7 @@ public class BoardGame extends Canvas {
      * @param col
      * @return y
      */
-    private double getColY(int col) {
+	public double getColY(int col) {
     	return getCellHeight() * col;
     }
     
@@ -176,7 +143,7 @@ public class BoardGame extends Canvas {
      * Gets the width of a single cell.
      * @return width
      */
-    private double getCellWidth() {
+	public double getCellWidth() {
     	return getWidth() / board.width;
     }
     
@@ -184,7 +151,7 @@ public class BoardGame extends Canvas {
      * gets the height of a single cell.
      * @return height
      */
-    private double getCellHeight() {
+	public double getCellHeight() {
     	return getHeight() / board.height;
     }
 }
