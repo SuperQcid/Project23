@@ -1,14 +1,11 @@
 package knof.controllers.listcell.controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import knof.app.KnofApplication;
-import knof.model.GameSettings;
+import knof.model.GameEntry;
 
 import java.util.Set;
 
@@ -16,7 +13,7 @@ public class GameController extends ListCellController {
 
 	@FXML
 	public ChoiceBox<String> ai;
-    private GameSettings game;
+    private GameEntry game;
 
     public GameController() {
 		// TODO
@@ -32,8 +29,8 @@ public class GameController extends ListCellController {
         ai.setDisable(true);
     }
 
-    public void bindGame(GameSettings game) {
-        System.out.println(game+" bound");
+    public void bindGame(GameEntry game) {
+        System.out.println(game + " bound");
         this.game = game;
     }
 

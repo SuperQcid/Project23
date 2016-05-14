@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import knof.app.KnofApplication;
 import knof.command.Command;
 import knof.command.CommandTask;
 import knof.connection.Connection;
@@ -24,22 +23,24 @@ import knof.model.game.Side;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
+import knof.plugin.PluginLoader;
 import knof.util.DialogHelper;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
-import java.util.function.Predicate;
 
 /**
  * A model representing a server that has been connected to
  */
 public class Server implements InvalidationListener {
     public final Connection connection;
-    public final ObservableList<GameSettings> games;
+    public final ObservableList<GameEntry> games;
     public final ObservableList<String> players;
     public final ObservableList<Challenge> challenges;
 
     public final ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
+    private HashMap<String, Plugin> pluginList = new PluginLoader().InitializePlugins();;
 
     public String playerName;
 
@@ -48,7 +49,7 @@ public class Server implements InvalidationListener {
     public Server(Connection connection, String playerName) {
         this.connection = connection;
         this.playerName = playerName;
-        ObservableList<GameSettings> gameList = FXCollections.observableArrayList();
+        ObservableList<GameEntry> gameList = FXCollections.observableArrayList();
         this.games = FXCollections.synchronizedObservableList(gameList);
 
         ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -67,10 +68,10 @@ public class Server implements InvalidationListener {
     @EventHandler(later = true)
     public void onGameList(ListEvent.Games event) {
         System.out.println(event);
-        this.games.removeIf((GameSettings game) -> !event.contains(game.toString()));
+        this.games.removeIf((GameEntry game) -> !event.contains(game.toString()));
         event.removeIf(this.games::contains);
 
-        event.forEach(game -> this.games.add(new GameSettings(game)));
+        event.forEach(game -> this.games.add(new GameEntry(game, this)));
 		System.out.println(this.games);
 
 	}
@@ -109,7 +110,7 @@ public class Server implements InvalidationListener {
     @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
         //TODO Build jar and use it
-        Plugin p = KnofApplication.getPlugin(event.gameType);
+        Plugin p = this.getPlugin(event.gameType);
         if(p != null) {
 
             Game game = p.createGame(connection);
@@ -172,8 +173,12 @@ public class Server implements InvalidationListener {
         DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage());
     }
 
-    public GameSettings getGameSettings(String game) {
+    public GameEntry getGameSettings(String game) {
         return this.games.filtered(gameSettings -> gameSettings.toString().equals(game)).get(0);
+    }
+
+    public Plugin getPlugin(String name) {
+        return pluginList.get(name);
     }
 
 }

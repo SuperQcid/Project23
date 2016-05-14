@@ -1,6 +1,5 @@
 package knof.controllers.popup;
 
-import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,12 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
-import knof.app.KnofApplication;
 import knof.command.Command;
 import knof.controllers.NumberTextField;
-import knof.model.GameSettings;
+import knof.model.GameEntry;
 import knof.model.Server;
-import knof.plugin.Plugin;
 import knof.util.DebugSettings;
 
 public class ChallengePopupController {
@@ -22,7 +19,7 @@ public class ChallengePopupController {
 	private Server server;
 	public String player;
 	public String game;
-	private ObservableList<GameSettings> gamelist = FXCollections.observableArrayList();
+	private ObservableList<GameEntry> gamelist = FXCollections.observableArrayList();
 	
     @FXML
     private NumberTextField turntime;
@@ -34,7 +31,7 @@ public class ChallengePopupController {
     private CheckBox turntimeBox;
     
     @FXML
-    private ChoiceBox<GameSettings> gameBox;
+    private ChoiceBox<GameEntry> gameBox;
 
     @FXML
     public void challenge(ActionEvent event) {
