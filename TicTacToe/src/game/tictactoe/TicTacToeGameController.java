@@ -11,7 +11,7 @@ import knof.model.game.Player;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TicTacToeGameController extends GameController implements Initializable{
+public class TicTacToeGameController extends GameController{
 
 	@FXML
 	public BoardGame boardGame;
@@ -26,8 +26,8 @@ public class TicTacToeGameController extends GameController implements Initializ
 		boardGame.setGame(game);
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	public void initialize() {
 		boardGame.backgroundColor = Color.GREY;
 		boardGame.colorPlayerOne = Color.RED;
 		boardGame.colorPlayerTwo = Color.BLUE;
