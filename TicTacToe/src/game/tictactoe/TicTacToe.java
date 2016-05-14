@@ -12,7 +12,7 @@ import knof.plugin.Plugin;
 public class TicTacToe extends Plugin {
 
     public TicTacToe() {
-
+        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection, game));
     }
 
     @Override
@@ -23,7 +23,6 @@ public class TicTacToe extends Plugin {
     @Override
     public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
         TicTacToeGame tttGame = new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
-        playerTypes.put("human", (connection2, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection2, tttGame));
         return tttGame;
     }
     @Override
