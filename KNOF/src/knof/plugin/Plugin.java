@@ -13,10 +13,11 @@ import java.util.Set;
  */
 public abstract class Plugin {
     protected HashMap<String, PlayerFactory> playerTypes = new HashMap<>();
+    private String selectedAI;
 
     public abstract String getGameName();
 
-    public abstract Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection);
+    public abstract Game createGame(Connection connection);
 
     /**
      * Return a list of names possible AI players
@@ -38,17 +39,22 @@ public abstract class Plugin {
 
     /**
      * Create player
-     * @param type type of player
      * @param connection connection to server
      * @param game game to play
      * @param playerName username of player
      * @return player
      */
-    public Player createPlayer(String type, Connection connection, Game game, Side side, String playerName) {
-        PlayerFactory factory = playerTypes.get(type);
+    public Player createPlayer(Connection connection, Game game, Side side, String playerName) {
+        PlayerFactory factory = playerTypes.get(this.selectedAI);
         if(factory==null) return null;
 
         return factory.createPlayer(connection, game, side, playerName);
+    }
+
+    public void selectAI(String newAi) {
+        //TODO: Remove this
+        System.out.println(newAi+" was selected!");
+        this.selectedAI = newAi;
     }
 
     @FunctionalInterface

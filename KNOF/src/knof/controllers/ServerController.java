@@ -15,6 +15,7 @@ import knof.controllers.listcell.ChallengeCell;
 import knof.controllers.listcell.GameCell;
 import knof.controllers.listcell.PlayerCell;
 import knof.model.Challenge;
+import knof.model.GameEntry;
 import knof.model.Server;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class ServerController {
 
 	@FXML
-	public ListView<String> gameList;
+	public ListView<GameEntry> gameList;
 
 	@FXML
 	public ListView<String> playerList;
@@ -50,7 +51,7 @@ public class ServerController {
     public void initialize() {
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
-        this.gameList.setCellFactory((ListView<String> param) -> new GameCell());
+        this.gameList.setCellFactory((ListView<GameEntry> param) -> new GameCell());
     }
 
     public void setServer(Server server) {

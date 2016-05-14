@@ -31,6 +31,8 @@ public class BoardGame extends Canvas {
 	public void setGame(GridGame game) {
 		this.board = game.board;
 		Player localPlayer = game.getLocalPlayer();
+		//TODO: Debug output
+		System.err.println((localPlayer instanceof HumanPlayer)+", "+localPlayer.getSide()+"!!!");
 		if(localPlayer instanceof HumanPlayer) {
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED,
 					cursor -> {
