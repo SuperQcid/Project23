@@ -14,8 +14,8 @@ import java.util.List;
 public abstract class Board {
 	public final int width;
 	public final int height;
-	private Piece[] board;
-	private Piece previousPiece;
+	protected Piece[] board;
+	protected Piece previousPiece;
 	private Game game;
 
 	public Board(int width, int height, Game game) {
@@ -132,6 +132,10 @@ public abstract class Board {
 
 	public Pos pos(int x, int y) {
 		return new Pos(x, y);
+	}
+
+	public boolean validPos(Pos p) {
+		return this.validIndex(p.toInt());
 	}
 
 	/**

@@ -26,4 +26,13 @@ public class Piece {
     public String getIdentifier() {
         return this.getSide().getName();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==this) return true;
+        if(obj instanceof Piece) {
+            return this.owner == ((Piece) obj).owner;
+        }
+        return false;
+    }
 }
