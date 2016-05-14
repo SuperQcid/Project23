@@ -60,7 +60,7 @@ public class BoardGame extends Canvas {
 	 */
 	public void drawBoard() {
 		clear();
-    	gc.setFill(backgroundColor);
+    	gc.setFill(Color.DARKGRAY);
     	gc.setStroke(Color.BLACK);
     	gc.fillRect(0, 0, getWidth(), getHeight());
     	gc.setLineWidth(gridLineWidth);
@@ -89,10 +89,10 @@ public class BoardGame extends Canvas {
 	
     /**
      * Draws a piece in the given position based on the board.
-     * @param move 
+     * @param
      */
 	private void drawPiece(Pos pos, Piece piece) {
-    	switch(piece.getSide()) {
+    	switch(piece.getSide().getName()) {
 			case "BLACK":
 				gc.setFill(colorPlayerOne);
 				gc.setStroke(colorPlayerOne);
@@ -124,7 +124,7 @@ public class BoardGame extends Canvas {
 			case XO:
 				gc.setLineWidth(pieceLineWidth);
 				double padding = pieceLineWidth / 2 + piecePadding;
-				switch(piece.getSide()) {
+				switch(piece.getSide().getName()) {
 					case "BLACK":
 						gc.strokeLine(
 							getRowX(pos.x) + padding,
