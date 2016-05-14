@@ -1,13 +1,11 @@
 package knof.plugin;
 
 import knof.connection.Connection;
-import knof.gamelogic.Side;
+import knof.model.game.Side;
 import knof.model.game.Game;
 import knof.model.game.Player;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**

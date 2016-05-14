@@ -2,7 +2,6 @@ package knof.model.game;
 
 import knof.command.Command;
 import knof.connection.Connection;
-import knof.gamelogic.Side;
 
 public abstract class AIPlayer extends LocalPlayer {
     public AIPlayer(String name, Side side, Connection connection, Game game) {

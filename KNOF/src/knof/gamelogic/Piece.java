@@ -1,6 +1,7 @@
 package knof.gamelogic;
 
 import knof.model.game.Player;
+import knof.model.game.Side;
 
 /**
  * This class represents a piece as placed on the board
@@ -18,7 +19,11 @@ public class Piece {
         this.owner = owner;
     }
 
-    public  Side getSide() {
+    public Side getSide() {
         return this.owner.getSide();
+    }
+
+    public String getIdentifier() {
+        return this.getSide().getName();
     }
 }

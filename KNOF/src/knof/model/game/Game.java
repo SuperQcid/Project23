@@ -12,7 +12,6 @@ import knof.event.events.GameResultEvent;
 import knof.event.events.MatchEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
-import knof.gamelogic.Side;
 
 import java.util.ArrayList;
 
@@ -21,8 +20,8 @@ import java.util.ArrayList;
  */
 public abstract class Game implements Observable {
 
-    protected LocalPlayer localPlayer;
-    protected DummyPlayer remotePlayer;
+    protected Player localPlayer;
+    protected Player remotePlayer;
     protected Connection connection;
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
@@ -49,7 +48,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side);
+    protected abstract Player initLocalPlayer(String playerName, Connection connection, Side side);
 
     /**
      * Instatiates a remote player
@@ -57,7 +56,7 @@ public abstract class Game implements Observable {
      * @param connection
      * @return
      */
-    protected abstract DummyPlayer initRemotePlayer(String playerName, Connection connection, Side side);
+    protected abstract Player initRemotePlayer(String playerName, Connection connection, Side side);
 
     /**
      * Add the move to the represetation of the game and returns the result: true if legal, false if illegal
