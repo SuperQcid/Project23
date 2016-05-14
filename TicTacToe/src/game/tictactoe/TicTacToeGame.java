@@ -19,8 +19,8 @@ public class TicTacToeGame extends GridGame<TicTacToeBoard> {
     private final static Side X = new Side("X");
     private final static Side O = new Side("O");
 
-    public TicTacToeGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        super(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public TicTacToeGame(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -48,12 +48,12 @@ public class TicTacToeGame extends GridGame<TicTacToeBoard> {
     }
 
     @Override
-    protected Side getSide1() {
+    public Side getSide1() {
         return TicTacToeGame.X;
     }
 
     @Override
-    protected Side getSide2() {
+    public Side getSide2() {
         return TicTacToeGame.O;
     }
 

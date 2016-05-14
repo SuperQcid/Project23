@@ -2,9 +2,9 @@ package game.tictactoe;
 
 import knof.connection.Connection;
 import knof.gamelogic.HumanGridGamePlayer;
+import knof.gamelogic.GridGame;
+import knof.gamelogic.players.RandomGridPlayer;
 import knof.model.game.Game;
-import knof.model.game.HumanPlayer;
-import knof.model.game.Player;
 import knof.plugin.Plugin;
 
 /**
@@ -14,6 +14,7 @@ public class TicTacToe extends Plugin {
 
     public TicTacToe() {
         playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanGridGamePlayer<>(playerName, side, connection, (TicTacToeGame)game, false));
+        playerTypes.put("random", (connection, game, side, playerName, options) -> new RandomGridPlayer(playerName, side, connection, (GridGame<TicTacToeBoard>)game));
     }
 
     @Override
@@ -22,8 +23,8 @@ public class TicTacToe extends Plugin {
     }
 
     @Override
-    public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        TicTacToeGame tttGame = new TicTacToeGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public Game createGame(Connection connection) {
+        TicTacToeGame tttGame = new TicTacToeGame(connection);
         return tttGame;
     }
     @Override

@@ -13,19 +13,8 @@ import java.util.HashMap;
 
 public class KnofApplication extends Application {
 
-	private static HashMap<String, Plugin> pluginList;
-
 	public static void main(String[] args){
-		pluginList = new PluginLoader().InitializePlugins();
 		launch(args);
-	}
-
-	public static Plugin getPlugin(String name){
-		return pluginList.get(name);
-	}
-	
-	public static HashMap<String, Plugin> getPluginList() {
-		return pluginList;
 	}
 
 	@Override

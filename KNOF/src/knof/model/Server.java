@@ -9,37 +9,38 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
-import knof.app.KnofApplication;
 import knof.command.Command;
 import knof.command.CommandTask;
 import knof.connection.Connection;
 import knof.controllers.popup.SubscribePopupController;
 import knof.event.EventHandler;
 import knof.event.events.*;
+import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
+import knof.model.game.Player;
+import knof.model.game.Side;
 import knof.plugin.Plugin;
 import knof.event.events.ChallengeEvent;
 import knof.event.events.ListEvent;
+import knof.plugin.PluginLoader;
 import knof.util.DialogHelper;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
-
-import static knof.model.game.GameResult.Result.WIN;
 
 /**
  * A model representing a server that has been connected to
  */
 public class Server implements InvalidationListener {
     public final Connection connection;
-    public final ObservableList<String> games;
+    public final ObservableList<GameEntry> games;
     public final ObservableList<String> players;
     public final ObservableList<Challenge> challenges;
 
     public final ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
+    private HashMap<String, Plugin> pluginList = new PluginLoader().InitializePlugins();;
 
     public String playerName;
 
@@ -48,7 +49,7 @@ public class Server implements InvalidationListener {
     public Server(Connection connection, String playerName) {
         this.connection = connection;
         this.playerName = playerName;
-        ObservableList<String> gameList = FXCollections.observableArrayList();
+        ObservableList<GameEntry> gameList = FXCollections.observableArrayList();
         this.games = FXCollections.synchronizedObservableList(gameList);
 
         ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -67,11 +68,11 @@ public class Server implements InvalidationListener {
     @EventHandler(later = true)
     public void onGameList(ListEvent.Games event) {
         System.out.println(event);
-        this.games.removeIf((String game) -> !event.contains(game));
+        this.games.removeIf((GameEntry game) -> !event.contains(game.toString()));
         event.removeIf(this.games::contains);
 
-			this.games.addAll(event);
-			System.out.println(this.games);
+        event.forEach(game -> this.games.add(new GameEntry(game, this)));
+		System.out.println(this.games);
 
 	}
 
@@ -108,21 +109,31 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
-        String playerOne, playerTwo;
-        boolean playerOneLocal;
         //TODO Build jar and use it
-        Plugin p = KnofApplication.getPlugin(event.gameType);
+        Plugin p = this.getPlugin(event.gameType);
         if(p != null) {
-            if (event.playerToMove.equals(event.opponent)) {
-                playerOne = event.opponent;
-                playerTwo = playerName;
-                playerOneLocal = false;
+
+            Game game = p.createGame(connection);
+
+            boolean playerOneLocal = !event.playerToMove.equals(event.opponent);
+
+            Side localSide, remoteSide;
+            if (playerOneLocal) {
+                localSide = game.getSide1();
+                remoteSide = game.getSide2();
             } else {
-                playerOne = playerName;
-                playerTwo = event.opponent;
-                playerOneLocal = true;
+                localSide = game.getSide2();
+                remoteSide = game.getSide1();
             }
-            Game game = p.createGame(playerOne, playerTwo, playerOneLocal, connection);
+
+            Player localPlayer = p.createPlayer(connection, game, localSide, playerName);
+            Player remotePlayer = new DummyPlayer(event.opponent, remoteSide, connection);
+
+            game.setLocalPlayer(localPlayer);
+            game.setRemotePlayer(remotePlayer);
+
+            this.connection.eventSystem.register(game);
+
             game.addListener(this);
             game.result.addListener((observable, oldValue, newValue) -> {
                 terminate();
@@ -160,6 +171,14 @@ public class Server implements InvalidationListener {
     @EventHandler
     public void onGameEndEvent(GameResultEvent gameResultEvent) {
         DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage());
+    }
+
+    public GameEntry getGameSettings(String game) {
+        return this.games.filtered(gameSettings -> gameSettings.toString().equals(game)).get(0);
+    }
+
+    public Plugin getPlugin(String name) {
+        return pluginList.get(name);
     }
 
 }
