@@ -2,6 +2,7 @@ package knof.ai;
 
 import knof.gamelogic.Board;
 import knof.gamelogic.Piece;
+import knof.model.game.Side;
 
 import java.util.List;
 
@@ -48,11 +49,11 @@ public class BackTracker {
             Board clonedBoard = board.clone();
             clonedBoard.place(move.toInt(), new Piece());
 
-            Piece nextPiece = clonedBoard.getNextPiece();
+            Side nextSide = clonedBoard.getNextSide();
             BestMove newBestMove;
 
-            if(!clonedBoard.getValidPositions(nextPiece).isEmpty()) {
-                newBestMove = getBestMove(nextPiece, clonedBoard, depth - 1);
+            if(!clonedBoard.getValidPositions(new Piece(nextSide)).isEmpty()) {
+                newBestMove = getBestMove(new Piece(nextSide), clonedBoard, depth - 1);
 
             }
             else {

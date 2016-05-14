@@ -6,24 +6,24 @@ import knof.model.game.Side;
 /**
  * This class represents a piece as placed on the board
  * Can be extended for custom piece types.
- * Example: a piece which can change owner *hint* *hint*
+ * Example: a piece which can change side *hint* *hint*
  */
 public class Piece {
-    protected Player owner;
+    protected Side side;
 
     public Piece() {
         this(null);
     }
 
-    public Piece(Player owner) {
-        this.owner = owner;
+    public Piece(Side side) {
+        this.side = side;
     }
 
     public Side getSide() {
-        return this.owner.getSide();
+        return this.side;
     }
 
     public String getIdentifier() {
-        return this.getSide().getName();
+        return this.side.getName();
     }
 }
