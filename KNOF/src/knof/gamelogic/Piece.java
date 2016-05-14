@@ -21,4 +21,8 @@ public class Piece {
     public  Side getSide() {
         return this.owner.getSide();
     }
+
+    public String getIdentifier() {
+        return this.getSide().getName();
+    }
 }

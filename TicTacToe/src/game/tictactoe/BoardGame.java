@@ -1,49 +1,68 @@
 package game.tictactoe;
 
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import knof.gamelogic.Board;
 import knof.gamelogic.Piece;
-import knof.model.game.Game;
 import knof.model.game.HumanPlayer;
 import knof.model.game.Player;
 import knof.gamelogic.Board.Pos;
-import knof.util.DebugSettings;
+
+import java.util.HashMap;
 
 public class BoardGame extends Canvas {
+
+	private HashMap<String, PieceRenderer> pieceRenderers = new HashMap<>();
 	
-	public TicTacToeGame game;
+	public Board board;
    	private GraphicsContext gc = getGraphicsContext2D();
 	public Color colorPlayerOne;
 	public Color colorPlayerTwo;
 	public Color backgroundColor;
-	public Pieces pieceType;
     public double piecePadding = 4;
     public double pieceLineWidth = 10;
     public double gridLineWidth = 1;
 
     public BoardGame() {
+		pieceRenderers.put("X", new PieceRenderer(Color.RED, pieceLineWidth, piecePadding){
 
-    }
-	
-    /*
-	public void setGame(TicTacToeGame game) {
-		this.game = game;
-		game.addListener(
-			new InvalidationListener() {
-				@Override
-				public void invalidated(Observable arg0) {
-					drawBoard();
-				}
+			@Override
+			public void renderShape(GraphicsContext gc, BoardGame boardGame, Pos pos) {
+				double padding = this.lineWidth / 2 + this.piecePadding;
+				gc.strokeLine(
+						getRowX(pos.x) + padding,
+						getColY(pos.y) + padding,
+						getRowX(pos.x) + boardGame.getCellWidth() - padding,
+						getColY(pos.y) + boardGame.getCellHeight() - padding
+				);
+				gc.strokeLine(
+						getRowX(pos.x) + padding,
+						getColY(pos.y) + boardGame.getCellHeight() - padding,
+						getRowX(pos.x) + boardGame.getCellWidth() - padding,
+						getColY(pos.y) + padding
+				);
 			}
-		);
-	}
-	*/
+		});
+
+		pieceRenderers.put("O", new PieceRenderer(Color.BLUE, pieceLineWidth, piecePadding){
+
+			@Override
+			public void renderShape(GraphicsContext gc, BoardGame boardGame, Pos pos) {
+				double padding = this.lineWidth / 2 + this.piecePadding;
+				gc.strokeOval(
+						getRowX(pos.x) + padding,
+						getColY(pos.y) + padding,
+						getCellWidth() - 2 * padding,
+						getCellHeight() - 2 * padding
+				);
+			}
+		});
+    }
 
 	public void setGame(TicTacToeGame game) {
-		this.game = game;
+		this.board = game.board;
 		Player localPlayer = game.getLocalPlayer();
 		if(localPlayer instanceof HumanPlayer) {
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -67,21 +86,21 @@ public class BoardGame extends Canvas {
     	gc.fillRect(0, 0, getWidth(), getHeight());
     	gc.setLineWidth(gridLineWidth);
     	// Horizontal lines
-    	for(int x = 0; x <= game.board.width; x++) {
+    	for(int x = 0; x <= board.width; x++) {
     		double rowX = getRowX(x);
     		gc.strokeLine(rowX, 0, rowX, getHeight());
     	}
     	// Vertical lines
-    	for(int y = 0; y <= game.board.height; y++) {
+    	for(int y = 0; y <= board.height; y++) {
     		double colY = getColY(y);
     		gc.strokeLine(0, colY, getWidth(), colY);    		
     	}
 
     	// Pieces
-    	for(int y = 0; y < game.board.height; y++) {
-    		for(int x = 0; x < game.board.width; x++) {
-    			Pos pos = game.board.new Pos(x, y);
-    			Piece piece = game.board.getPieceAtPosition(pos.toInt());
+    	for(int y = 0; y < board.height; y++) {
+    		for(int x = 0; x < board.width; x++) {
+    			Pos pos = board.new Pos(x, y);
+    			Piece piece = board.getPieceAtPosition(pos.toInt());
 				if (piece == null) {
 					continue;
 				}
@@ -95,66 +114,8 @@ public class BoardGame extends Canvas {
      * @param
      */
 	private void drawPiece(Pos pos, Piece piece) {
-    	switch(piece.getSide().getName()) {
-			case "X":
-				gc.setFill(colorPlayerOne);
-				gc.setStroke(colorPlayerOne);
-				break;
-			case "O":
-				gc.setFill(colorPlayerTwo);
-				gc.setStroke(colorPlayerTwo);
-				break;
-			default:
-				return;
-    	}
-    	switch(pieceType) {
-			case CIRCLES:
-				gc.fillOval(
-					getRowX(pos.x) + piecePadding,
-					getColY(pos.y) + piecePadding,
-					getCellWidth() - 2 * piecePadding,
-					getCellHeight() - 2 * piecePadding
-				);
-				break;
-			case SQAURES:
-				gc.fillRect(
-					getRowX(pos.x) + piecePadding,
-					getColY(pos.y) + piecePadding,
-					getCellWidth() - 2 * piecePadding,
-					getCellHeight() - 2 * piecePadding
-				);
-				break;
-			case XO:
-				gc.setLineWidth(pieceLineWidth);
-				double padding = pieceLineWidth / 2 + piecePadding;
-				switch(piece.getSide().getName()) {
-					case "X":
-						gc.strokeLine(
-							getRowX(pos.x) + padding,
-							getColY(pos.y) + padding,
-							getRowX(pos.x) + getCellWidth() - padding, 
-							getColY(pos.y) + getCellHeight() - padding
-						);
-						gc.strokeLine(
-							getRowX(pos.x) + padding,
-							getColY(pos.y) + getCellHeight() - padding,
-							getRowX(pos.x) + getCellWidth() - padding,
-							getColY(pos.y) + padding
-						);
-						break;
-					case "O":
-						gc.strokeOval(
-							getRowX(pos.x) + padding,
-							getColY(pos.y) + padding,
-							getCellWidth() - 2 * padding,
-							getCellHeight() - 2 * padding
-						);
-						break;
-					default:
-						return;
-				}
-				break;
-    	}
+		PieceRenderer renderer = pieceRenderers.get(piece.getSide().getName());
+		renderer.render(gc, this, pos);
 	}
 	
 	/**
@@ -164,7 +125,7 @@ public class BoardGame extends Canvas {
 	 * @return board position
 	 */
 	private Pos getPos(double x, double y) {
-		return game.board.new Pos(getRow(x), getCol(y));
+		return board.pos(getRow(x), getCol(y));
 	}
 	
     /**
@@ -216,7 +177,7 @@ public class BoardGame extends Canvas {
      * @return width
      */
     private double getCellWidth() {
-    	return getWidth() / game.board.width;
+    	return getWidth() / board.width;
     }
     
     /**
@@ -224,10 +185,6 @@ public class BoardGame extends Canvas {
      * @return height
      */
     private double getCellHeight() {
-    	return getHeight() / game.board.height;
-    }
-    
-    public enum Pieces {
-    	SQAURES, CIRCLES, XO
+    	return getHeight() / board.height;
     }
 }
