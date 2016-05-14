@@ -15,7 +15,7 @@ public abstract class Board {
 	public final int width;
 	public final int height;
 	private Piece[] board;
-	private Piece previousPiece;
+	private Side previousSide;
 	private Game game;
 
 	public Board(int width, int height, Game game) {
@@ -23,6 +23,7 @@ public abstract class Board {
 		this.height = height;
 		this.board = new Piece[width*height];
 		this.game = game;
+		this.previousSide = game.getSide1();
 	}
 
 	public Piece getPieceAtPosition(int position){
@@ -54,19 +55,8 @@ public abstract class Board {
 
 	public abstract int getScore(Side side);
 
-	public Piece getNextPiece(){
-
-		// First move: there is no previouspiece yet. Return localplayer
-		if(previousPiece == null){
-			return new Piece(game.getLocalPlayer());
-		}
-
-		// Return local or remote player based on previousPiece
-		if(previousPiece.owner == game.getLocalPlayer()){
-			return new Piece(game.getRemotePlayer());
-		} else {
-			return new Piece(game.getLocalPlayer());
-		}
+	public Side getNextSide(){
+		return previousSide==game.getSide1()?game.getSide2():game.getSide1();
 	}
 
 	/**
@@ -110,7 +100,7 @@ public abstract class Board {
 	 */
 	public boolean place(int index, Piece piece) {
 		if(isValid(index, piece)) {
-			previousPiece = piece;
+			previousSide = piece.getSide();
 			this.board[index] = piece;
 			return true;
 		}

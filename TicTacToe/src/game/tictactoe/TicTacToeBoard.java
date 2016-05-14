@@ -21,7 +21,7 @@ public class TicTacToeBoard extends Board {
     @Override
     public int getScore(Side side) {
 
-        Side opponentSide = getNextPiece().getSide();
+        Side opponentSide = getNextSide();
 
         if(isAWin(side)){
             return 1;
