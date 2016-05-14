@@ -14,6 +14,7 @@ import knof.command.Command;
 import knof.controllers.NumberTextField;
 import knof.model.Server;
 import knof.plugin.Plugin;
+import knof.util.DebugSettings;
 
 public class ChallengePopupController {
 
@@ -40,7 +41,11 @@ public class ChallengePopupController {
 			if(turntimeBox.isSelected()) {
 				server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, game, turntime.getText());
 			} else {
-				server.connection.sendCommand(Command.CHALLENGE, player, game);
+				if (DebugSettings.DEBUG) {
+					server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, game, 300);
+				} else {
+					server.connection.sendCommand(Command.CHALLENGE, player, game);
+				}
 			}
 			Stage stage = (Stage) challengeButton.getScene().getWindow();
 			stage.close();

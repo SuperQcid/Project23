@@ -1,11 +1,20 @@
 package game.tictactoe;
 
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
+import knof.event.EventHandler;
+import knof.event.events.MoveEvent;
 import knof.gamelogic.Piece;
 import knof.gamelogic.Side;
 import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
+import knof.model.game.HumanPlayer;
 import knof.model.game.LocalPlayer;
 
 /**
@@ -24,7 +33,7 @@ public class TicTacToeGame extends Game {
 
     @Override
     protected LocalPlayer initLocalPlayer(String playerName, Connection connection, Side side) {
-        return new LocalTTTPlayer(playerName, side, connection, this);
+        return new HumanPlayer(playerName, side, connection, this);
     }
 
     @Override
@@ -39,7 +48,21 @@ public class TicTacToeGame extends Game {
 
     @Override
     protected GameController initGameController() {
-        return new TicTacToeGameController();
+    	TicTacToeGameController controller = null;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+            ClassLoader cl = TicTacToe.class.getClassLoader();
+            loader.setClassLoader(cl);
+			Parent loaded = loader.load(getClass().getResource("TicTacToeGameController.fxml").openStream());
+			controller = loader.getController();
+            controller.setGame(this);
+			Stage stage = new Stage();
+			stage.setScene(new Scene(loaded));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return controller;
     }
 
     @Override
@@ -51,4 +74,5 @@ public class TicTacToeGame extends Game {
     protected Side getSide2() {
         return TicTacToeGame.O;
     }
+
 }

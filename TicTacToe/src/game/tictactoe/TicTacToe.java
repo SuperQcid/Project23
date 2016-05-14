@@ -12,7 +12,7 @@ import knof.plugin.Plugin;
 public class TicTacToe extends Plugin {
 
     public TicTacToe() {
-        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection));
+        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection, game));
     }
 
     @Override

@@ -4,11 +4,11 @@ import knof.command.Command;
 import knof.connection.Connection;
 import knof.gamelogic.Side;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer extends LocalPlayer {
     private boolean ready = false;
 
-    public HumanPlayer(String name, Side side, Connection connection) {
-        super(name, side, connection);
+    public HumanPlayer(String name, Side side, Connection connection, Game game) {
+        super(name, side, connection, game);
     }
 
     public void receiveMove(int move) {

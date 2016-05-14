@@ -17,6 +17,7 @@ import knof.command.Command;
 import knof.connection.Connection;
 import knof.event.events.StatusEvent;
 import knof.model.Server;
+import knof.util.DebugSettings;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -29,8 +30,6 @@ import static knof.util.DialogHelper.createDialogPane;
 public class ConnectionController {
     private boolean newWindow = true;
     private final int PORT_NUMBER_LENGTH = 5;
-
-    private final boolean DEBUG = true;
 
     @FXML
     TextField hostName;
@@ -211,7 +210,7 @@ public class ConnectionController {
             }
         });
 
-        if (DEBUG) {
+        if (DebugSettings.DEBUG) {
 
             String hostname = "";
             try {
@@ -226,6 +225,7 @@ public class ConnectionController {
             portNumber.setText("7789");
             hostName.setText("samaranthlynx.nl");
             userName.setText(hostname+"-" + System.currentTimeMillis());
+            connectButton.fire();
         }
 
     }

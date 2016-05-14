@@ -106,7 +106,7 @@ public class Server implements InvalidationListener {
 		this.players.addAll(event);
     }
 
-    @EventHandler(later = true)
+    @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
         String playerOne, playerTwo;
         boolean playerOneLocal;
@@ -127,8 +127,10 @@ public class Server implements InvalidationListener {
             game.result.addListener((observable, oldValue, newValue) -> {
                 terminate();
             });
-            currentGame.setValue(game);
-            game.startGame(event);
+            Platform.runLater(() -> {
+                currentGame.setValue(game);
+                game.startGame(event);
+            });
         }
     }
 
