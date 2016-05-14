@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.gamelogic.GridGame;
-import knof.gamelogic.Side;
+import knof.model.game.Side;
 
 /**
  * Created by Thijs on 10/05/2016.

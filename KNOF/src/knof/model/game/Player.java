@@ -2,7 +2,6 @@ package knof.model.game;
 
 import knof.command.Command;
 import knof.connection.Connection;
-import knof.gamelogic.Side;
 
 /**
  * Created by Henk Dieter Oordt on 21-4-2016.

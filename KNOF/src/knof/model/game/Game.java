@@ -12,7 +12,6 @@ import knof.event.events.GameResultEvent;
 import knof.event.events.MatchEvent;
 import knof.event.events.MoveEvent;
 import knof.event.events.TurnEvent;
-import knof.gamelogic.Side;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,6 @@ package knof.model.game;
 
 import knof.command.Command;
 import knof.connection.Connection;
-import knof.gamelogic.Side;
 
 public class HumanPlayer extends LocalPlayer {
     private boolean ready = false;

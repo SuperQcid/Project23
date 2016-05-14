@@ -1,4 +1,4 @@
-package knof.gamelogic;
+package knof.model.game;
 
 /**
  * Created by Thijs on 13/05/2016.

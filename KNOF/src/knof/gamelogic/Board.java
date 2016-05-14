@@ -1,8 +1,7 @@
 package knof.gamelogic;
 
-import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
-import knof.model.game.LocalPlayer;
+import knof.model.game.Side;
 
 import java.util.ArrayList;
 import java.util.List;

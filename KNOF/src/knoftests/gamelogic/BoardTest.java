@@ -5,7 +5,7 @@
 //import knof.gamelogic.Direction;
 //import knof.gamelogic.Move;
 //import knof.gamelogic.Pos;
-//import knof.gamelogic.Side;
+//import knof.model.game.Side;
 //import java.util.ArrayList;
 //import java.util.List;
 //import static org.junit.Assert.assertArrayEquals;

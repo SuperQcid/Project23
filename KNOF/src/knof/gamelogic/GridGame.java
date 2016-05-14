@@ -2,9 +2,7 @@ package knof.gamelogic;
 
 import knof.connection.Connection;
 import knof.controllers.GameController;
-import knof.gamelogic.Board;
-import knof.gamelogic.Piece;
-import knof.gamelogic.Side;
+import knof.model.game.Side;
 import knof.model.game.DummyPlayer;
 import knof.model.game.Game;
 import knof.model.game.HumanPlayer;
