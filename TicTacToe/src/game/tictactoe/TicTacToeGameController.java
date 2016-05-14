@@ -7,7 +7,6 @@ import knof.controllers.GameController;
 import knof.gamelogic.Board;
 import knof.gamelogic.controllers.BoardGame;
 import knof.gamelogic.controllers.PieceRenderer;
-import knof.model.game.Game;
 
 public class TicTacToeGameController extends GameController{
 
@@ -21,7 +20,6 @@ public class TicTacToeGameController extends GameController{
 
 	public void setGame(TicTacToeGame game) {
 		boardGame.setGame(game);
-		boardGame.drawBoard();
 	}
 
 	@FXML

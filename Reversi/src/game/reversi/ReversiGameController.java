@@ -11,7 +11,6 @@ public class ReversiGameController extends GameController {
 
     public void setGame(ReversiGame game) {
         boardGame.setGame(game);
-        boardGame.drawBoard();
     }
 
     @Override

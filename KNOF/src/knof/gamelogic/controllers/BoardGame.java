@@ -30,6 +30,9 @@ public class BoardGame extends Canvas {
 
 	public void setGame(GridGame game) {
 		this.board = game.getBoard();
+		if(this.board == null) {
+			System.err.println("ERROR: Board not initialized!");
+		}
 		Player localPlayer = game.getLocalPlayer();
 		if(localPlayer instanceof HumanPlayer) {
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED,

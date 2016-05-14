@@ -21,7 +21,7 @@ public class ReversiGame extends GridGame<ReversiBoard> {
 
     @Override
     public ReversiBoard createBoard() {
-        return null;
+        return new ReversiBoard(this);
     }
 
     @Override
