@@ -29,7 +29,7 @@ public class BoardGame extends Canvas {
 	}
 
 	public void setGame(GridGame game) {
-		this.board = game.board;
+		this.board = game.getBoard();
 		Player localPlayer = game.getLocalPlayer();
 		if(localPlayer instanceof HumanPlayer) {
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED,

@@ -4,21 +4,19 @@ import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import knof.controllers.GameController;
 import knof.gamelogic.controllers.BoardGame;
-import knof.model.game.Game;
 
 public class ReversiGameController extends GameController {
     @FXML
     public BoardGame boardGame;
 
-    private ReversiGame game;
-
     public void setGame(ReversiGame game) {
-        this.game = game;
+        boardGame.setGame(game);
+        boardGame.drawBoard();
     }
 
     @Override
-    public void update(Game game) {
-        System.err.println("Update called");
+    public void update() {
+        boardGame.drawBoard();
     }
 
     @FXML

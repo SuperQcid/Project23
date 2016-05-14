@@ -30,8 +30,6 @@ public abstract class Game implements Observable {
 
     public Game(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection){
 
-        connection.eventSystem.register(this);
-
         if(playerOneIsLocal){
             localPlayer = initLocalPlayer(playerOneName, connection, getSide1());
             remotePlayer = initRemotePlayer(playerTwoName, connection, getSide2());
@@ -40,6 +38,14 @@ public abstract class Game implements Observable {
             localPlayer = initLocalPlayer(playerTwoName, connection, getSide2());
         }
         this.connection = connection;
+
+        this.preRegisterInit();
+
+        connection.eventSystem.register(this);
+    }
+
+    protected void preRegisterInit() {
+        // Put things you want to do before registering here
     }
 
     /**

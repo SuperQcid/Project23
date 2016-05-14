@@ -9,10 +9,14 @@ import knof.model.game.HumanPlayer;
 import knof.model.game.LocalPlayer;
 
 public abstract class GridGame<B extends Board> extends Game {
-    public final B board;
+    private B board;
 
     public GridGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
         super(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    }
+
+    @Override
+    protected void preRegisterInit() {
         this.board = createBoard();
     }
 
@@ -41,4 +45,8 @@ public abstract class GridGame<B extends Board> extends Game {
 
     @Override
     protected abstract Side getSide2();
+
+    public B getBoard() {
+        return board;
+    }
 }
