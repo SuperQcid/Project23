@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
+import knof.event.EventHandler;
+import knof.event.events.MoveEvent;
 import knof.gamelogic.Piece;
 import knof.gamelogic.Side;
 import knof.model.game.DummyPlayer;
@@ -72,4 +74,5 @@ public class TicTacToeGame extends Game {
     protected Side getSide2() {
         return TicTacToeGame.O;
     }
+
 }

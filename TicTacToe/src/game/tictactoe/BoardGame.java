@@ -10,6 +10,7 @@ import knof.model.game.Game;
 import knof.model.game.HumanPlayer;
 import knof.model.game.Player;
 import knof.gamelogic.Board.Pos;
+import knof.util.DebugSettings;
 
 public class BoardGame extends Canvas {
 	
@@ -61,7 +62,7 @@ public class BoardGame extends Canvas {
 	 */
 	public void drawBoard() {
 		clear();
-    	gc.setFill(Color.DARKGRAY);
+    	gc.setFill(backgroundColor);
     	gc.setStroke(Color.BLACK);
     	gc.fillRect(0, 0, getWidth(), getHeight());
     	gc.setLineWidth(gridLineWidth);
@@ -75,6 +76,7 @@ public class BoardGame extends Canvas {
     		double colY = getColY(y);
     		gc.strokeLine(0, colY, getWidth(), colY);    		
     	}
+
     	// Pieces
     	for(int y = 0; y < game.board.height; y++) {
     		for(int x = 0; x < game.board.width; x++) {
@@ -94,11 +96,11 @@ public class BoardGame extends Canvas {
      */
 	private void drawPiece(Pos pos, Piece piece) {
     	switch(piece.getSide().getName()) {
-			case "BLACK":
+			case "X":
 				gc.setFill(colorPlayerOne);
 				gc.setStroke(colorPlayerOne);
 				break;
-			case "WHITE":
+			case "O":
 				gc.setFill(colorPlayerTwo);
 				gc.setStroke(colorPlayerTwo);
 				break;
@@ -126,7 +128,7 @@ public class BoardGame extends Canvas {
 				gc.setLineWidth(pieceLineWidth);
 				double padding = pieceLineWidth / 2 + piecePadding;
 				switch(piece.getSide().getName()) {
-					case "BLACK":
+					case "X":
 						gc.strokeLine(
 							getRowX(pos.x) + padding,
 							getColY(pos.y) + padding,
@@ -140,7 +142,7 @@ public class BoardGame extends Canvas {
 							getColY(pos.y) + padding
 						);
 						break;
-					case "WHITE":
+					case "O":
 						gc.strokeOval(
 							getRowX(pos.x) + padding,
 							getColY(pos.y) + padding,
