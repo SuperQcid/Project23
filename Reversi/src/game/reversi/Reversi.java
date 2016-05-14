@@ -16,8 +16,8 @@ public class Reversi extends Plugin {
     }
 
     @Override
-    public Game createGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        return new ReversiGame(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public Game createGame(Connection connection) {
+        return new ReversiGame(connection);
     }
 
     @Override

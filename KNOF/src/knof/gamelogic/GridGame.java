@@ -11,8 +11,8 @@ import knof.model.game.LocalPlayer;
 public abstract class GridGame<B extends Board> extends Game {
     private B board;
 
-    public GridGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        super(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public GridGame(Connection connection) {
+        super(connection);
         this.board = createBoard();
     }
 

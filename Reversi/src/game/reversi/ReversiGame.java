@@ -15,8 +15,8 @@ public class ReversiGame extends GridGame<ReversiBoard> {
     public static final Side BLACK = new Side("BLACK");
     public static final Side WHITE = new Side("WHITE");
 
-    public ReversiGame(String playerOneName, String playerTwoName, boolean playerOneIsLocal, Connection connection) {
-        super(playerOneName, playerTwoName, playerOneIsLocal, connection);
+    public ReversiGame(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -44,12 +44,12 @@ public class ReversiGame extends GridGame<ReversiBoard> {
     }
 
     @Override
-    protected Side getSide1() {
+    public Side getSide1() {
         return BLACK;
     }
 
     @Override
-    protected Side getSide2() {
+    public Side getSide2() {
         return WHITE;
     }
 }
