@@ -9,8 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import knof.app.KnofApplication;
 import knof.command.Command;
@@ -27,15 +25,14 @@ import knof.util.DialogHelper;
 
 import java.io.IOException;
 import java.util.Timer;
-
-import static knof.model.game.GameResult.Result.WIN;
+import java.util.function.Predicate;
 
 /**
  * A model representing a server that has been connected to
  */
 public class Server implements InvalidationListener {
     public final Connection connection;
-    public final ObservableList<String> games;
+    public final ObservableList<GameSettings> games;
     public final ObservableList<String> players;
     public final ObservableList<Challenge> challenges;
 
@@ -48,7 +45,7 @@ public class Server implements InvalidationListener {
     public Server(Connection connection, String playerName) {
         this.connection = connection;
         this.playerName = playerName;
-        ObservableList<String> gameList = FXCollections.observableArrayList();
+        ObservableList<GameSettings> gameList = FXCollections.observableArrayList();
         this.games = FXCollections.synchronizedObservableList(gameList);
 
         ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -67,11 +64,11 @@ public class Server implements InvalidationListener {
     @EventHandler(later = true)
     public void onGameList(ListEvent.Games event) {
         System.out.println(event);
-        this.games.removeIf((String game) -> !event.contains(game));
+        this.games.removeIf((GameSettings game) -> !event.contains(game.toString()));
         event.removeIf(this.games::contains);
 
-			this.games.addAll(event);
-			System.out.println(this.games);
+        event.forEach(game -> this.games.add(new GameSettings(game)));
+		System.out.println(this.games);
 
 	}
 
@@ -113,6 +110,7 @@ public class Server implements InvalidationListener {
         //TODO Build jar and use it
         Plugin p = KnofApplication.getPlugin(event.gameType);
         if(p != null) {
+            String playerType = this.getGameSettings(event.gameType).getSelectedAI();
             if (event.playerToMove.equals(event.opponent)) {
                 playerOne = event.opponent;
                 playerTwo = playerName;
@@ -160,6 +158,10 @@ public class Server implements InvalidationListener {
     @EventHandler
     public void onGameEndEvent(GameResultEvent gameResultEvent) {
         DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage());
+    }
+
+    public GameSettings getGameSettings(String game) {
+        return this.games.filtered(gameSettings -> gameSettings.toString().equals(game)).get(0);
     }
 
 }

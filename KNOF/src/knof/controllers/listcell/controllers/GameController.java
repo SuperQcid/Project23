@@ -1,10 +1,14 @@
 package knof.controllers.listcell.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import knof.app.KnofApplication;
+import knof.model.GameSettings;
 
 import java.util.Set;
 
@@ -12,8 +16,9 @@ public class GameController extends ListCellController {
 
 	@FXML
 	public ChoiceBox<String> ai;
+    private GameSettings game;
 
-	public GameController() {
+    public GameController() {
 		// TODO
 		// Load available AIs from plugin
 		// Add available AIs to ChoiceBox ai.
@@ -25,8 +30,11 @@ public class GameController extends ListCellController {
         button.setVisible(false);
         button.setDisable(true);
         ai.setDisable(true);
-        // TODO
-        // Launch the game with selected AI.
+    }
+
+    public void bindGame(GameSettings game) {
+        System.out.println(game+" bound");
+        this.game = game;
     }
 
     @Override
@@ -37,6 +45,9 @@ public class GameController extends ListCellController {
     public void populateAIChoiceBox(Set<String> playerTypes){
         ObservableList<String> ais  = FXCollections.observableArrayList(playerTypes);
         ai.setItems(ais);
+        ai.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            this.game.setSelectedAI(newValue);
+        });
         ai.getSelectionModel().selectFirst();
     }
 }
