@@ -1,6 +1,7 @@
 package game.tictactoe;
 
 import knof.connection.Connection;
+import knof.gamelogic.HumanGridGamePlayer;
 import knof.model.game.Game;
 import knof.model.game.HumanPlayer;
 import knof.model.game.Player;
@@ -12,7 +13,7 @@ import knof.plugin.Plugin;
 public class TicTacToe extends Plugin {
 
     public TicTacToe() {
-        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection, game));
+        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanGridGamePlayer<>(playerName, side, connection, (TicTacToeGame)game, false));
     }
 
     @Override
