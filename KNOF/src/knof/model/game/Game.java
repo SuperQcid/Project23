@@ -35,7 +35,6 @@ public abstract class Game implements Observable {
 
         if(playerOneIsLocal){
             localPlayer = initLocalPlayer(playerOneName, connection, getSide1());
-            localPlayer.setTurn();
             remotePlayer = initRemotePlayer(playerTwoName, connection, getSide2());
         } else {
             remotePlayer = initRemotePlayer(playerOneName, connection, getSide1());
