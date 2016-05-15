@@ -1,7 +1,6 @@
 package knof.event.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import knof.event.IEvent;
 
 /**
  * Created by Thijs on 19/04/2016.

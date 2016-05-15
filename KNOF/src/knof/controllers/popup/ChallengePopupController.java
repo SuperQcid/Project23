@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
-import knof.command.Command;
 import knof.controllers.NumberTextField;
 import knof.model.GameEntry;
 import knof.model.Server;
@@ -38,12 +37,12 @@ public class ChallengePopupController {
     	game = gameBox.getValue().toString();
     	if(game != null) {
 			if(turntimeBox.isSelected()) {
-				server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, game, turntime.getText());
+				server.challenge(player, game, Integer.valueOf(turntime.getText()));
 			} else {
 				if (DebugSettings.DEBUG) {
-					server.connection.sendCommand(Command.CHALLENGE_TURNTIME, player, game, 300);
+					server.challenge(player, game, 300);
 				} else {
-					server.connection.sendCommand(Command.CHALLENGE, player, game);
+					server.challenge(player, game);
 				}
 			}
 			Stage stage = (Stage) challengeButton.getScene().getWindow();
@@ -59,19 +58,6 @@ public class ChallengePopupController {
     		turntime.setDisable(true);
     	}
     }
-
-//    @FXML
-//    public void initialize() {
-//		ObservableList<GameSettings> gamelist = FXCollections.observableArrayList();
-//    	/*
-//		ObservableList<String> gamelist = FXCollections.observableArrayList();
-//    	HashMap<String, Plugin> pluginList = KnofApplication.getPluginList();
-//    	for(String gameName: pluginList.keySet()) {
-//    	    gamelist.add(gameName);
-//    	}
-//    	gameBox.setItems(gamelist);
-//    	*/
-//    }
 
 	public void setServer(Server server) {
 		this.server = server;

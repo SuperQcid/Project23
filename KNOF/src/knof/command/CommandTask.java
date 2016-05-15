@@ -1,9 +1,7 @@
 package knof.command;
 
 import knof.connection.Connection;
-import knof.model.Server;
 
-import java.lang.ref.WeakReference;
 import java.util.TimerTask;
 
 public class CommandTask extends TimerTask {

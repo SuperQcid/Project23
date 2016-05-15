@@ -24,8 +24,7 @@ public class TicTacToe extends Plugin {
 
     @Override
     public Game createGame(Connection connection) {
-        TicTacToeGame tttGame = new TicTacToeGame(connection);
-        return tttGame;
+        return new TicTacToeGame(connection);
     }
     @Override
     public String getPlayerTypeName() {

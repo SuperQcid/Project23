@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import knof.command.Command;
 import knof.controllers.listcell.ChallengeCell;
@@ -43,6 +45,15 @@ public class ServerController {
     @FXML
     public Label labelPlayerName;
 
+    @FXML
+    public BorderPane subscriptionOverlay;
+
+    @FXML
+    public AnchorPane serverPane;
+
+    @FXML
+    public Label subscriptionGameName;
+
     public GameController currentGameController;
 
     public Server server;
@@ -52,6 +63,11 @@ public class ServerController {
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
         this.gameList.setCellFactory((ListView<GameEntry> param) -> new GameCell());
+    }
+
+    @FXML
+    public void cancelSubscription() {
+        this.server.unsubscribe();
     }
 
     public void setServer(Server server) {
@@ -71,6 +87,13 @@ public class ServerController {
 
         this.playerList.setItems(server.players);
         this.challengeList.setItems(server.challenges);
+
+        server.currentSubscription.addListener((observable, oldValue, newValue) -> {
+            subscriptionOverlay.setVisible(newValue!=null);
+            serverPane.setDisable(newValue!=null);
+        });
+
+        this.subscriptionGameName.textProperty().bind(server.currentSubscription);
     }
 
     public void connect(ActionEvent event) throws IOException {

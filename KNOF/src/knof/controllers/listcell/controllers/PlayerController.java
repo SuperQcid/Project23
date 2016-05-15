@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import knof.controllers.popup.ChallengePopupController;
 import knof.model.Server;
@@ -15,13 +17,13 @@ public class PlayerController extends ListCellController {
 
     public Server server;
 	protected Parent loaded;
-    
-    @FXML
+	private ListView<String> listView;
+
+	@FXML
     public void onButton(ActionEvent e) {
         System.out.println("CHALLENGE!!!");
-        loadingSign.setVisible(true);
-        button.setVisible(false);
-        button.setDisable(true);
+        //button.setDisable(true);
+		//listView.setDisable(true);
         if(isServerSet()){
 			try {
 				FXMLLoader loader = new FXMLLoader();
@@ -30,10 +32,10 @@ public class PlayerController extends ListCellController {
 				controller.setServer(server);
 				controller.player = cell.getText();
 				Stage stage = new Stage();
+				stage.initModality(Modality.APPLICATION_MODAL);
 				stage.setOnCloseRequest((value)->{
-					button.setDisable(false);
-					loadingSign.setVisible(false);
-					button.setVisible(true);
+					//button.setDisable(false);
+					//listView.setDisable(false);
 				});
 				stage.setScene(new Scene(loaded));
 				stage.show();
@@ -45,6 +47,10 @@ public class PlayerController extends ListCellController {
 
     public void setServer(Server server){
     	this.server = server;
+		this.server.currentChallenge.addListener((observable, oldValue, newValue) -> {
+			loadingSign.setVisible(newValue.equals(this.cell.getText()));
+			button.setVisible(!newValue.equals(this.cell.getText()));
+		});
     }
     
     public boolean isServerSet(){
@@ -53,5 +59,9 @@ public class PlayerController extends ListCellController {
 
 	public String getViewName() {
 		return "ListCell";
+	}
+
+	public void setListView(ListView<String> listView) {
+		this.listView = listView;
 	}
 }

@@ -14,7 +14,7 @@ public class Help {
     private ArrayList<Path> filePaths;
 
     public Help(){
-        filePaths = new ArrayList<Path>();
+        filePaths = new ArrayList<>();
         filePaths = FileHelper.getFilesInFolder("help");
     }
     

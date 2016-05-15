@@ -1,6 +1,5 @@
 package knof.model;
 
-import knof.app.KnofApplication;
 import knof.plugin.Plugin;
 
 public class GameEntry {
@@ -26,5 +25,9 @@ public class GameEntry {
 
     public boolean hasPlugin() {
         return plugin!=null;
+    }
+
+    public void subscribe() {
+        this.server.subscribe(name);
     }
 }

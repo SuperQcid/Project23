@@ -1,12 +1,8 @@
 package knoftests.command;
 
-import knof.command.Command;
 import knof.connection.CommandHandler;
 import knof.event.EventSystem;
-import knof.event.events.StatusEvent;
 import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
