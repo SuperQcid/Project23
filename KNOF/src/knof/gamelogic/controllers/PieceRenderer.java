@@ -23,4 +23,5 @@ public abstract class PieceRenderer {
     }
 
     public abstract void renderShape(GraphicsContext gc, BoardGame boardGame, Board.Pos pos);
+
 }

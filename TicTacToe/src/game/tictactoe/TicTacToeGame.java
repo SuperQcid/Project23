@@ -38,6 +38,7 @@ public class TicTacToeGame extends GridGame<TicTacToeBoard> {
 			Parent loaded = loader.load(getClass().getResource("TicTacToeGameController.fxml").openStream());
 			controller = loader.getController();
             controller.setGame(this);
+            controller.drawMiniatures(this, new TicTacToePieceMiniatureRenderer());
 			Stage stage = new Stage();
             setForfeitOnClose(stage);
 			stage.setScene(new Scene(loaded));

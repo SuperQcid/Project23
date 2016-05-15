@@ -17,7 +17,7 @@ public abstract class GameController implements InvalidationListener {
 
     public abstract void update(Game game);
 
-    private final void editPlayerMarks(Game game){
+    protected void editPlayerMarks(Game game){
         if(game.sideUp != null){
             if(game.sideUp.equals(game.getLocalPlayer().getSide())){
                 localPlayerMark.setFill(Color.LIGHTGREEN);
@@ -35,7 +35,7 @@ public abstract class GameController implements InvalidationListener {
     }
 
     @Override
-    public final void invalidated(Observable observable){
+    public void invalidated(Observable observable){
         if(observable instanceof Game){
             Game game = (Game) observable;
             editPlayerMarks(game);
