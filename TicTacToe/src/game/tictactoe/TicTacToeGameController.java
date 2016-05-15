@@ -37,8 +37,6 @@ public class TicTacToeGameController extends BoardGameController {
 		double piecePadding = 4;
 		double pieceLineWidth = 10;
 
-
-
 		boardGame.addPieceRenderer("X", new PieceRenderer(Color.RED, pieceLineWidth, piecePadding) {
 
 			@Override

@@ -29,7 +29,10 @@ public class BoardGame extends Canvas {
 	}
 
 	public void setGame(GridGame game) {
-		this.board = game.board;
+		this.board = game.getBoard();
+		if(this.board == null) {
+			System.err.println("ERROR: Board not initialized!");
+		}
 		Player localPlayer = game.getLocalPlayer();
 		//TODO: Debug output
 		System.err.println((localPlayer instanceof HumanPlayer)+", "+localPlayer.getSide()+"!!!");
