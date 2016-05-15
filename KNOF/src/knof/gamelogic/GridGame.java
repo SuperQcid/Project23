@@ -20,7 +20,7 @@ public abstract class GridGame<B extends Board> extends Game {
 
     @Override
     protected boolean move(int move, Side side) {
-        return board.place(move, new Piece(this.getSidePlayer(side)));
+        return board.place(move, new Piece(side));
     }
 
     @Override

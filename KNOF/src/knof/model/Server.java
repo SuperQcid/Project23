@@ -69,14 +69,10 @@ public class Server implements InvalidationListener {
     public void onGameList(ListEvent.Games event) {
         System.out.println(event);
         this.games.removeIf((GameEntry game) -> !event.contains(game.toString()));
-        event.removeIf(this.games::contains);
+        this.games.forEach(gameEntry -> event.remove(gameEntry.toString()));
 
         event.forEach(game -> this.games.add(new GameEntry(game, this)));
 		System.out.println(this.games);
-
-	}
-
-	public void challengePlayer(String playerName){
 
 	}
 
