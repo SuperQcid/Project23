@@ -4,7 +4,6 @@ import knof.gamelogic.Board;
 import knof.gamelogic.Direction;
 import knof.gamelogic.Piece;
 import knof.model.game.Game;
-import knof.model.game.Player;
 import knof.model.game.Side;
 
 import java.util.LinkedList;

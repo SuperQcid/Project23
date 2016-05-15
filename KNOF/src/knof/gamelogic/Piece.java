@@ -1,6 +1,5 @@
 package knof.gamelogic;
 
-import knof.model.game.Player;
 import knof.model.game.Side;
 
 /**

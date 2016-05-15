@@ -4,12 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import knof.connection.Connection;
-import knof.model.game.Game;
-import knof.plugin.Plugin;
-import knof.plugin.PluginLoader;
-
-import java.util.HashMap;
 
 public class KnofApplication extends Application {
 

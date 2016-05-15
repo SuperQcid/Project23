@@ -4,11 +4,6 @@ package knoftests.event;
 import knof.event.EventHandler;
 import knof.event.EventSystem;
 import knof.event.IEvent;
-import knof.event.events.ChallengeEvent;
-import knof.event.events.MessageEvent;
-import knof.event.events.MoveEvent;
-import knof.event.events.ListEvent;
-import knof.event.events.StatusEvent;
 import knof.event.events.*;
 import org.junit.Test;
 

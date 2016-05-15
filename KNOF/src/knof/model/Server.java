@@ -21,8 +21,6 @@ import knof.model.game.Game;
 import knof.model.game.Player;
 import knof.model.game.Side;
 import knof.plugin.Plugin;
-import knof.event.events.ChallengeEvent;
-import knof.event.events.ListEvent;
 import knof.plugin.PluginLoader;
 import knof.util.DialogHelper;
 

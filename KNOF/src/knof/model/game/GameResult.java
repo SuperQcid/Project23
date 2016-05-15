@@ -26,7 +26,7 @@ public class GameResult {
         this.result = lookup.get(ev.getClass());
     }
 
-    public static enum Result {
+    public enum Result {
         WIN,
         LOSS,
         DRAW,

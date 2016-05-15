@@ -1,6 +1,5 @@
 package knof.model;
 
-import knof.app.KnofApplication;
 import knof.plugin.Plugin;
 
 public class GameEntry {

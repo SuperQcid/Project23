@@ -4,7 +4,6 @@ import knof.connection.Connection;
 import knof.gamelogic.HumanGridGamePlayer;
 import knof.gamelogic.players.RandomGridPlayer;
 import knof.model.game.Game;
-import knof.model.game.HumanPlayer;
 import knof.plugin.Plugin;
 
 public class Reversi extends Plugin {

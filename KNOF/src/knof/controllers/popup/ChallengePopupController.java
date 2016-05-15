@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
-import knof.command.Command;
 import knof.controllers.NumberTextField;
 import knof.model.GameEntry;
 import knof.model.Server;

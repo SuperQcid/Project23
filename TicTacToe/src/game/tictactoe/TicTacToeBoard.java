@@ -2,7 +2,6 @@ package game.tictactoe;
 
 
 import knof.gamelogic.Board;
-import knof.model.game.Player;
 import knof.model.game.Side;
 
 /**
