@@ -30,6 +30,11 @@ public class PlayerController extends ListCellController {
 				controller.setServer(server);
 				controller.player = cell.getText();
 				Stage stage = new Stage();
+				stage.setOnCloseRequest((value)->{
+					button.setDisable(false);
+					loadingSign.setVisible(false);
+					button.setVisible(true);
+				});
 				stage.setScene(new Scene(loaded));
 				stage.show();
 			} catch (IOException e1) {
