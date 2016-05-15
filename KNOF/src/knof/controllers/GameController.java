@@ -15,7 +15,7 @@ public abstract class GameController implements InvalidationListener {
     @FXML
     public Circle localPlayerMark, remotePlayerMark;
 
-    public abstract void update(Game game);
+    public abstract void update();
 
     protected void editPlayerMarks(Game game){
         if(game.sideUp != null){
@@ -39,7 +39,7 @@ public abstract class GameController implements InvalidationListener {
         if(observable instanceof Game){
             Game game = (Game) observable;
             editPlayerMarks(game);
-            update(game);
+            update();
         }
     }
 }
