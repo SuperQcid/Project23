@@ -12,7 +12,7 @@ import knof.controllers.popup.ChallengePopupController;
 import knof.model.Server;
 
 public class PlayerController extends ListCellController {
-    
+
     public Server server;
 	protected Parent loaded;
     
@@ -30,18 +30,28 @@ public class PlayerController extends ListCellController {
 				controller.setServer(server);
 				controller.player = cell.getText();
 				Stage stage = new Stage();
+				stage.setOnCloseRequest((value)->{
+					button.setDisable(false);
+					loadingSign.setVisible(false);
+					button.setVisible(true);
+				});
 				stage.setScene(new Scene(loaded));
 				stage.show();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
         }
-    }    
+    }
+
     public void setServer(Server server){
     	this.server = server;
     }
     
     public boolean isServerSet(){
 		return (server != null);
+	}
+
+	public String getViewName() {
+		return "ListCell";
 	}
 }

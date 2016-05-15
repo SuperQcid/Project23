@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.stage.Stage;
+import knof.command.Command;
 import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.event.EventHandler;
@@ -51,6 +53,12 @@ public abstract class Game implements Observable {
     protected abstract boolean move(int move, Side side);
 
     protected abstract GameController initGameController();
+
+    public void setForfeitOnClose(Stage stage){
+        stage.setOnCloseRequest((value)->{
+            connection.sendCommand(Command.CHALLENGE_FORFEIT);
+        });
+    }
 
     public Player getLocalPlayer(){
         return this.localPlayer;
