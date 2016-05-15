@@ -48,8 +48,8 @@ public class PlayerController extends ListCellController {
     public void setServer(Server server){
     	this.server = server;
 		this.server.currentChallenge.addListener((observable, oldValue, newValue) -> {
-			loadingSign.setVisible(newValue.equals(this.cell.getText()));
-			button.setVisible(!newValue.equals(this.cell.getText()));
+			loadingSign.setVisible(this.cell.getText().equals(newValue));
+			button.setVisible(!this.cell.getText().equals(newValue));
 		});
     }
     

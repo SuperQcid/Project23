@@ -7,13 +7,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import knof.command.Command;
 import knof.command.CommandTask;
 import knof.connection.Connection;
-import knof.controllers.popup.SubscribePopupController;
 import knof.event.EventHandler;
 import knof.event.events.*;
 import knof.model.game.DummyPlayer;
@@ -24,7 +20,6 @@ import knof.plugin.Plugin;
 import knof.plugin.PluginLoader;
 import knof.util.DialogHelper;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Timer;
 
@@ -77,25 +72,6 @@ public class Server implements InvalidationListener {
 
 	}
 
-
-	public void onGameClicked(String game){
-		Platform.runLater(() -> {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            try {
-                stage.setScene(new Scene(loader.load(getClass().getResource("../controllers/popup/SubscribePopupController.fxml").openStream())));
-                stage.setTitle("Subscribed to game");
-                SubscribePopupController popupController = loader.getController();
-                popupController.addGameToText(game);
-                connection.sendCommand(Command.SUBSCRIBE, game);
-                popupController.setServer(this);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     public void subscribe(String game) {
         connection.sendCommandWithCallBackLater(statusEvent -> {
             if (statusEvent instanceof StatusEvent.Ok) {
@@ -135,8 +111,6 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
-        currentChallenge.set(null);
-        currentSubscription.set(null);
 
         //TODO Build jar and use it
         Plugin p = this.getPlugin(event.gameType);
@@ -170,6 +144,8 @@ public class Server implements InvalidationListener {
                 terminate();
             });
             Platform.runLater(() -> {
+                currentChallenge.set(null);
+                currentSubscription.set(null);
                 currentGame.setValue(game);
                 game.startGame(event);
             });
