@@ -19,6 +19,6 @@
         </Pane>
     </left>
    <bottom>
-      <Label fx:id="gameType" text="hoere" BorderPane.alignment="CENTER" />
+      <Label fx:id="gameType" BorderPane.alignment="CENTER" />
    </bottom>
 </fx:root>
