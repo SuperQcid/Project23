@@ -3,12 +3,17 @@ package game.tictactoe;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import knof.controllers.BoardGameController;
 import knof.controllers.GameController;
 import knof.gamelogic.Board;
 import knof.gamelogic.controllers.BoardGame;
+import knof.gamelogic.controllers.PieceMiniatureCanvas;
+import knof.gamelogic.controllers.PieceMiniatureRenderer;
 import knof.gamelogic.controllers.PieceRenderer;
+import knof.model.game.Game;
+import knof.model.game.Side;
 
-public class TicTacToeGameController extends GameController{
+public class TicTacToeGameController extends BoardGameController {
 
 	@FXML
 	public BoardGame boardGame;

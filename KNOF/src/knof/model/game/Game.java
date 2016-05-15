@@ -30,6 +30,8 @@ public abstract class Game implements Observable {
 
     public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
+    public Side sideUp;
+
     public Game(Connection connection){
         this.connection = connection;
     }
@@ -68,12 +70,14 @@ public abstract class Game implements Observable {
 
     public final GameController createGameController(){
         GameController gc = initGameController();
+        gc.localPlayerName.setText(localPlayer.getName());
+        gc.remotePlayerName.setText(remotePlayer.getName());
         addListener(gc);
         return gc;
     }
 
     public final void startGame(MatchEvent event){
-        invalidate(event);
+        invalidate();
     }
 
     public final void yourTurn(){
@@ -90,7 +94,7 @@ public abstract class Game implements Observable {
         return null;
     }
 
-    private synchronized final void invalidate(IEvent event){
+    private synchronized final void invalidate(){
         for(InvalidationListener il : listeners){
             Platform.runLater(() -> {
                 il.invalidated(this);
@@ -115,13 +119,14 @@ public abstract class Game implements Observable {
         Side side;
         if(localPlayer.getName().equals(event.player)){
             side = localPlayer.getSide();
+            this.sideUp = remotePlayer.getSide();
         } else {
             side = remotePlayer.getSide();
         }
         if(!this.move(event.move, side)) {
             System.err.println("Warning: invalid move received!");
         }
-        invalidate(event);
+        invalidate();
     }
 
     @EventHandler(later = true)
@@ -129,13 +134,15 @@ public abstract class Game implements Observable {
         //TODO: Remove debug output
         System.err.println("ONTURN");
         this.yourTurn();
-        invalidate(event);
+        this.sideUp = localPlayer.getSide();
+        invalidate();
     }
 
     @EventHandler(later = true)
     public final void onGameResult(GameResultEvent event){
         this.result.set(new GameResult(event));
-        invalidate(event);
+        this.sideUp = null;
+        invalidate();
     }
 
     protected Side getSide(int player) {

@@ -158,6 +158,8 @@ public class Server implements InvalidationListener {
             Player localPlayer = p.createPlayer(connection, game, localSide, playerName);
             Player remotePlayer = new DummyPlayer(event.opponent, remoteSide, connection);
 
+            game.sideUp = playerOneLocal ? localSide : remoteSide;
+
             game.setLocalPlayer(localPlayer);
             game.setRemotePlayer(remotePlayer);
 

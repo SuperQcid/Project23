@@ -2,10 +2,10 @@ package game.reversi;
 
 import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
-import knof.controllers.GameController;
+import knof.controllers.BoardGameController;
 import knof.gamelogic.controllers.BoardGame;
 
-public class ReversiGameController extends GameController {
+public class ReversiGameController extends BoardGameController {
     @FXML
     public BoardGame boardGame;
 
