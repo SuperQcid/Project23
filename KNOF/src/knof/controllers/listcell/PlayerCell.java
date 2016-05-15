@@ -20,6 +20,7 @@ public class PlayerCell extends Cell<String> {
 	public void cell(String item) {
 		if (!controller.isServerSet()) {
 			controller.setServer(this.server);
+			controller.setListView(this.getListView());
 		}
 		Platform.runLater(() -> {
 			controller.cell.setText(item);

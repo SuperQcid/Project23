@@ -1,64 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knof.controllers.ServerController">
-  <children>
-    <MenuBar prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <menus>
-        <Menu mnemonicParsing="true" text="_File">
-          <items>
-            <MenuItem fx:id="menuItemConnect" mnemonicParsing="true" onAction="#connect" text="Connect to _server..." />
-            <MenuItem fx:id="menuItemConnectNewWindow" mnemonicParsing="true" onAction="#connect" text="Connect to server in _new window..." />
-            <MenuItem fx:id="menuItemClose" mnemonicParsing="true" onAction="#close" text="_Close" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <GridPane alignment="CENTER" gridLinesVisible="false" hgap="5.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
-      <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Games" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0">
-          <font>
-            <Font size="24.0" fx:id="x1" />
-          </font>
-        </Text>
-        <Text font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-        <Text font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="Challengers" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-        <ListView fx:id="gameList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <ListView fx:id="playerList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <ListView fx:id="challengeList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-      </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      </columnConstraints>
-      <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" />
-      </padding>
-      <rowConstraints>
-        <RowConstraints maxHeight="38.0" minHeight="38.0" prefHeight="38.0" vgrow="NEVER" />
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="-1.0" vgrow="SOMETIMES" />
-      </rowConstraints>
-    </GridPane>
+<StackPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="768.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="knof.controllers.ServerController">
+  <AnchorPane id="AnchorPane" fx:id="serverPane" disable="false">
+    <children>
+      <MenuBar prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="true" text="_File">
+            <items>
+              <MenuItem mnemonicParsing="true" onAction="#connect" text="Connect to _server..." fx:id="menuItemConnect" />
+              <MenuItem mnemonicParsing="true" onAction="#connect" text="Connect to server in _new window..." fx:id="menuItemConnectNewWindow" />
+              <MenuItem mnemonicParsing="true" onAction="#close" text="_Close" fx:id="menuItemClose" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <GridPane alignment="CENTER" gridLinesVisible="false" hgap="5.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
+        <children>
+          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Games" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+            <font>
+              <Font size="24.0" fx:id="x1" />
+            </font>
+          </Text>
+          <Text font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+          <Text font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="Challengers" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+          <ListView fx:id="gameList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+          <ListView fx:id="playerList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+          <ListView fx:id="challengeList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        </children>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <padding>
+          <Insets bottom="5.0" left="5.0" right="5.0" />
+        </padding>
+        <rowConstraints>
+          <RowConstraints maxHeight="38.0" minHeight="38.0" prefHeight="38.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="-1.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
       <Label fx:id="labelPlayerName" alignment="TOP_RIGHT" textAlignment="RIGHT" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="2.0">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
+        <font>
+          <Font name="System Bold" size="14.0" />
+        </font>
       </Label>
-  </children>
-  <padding>
-    <Insets />
-  </padding>
-</AnchorPane>
+    </children>
+    <padding>
+      <Insets />
+    </padding>
+  </AnchorPane>
+  <BorderPane fx:id="subscriptionOverlay" disable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgba(200, 200, 200, 0.5);" visible="false">
+    <center>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" style="">
+        <children>
+          <Label fx:id="subscriptionGameName" alignment="CENTER" contentDisplay="CENTER" prefWidth="171.0" text="Game" textAlignment="CENTER" underline="false" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="14.0">
+            <font>
+              <Font size="32.0" />
+            </font>
+          </Label>
+          <Label text="Waiting for game to start!" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="80.0" />
+          <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelSubscription" text="Cancel" underline="false" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="68.0" />
+          <ProgressIndicator progress="-1.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="128.0" />
+        </children>
+      </AnchorPane>
+    </center>
+  </BorderPane>
+</StackPane>

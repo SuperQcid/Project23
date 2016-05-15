@@ -16,7 +16,7 @@
    <left>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="button" mnemonicParsing="false" text="Button" />
+            <Button fx:id="button" mnemonicParsing="false" text="Button" onAction="#onButton" />
             <ProgressIndicator fx:id="loadingSign" layoutX="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" visible="false" />
          </children>
       </Pane>

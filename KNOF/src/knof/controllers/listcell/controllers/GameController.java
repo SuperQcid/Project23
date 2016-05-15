@@ -23,10 +23,11 @@ public class GameController extends ListCellController {
 
     @FXML
     public void onButton(ActionEvent e) {
-        loadingSign.setVisible(true);
-        button.setVisible(false);
-        button.setDisable(true);
-        ai.setDisable(true);
+        game.subscribe();
+//        loadingSign.setVisible(true);
+//        button.setVisible(false);
+//        button.setDisable(true);
+//        ai.setDisable(true);
     }
 
     public void bindGame(GameEntry game) {

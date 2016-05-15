@@ -39,8 +39,11 @@ public class Server implements InvalidationListener {
     public final ObservableList<String> players;
     public final ObservableList<Challenge> challenges;
 
+    public final SimpleObjectProperty<String> currentSubscription = new SimpleObjectProperty<>(null);
+
     public final ObjectProperty<Game> currentGame = new SimpleObjectProperty<>(null);
-    private HashMap<String, Plugin> pluginList = new PluginLoader().InitializePlugins();;
+    public final ObjectProperty<String> currentChallenge = new SimpleObjectProperty<>(null);
+    private HashMap<String, Plugin> pluginList = new PluginLoader().InitializePlugins();
 
     public String playerName;
 
@@ -79,7 +82,7 @@ public class Server implements InvalidationListener {
 
 	public void onGameClicked(String game){
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+            Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             try {
                 stage.setScene(new Scene(loader.load(getClass().getResource("../controllers/popup/SubscribePopupController.fxml").openStream())));
@@ -95,6 +98,35 @@ public class Server implements InvalidationListener {
         });
     }
 
+    public void subscribe(String game) {
+        connection.sendCommandWithCallBackLater(statusEvent -> {
+            if (statusEvent instanceof StatusEvent.Ok) {
+                this.currentSubscription.set(game);
+            }
+        }, Command.SUBSCRIBE, game);
+    }
+
+    public void unsubscribe() {
+        connection.sendCommandWithCallBackLater(statusEvent -> {
+            this.currentSubscription.set(null);
+            if (statusEvent instanceof StatusEvent.Error) {
+                System.err.println(((StatusEvent.Error) statusEvent).reason);
+            }
+        }, Command.UNSUBSCRIBE);
+    }
+
+    public void challenge(String player, String game, int turntime) {
+        connection.sendCommandWithCallBackLater(statusEvent -> {
+            this.currentChallenge.set(player);
+        }, Command.CHALLENGE_TURNTIME, player, game, turntime);
+    }
+
+    public void challenge(String player, String game) {
+        connection.sendCommandWithCallBackLater(statusEvent -> {
+            this.currentChallenge.set(player);
+        }, Command.CHALLENGE, player, game);
+    }
+
     @EventHandler(later = true)
     public void onPlayerList(ListEvent.Players event) {
 		this.players.removeIf((String player) -> !event.contains(player));
@@ -105,6 +137,9 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
+        currentChallenge.set(null);
+        currentSubscription.set(null);
+
         //TODO Build jar and use it
         Plugin p = this.getPlugin(event.gameType);
         if(p != null) {

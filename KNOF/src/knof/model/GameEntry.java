@@ -27,4 +27,8 @@ public class GameEntry {
     public boolean hasPlugin() {
         return plugin!=null;
     }
+
+    public void subscribe() {
+        this.server.subscribe(name);
+    }
 }
