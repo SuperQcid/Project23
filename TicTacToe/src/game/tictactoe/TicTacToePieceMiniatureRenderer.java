@@ -9,12 +9,12 @@ import knof.gamelogic.controllers.PieceMiniatureRenderer;
 public class TicTacToePieceMiniatureRenderer extends PieceMiniatureRenderer {
     @Override
     public void renderPlayerOneMiniature(GraphicsContext gc) {
-        gc.strokeLine(3, 3, 27, 27);
-        gc.strokeLine(3, 27, 27, 3);
+        gc.strokeOval(1, 1, 28 ,28);
     }
 
     @Override
     public void renderPlayerTwoMiniature(GraphicsContext gc) {
-        gc.strokeOval(1, 1, 28 ,28);
+        gc.strokeLine(3, 3, 27, 27);
+        gc.strokeLine(3, 27, 27, 3);
     }
 }
