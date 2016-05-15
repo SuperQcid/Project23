@@ -7,17 +7,18 @@ import knof.model.game.Game;
 import knof.model.game.Player;
 import knof.model.game.Side;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ReversiBoard extends Board {
     public ReversiBoard(Game game) {
         super(8, 8, game);
 
-        this.board[this.pos(3, 3).toInt()] = new Piece(ReversiGame.WHITE);
-        this.board[this.pos(4, 4).toInt()] = new Piece(ReversiGame.WHITE);
+        this.board[this.pos(3, 3).toInt()] = new ReversiPiece(ReversiGame.WHITE);
+        this.board[this.pos(4, 4).toInt()] = new ReversiPiece(ReversiGame.WHITE);
 
-        this.board[this.pos(3, 4).toInt()] = new Piece(ReversiGame.BLACK);
-        this.board[this.pos(4, 3).toInt()] = new Piece(ReversiGame.BLACK);
+        this.board[this.pos(3, 4).toInt()] = new ReversiPiece(ReversiGame.BLACK);
+        this.board[this.pos(4, 3).toInt()] = new ReversiPiece(ReversiGame.BLACK);
     }
 
     @Override
@@ -49,9 +50,8 @@ public class ReversiBoard extends Board {
 
     public boolean checkDirectionValid(Pos pos, Piece piece, Direction direction) {
         // System.err.println("Check if direction "+direction+" is valid for side "+piece.getSide()+ " at "+pos);
-        Pos p = pos;
         boolean jumped = false;
-        p = p.add(direction);
+        Pos p = pos.add(direction);
         while(this.validPos(p)) {
             Piece pieceAtLocation = this.getPieceAtPosition(p.toInt());
             boolean empty = pieceAtLocation == null;
@@ -60,7 +60,6 @@ public class ReversiBoard extends Board {
             // System.err.format("%s\t\tempty: %s\t\tsame: %s\t\tjumped: %s\n", p, empty, same, jumped);
 
             if(empty) return false;
-            if(same) return jumped;
             if(!same) {
                 jumped = true;
             }
@@ -70,6 +69,44 @@ public class ReversiBoard extends Board {
             p = p.add(direction);
         }
         return false;
+    }
+
+    public List<ReversiPiece> getPiecesToFlip(Pos pos, Piece piece, Direction direction) {
+        LinkedList<ReversiPiece> pieces = new LinkedList<>();
+
+        boolean jumped = false;
+        Pos p = pos.add(direction);
+        while(this.validPos(p)) {
+            Piece pieceAtLocation = this.getPieceAtPosition(p.toInt());
+            boolean empty = pieceAtLocation == null;
+            boolean same = piece.equals(pieceAtLocation);
+
+            // System.err.format("%s\t\tempty: %s\t\tsame: %s\t\tjumped: %s\n", p, empty, same, jumped);
+
+            if(empty) break;
+            if(!same) {
+                pieces.add((ReversiPiece) pieceAtLocation);
+                jumped = true;
+            }
+            else {
+                if(jumped) {
+                    return pieces;
+                }
+                break;
+            }
+            p = p.add(direction);
+        }
+        pieces.clear();
+        return pieces;
+    }
+
+    public void flipPieces(Pos pos, Piece piece) {
+        for(Direction dir: Direction.values()) {
+            List<ReversiPiece> pieces = getPiecesToFlip(pos, piece, dir);
+            for(ReversiPiece p: pieces) {
+                p.flip();
+            }
+        }
     }
 
     @Override
@@ -83,7 +120,18 @@ public class ReversiBoard extends Board {
     }
 
     @Override
-    public boolean place(int index, Piece piece) {
-        return super.place(index, piece);
+    public boolean place(int index, Side side) {
+        return this.place(index, new ReversiPiece(side));
+    }
+
+    @Override
+    protected boolean place(int index, Piece piece) {
+        if(isValid(index, piece)) {
+            previousSide = piece.getSide();
+            this.board[index] = piece;
+            this.flipPieces(pos(index), piece);
+            return true;
+        }
+        return false;
     }
 }

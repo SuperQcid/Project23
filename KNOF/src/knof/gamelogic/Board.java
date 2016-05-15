@@ -97,6 +97,9 @@ public abstract class Board {
 		return positions;
 	}
 
+	public boolean place(int index, Side side) {
+		return place(index, new Piece(side));
+	}
 
 	/**
 	 * Place a piece at a certain index if allowed
@@ -105,7 +108,7 @@ public abstract class Board {
 	 * @param piece piece to place
 	 * @return success value
 	 */
-	public boolean place(int index, Piece piece) {
+	protected boolean place(int index, Piece piece) {
 		if(isValid(index, piece)) {
 			previousSide = piece.getSide();
 			this.board[index] = piece;
