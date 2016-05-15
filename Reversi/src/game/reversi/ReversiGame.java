@@ -3,6 +3,7 @@ package game.reversi;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
@@ -36,6 +37,7 @@ public class ReversiGame extends GridGame<ReversiBoard> {
             controller.setGame(this);
             controller.drawMiniatures(this, new ReversiPieceMiniatureRenderer());
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(loaded));
             stage.show();
         } catch (IOException e) {

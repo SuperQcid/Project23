@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import knof.connection.Connection;
 import knof.controllers.GameController;
@@ -42,6 +43,7 @@ public class TicTacToeGame extends GridGame<TicTacToeBoard> {
 			Stage stage = new Stage();
             setForfeitOnClose(stage);
 			stage.setScene(new Scene(loaded));
+            stage.initModality(Modality.APPLICATION_MODAL);
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
