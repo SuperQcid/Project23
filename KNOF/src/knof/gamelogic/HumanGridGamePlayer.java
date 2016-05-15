@@ -16,7 +16,7 @@ public class HumanGridGamePlayer<B extends Board> extends HumanPlayer {
 
     @Override
     public void receiveMove(int move) {
-        if(!this.board.isValid(move, new Piece(this))) {
+        if(!this.board.isValid(move, new Piece(this.side))) {
             System.out.println("WARNING: Invalid move received from controller");
             if(preventInvalid) return;
         }
