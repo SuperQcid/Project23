@@ -48,13 +48,17 @@ public class ReversiBoard extends Board {
     }
 
     public boolean checkDirectionValid(Pos pos, Piece piece, Direction direction) {
+        // System.err.println("Check if direction "+direction+" is valid for side "+piece.getSide()+ " at "+pos);
         Pos p = pos;
         boolean jumped = false;
-        p.add(direction);
+        p = p.add(direction);
         while(this.validPos(p)) {
             Piece pieceAtLocation = this.getPieceAtPosition(p.toInt());
             boolean empty = pieceAtLocation == null;
             boolean same = piece.equals(pieceAtLocation);
+
+            // System.err.format("%s\t\tempty: %s\t\tsame: %s\t\tjumped: %s\n", p, empty, same, jumped);
+
             if(empty) return false;
             if(same) return jumped;
             if(!same) {

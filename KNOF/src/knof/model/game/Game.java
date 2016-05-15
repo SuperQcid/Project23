@@ -118,7 +118,9 @@ public abstract class Game implements Observable {
         } else {
             side = remotePlayer.getSide();
         }
-        this.move(event.move, side);
+        if(!this.move(event.move, side)) {
+            System.err.println("Warning: invalid move received!");
+        }
         invalidate(event);
     }
 
