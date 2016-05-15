@@ -34,6 +34,7 @@ public class ReversiGame extends GridGame<ReversiBoard> {
             Parent loaded = loader.load(getClass().getResource("ReversiGameController.fxml").openStream());
             controller = loader.getController();
             controller.setGame(this);
+            controller.drawMiniatures(this, new ReversiPieceMiniatureRenderer());
             Stage stage = new Stage();
             stage.setScene(new Scene(loaded));
             stage.show();
