@@ -2,6 +2,7 @@ package game.tictactoe;
 
 
 import knof.gamelogic.Board;
+import knof.model.game.Player;
 import knof.model.game.Side;
 
 /**
@@ -54,5 +55,18 @@ public class TicTacToeBoard extends Board {
         else if (getPieceAtPosition(2).getSide().equals(side) && getPieceAtPosition(4).getSide().equals(side) && getPieceAtPosition(6).getSide().equals(side)){ return true; }
 
         return false;
+    }
+
+    @Override
+    public Side getWinningSide(){
+        int scoreSide1 = getScore(game.getSide1());
+        int scoreSide2 = getScore(game.getSide2());
+        if(scoreSide1 > scoreSide2){
+            return game.getSide1();
+        } else if (scoreSide1 < scoreSide2){
+            return game.getSide2();
+        } else {
+            return null;
+        }
     }
 }
