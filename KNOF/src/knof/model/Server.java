@@ -111,8 +111,6 @@ public class Server implements InvalidationListener {
 
     @EventHandler(later = false)
     public void onMatch(MatchEvent event) {
-        currentChallenge.set(null);
-        currentSubscription.set(null);
 
         //TODO Build jar and use it
         Plugin p = this.getPlugin(event.gameType);
@@ -146,6 +144,8 @@ public class Server implements InvalidationListener {
                 terminate();
             });
             Platform.runLater(() -> {
+                currentChallenge.set(null);
+                currentSubscription.set(null);
                 currentGame.setValue(game);
                 game.startGame(event);
             });
