@@ -21,7 +21,7 @@ public class RandomGridPlayer extends Player {
 
     @Override
     public void setTurn() {
-        List<Board.Pos> positions = game.getBoard().getValidPositions();
+        List<Board.Pos> positions = game.getBoard().getValidPositions(this.side);
         Board.Pos pos = positions.get(random.nextInt(positions.size()));
         this.connection.sendCommand(Command.MOVE, pos.toInt());
     }
