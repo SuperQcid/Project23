@@ -9,9 +9,9 @@ import knof.model.game.HumanPlayer;
 import knof.model.game.LocalPlayer;
 
 public abstract class GridGame<B extends Board> extends Game {
-    public final B board;
+    private B board;
 
-    public GridGame( Connection connection) {
+    public GridGame(Connection connection) {
         super(connection);
         this.board = createBoard();
     }
@@ -20,7 +20,7 @@ public abstract class GridGame<B extends Board> extends Game {
 
     @Override
     protected boolean move(int move, Side side) {
-        return board.place(move, new Piece(side));
+        return board.place(move, side);
     }
 
     @Override
@@ -29,6 +29,7 @@ public abstract class GridGame<B extends Board> extends Game {
     @Override
     public abstract Side getSide1();
 
-    @Override
-    public abstract Side getSide2();
+    public B getBoard() {
+        return board;
+    }
 }

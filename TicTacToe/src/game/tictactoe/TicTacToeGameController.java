@@ -7,7 +7,6 @@ import knof.controllers.GameController;
 import knof.gamelogic.Board;
 import knof.gamelogic.controllers.BoardGame;
 import knof.gamelogic.controllers.PieceRenderer;
-import knof.model.game.Game;
 
 public class TicTacToeGameController extends GameController{
 
@@ -15,8 +14,7 @@ public class TicTacToeGameController extends GameController{
 	public BoardGame boardGame;
 
 	@Override
-	public void update(Game game) {
-		boardGame.board = ((TicTacToeGame) game).board;
+	public void update() {
 		boardGame.drawBoard();
 	}
 

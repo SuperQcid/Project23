@@ -1,11 +1,10 @@
 package game.tictactoe;
 
 import knof.connection.Connection;
+import knof.gamelogic.HumanGridGamePlayer;
 import knof.gamelogic.GridGame;
 import knof.gamelogic.players.RandomGridPlayer;
 import knof.model.game.Game;
-import knof.model.game.HumanPlayer;
-import knof.model.game.Player;
 import knof.plugin.Plugin;
 
 /**
@@ -14,7 +13,7 @@ import knof.plugin.Plugin;
 public class TicTacToe extends Plugin {
 
     public TicTacToe() {
-        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanPlayer(playerName, side, connection, game));
+        playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanGridGamePlayer<>(playerName, side, connection, (TicTacToeGame)game, false));
         playerTypes.put("random", (connection, game, side, playerName, options) -> new RandomGridPlayer(playerName, side, connection, (GridGame<TicTacToeBoard>)game));
     }
 
