@@ -44,14 +44,7 @@ public class ServerController {
     @FXML
     public Label labelPlayerName;
 
-    @FXML
-    public Button chatButton;
-
-    private boolean chatboxOpen = false;
-
     public GameController currentGameController;
-
-    public ChatboxController chatbox;
 
     public Server server;
 
@@ -60,31 +53,6 @@ public class ServerController {
         this.playerList.setCellFactory((ListView<String> param) -> new PlayerCell(server));
         this.challengeList.setCellFactory((ListView<Challenge> param) -> new ChallengeCell());
         this.gameList.setCellFactory((ListView<GameEntry> param) -> new GameCell());
-    }
-
-    @FXML
-    public void openChatBox(){
-        return;
-        /*if(!chatboxOpen) {
-            chatButton.setDisable(true);
-            chatboxOpen = true;
-            FXMLLoader loader = new FXMLLoader();
-            Stage primaryStage = new Stage();
-            try {
-                Scene scene = new Scene(loader.load(getClass().getResource("popup/ChatboxController.fxml").openStream()));
-                ChatboxController controller = loader.getController();
-                System.out.println(controller);
-                primaryStage.setScene(scene);
-                primaryStage.setTitle("Chat");
-                primaryStage.setOnCloseRequest((event) -> {
-                    chatboxOpen = false;
-                    chatButton.setDisable(false);
-                });
-                primaryStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     public void setServer(Server server) {

@@ -58,7 +58,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="chatButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openChatBox" text="Open chatbox" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0" />
   </children>
   <padding>
     <Insets />
