@@ -16,7 +16,7 @@ public abstract class Board {
 	public final int height;
 	private Piece[] board;
 	private Side previousSide;
-	private Game game;
+	protected Game game;
 
 	public Board(int width, int height, Game game) {
 		this.width = width;
