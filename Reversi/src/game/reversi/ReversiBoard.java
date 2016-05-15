@@ -12,14 +12,12 @@ import java.util.List;
 public class ReversiBoard extends Board {
     public ReversiBoard(Game game) {
         super(8, 8, game);
-        Player blackPlayer = game.getSidePlayer(ReversiGame.BLACK);
-        Player whitePlayer = game.getSidePlayer(ReversiGame.WHITE);
 
-        this.board[this.pos(3, 3).toInt()] = new Piece(whitePlayer);
-        this.board[this.pos(4, 4).toInt()] = new Piece(whitePlayer);
+        this.board[this.pos(3, 3).toInt()] = new Piece(ReversiGame.WHITE);
+        this.board[this.pos(4, 4).toInt()] = new Piece(ReversiGame.WHITE);
 
-        this.board[this.pos(3, 4).toInt()] = new Piece(blackPlayer);
-        this.board[this.pos(4, 3).toInt()] = new Piece(blackPlayer);
+        this.board[this.pos(3, 4).toInt()] = new Piece(ReversiGame.BLACK);
+        this.board[this.pos(4, 3).toInt()] = new Piece(ReversiGame.BLACK);
     }
 
     @Override
@@ -33,14 +31,19 @@ public class ReversiBoard extends Board {
     }
 
     @Override
-    public Piece getNextPiece() {
-        Piece next = super.getNextPiece();
-        //TODO: Replace with more efficient method
+    public Side getWinningSide() {
+        return null;
+    }
+
+    @Override
+    public Side getNextSide() {
+        Piece next = new Piece(super.getNextSide());
+
         if(this.getValidPositions(next).size() > 0) {
-            return next;
+            return next.getSide();
         }
         else {
-            return previousPiece;
+            return previousSide;
         }
     }
 
