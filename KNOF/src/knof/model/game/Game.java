@@ -131,6 +131,7 @@ public abstract class Game implements Observable {
     @EventHandler(later = true)
     public final void onGameResult(GameResultEvent event){
         this.result.set(new GameResult(event));
+        this.sideUp = null;
         invalidate();
     }
 
