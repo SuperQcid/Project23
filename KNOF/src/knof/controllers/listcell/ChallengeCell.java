@@ -14,6 +14,7 @@ public class ChallengeCell extends Cell<Challenge> {
         controller.setServer(item.server);
         controller.cell.setText(item.player);
         controller.button.setText("Accept");
+		controller.gameType.setText(item.game);
 	}
 
 	@Override

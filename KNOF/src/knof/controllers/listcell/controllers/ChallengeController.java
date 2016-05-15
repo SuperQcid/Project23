@@ -2,10 +2,13 @@ package knof.controllers.listcell.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import knof.command.Command;
 import knof.model.Server;
 
 public class ChallengeController extends ListCellController{
+    @FXML
+    public Label gameType;
 
     private int challengeID;
     private Server server;
@@ -24,4 +27,8 @@ public class ChallengeController extends ListCellController{
         this.server = server;
     }
 
+    @Override
+    public String getViewName() {
+        return "ChallengeListCell";
+    }
 }
