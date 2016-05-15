@@ -15,7 +15,8 @@ public abstract class GameController implements InvalidationListener {
     @Override
     public void invalidated(Observable observable){
         if(observable instanceof Game){
-            update((Game) observable);
+            Game game = (Game) observable;
+            update(game);
         }
     }
 }

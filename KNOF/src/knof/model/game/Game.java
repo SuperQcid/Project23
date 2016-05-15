@@ -67,7 +67,7 @@ public abstract class Game implements Observable {
     }
 
     public final void startGame(MatchEvent event){
-        invalidate(event);
+        invalidate();
     }
 
     public final void yourTurn(){
@@ -84,7 +84,7 @@ public abstract class Game implements Observable {
         return null;
     }
 
-    private synchronized final void invalidate(IEvent event){
+    private synchronized final void invalidate(){
         for(InvalidationListener il : listeners){
             Platform.runLater(() -> {
                 il.invalidated(this);
@@ -113,7 +113,7 @@ public abstract class Game implements Observable {
             side = remotePlayer.getSide();
         }
         this.move(event.move, side);
-        invalidate(event);
+        invalidate();
     }
 
     @EventHandler(later = true)
@@ -121,13 +121,13 @@ public abstract class Game implements Observable {
         //TODO: Remove debug output
         System.err.println("ONTURN");
         this.yourTurn();
-        invalidate(event);
+        invalidate();
     }
 
     @EventHandler(later = true)
     public final void onGameResult(GameResultEvent event){
         this.result.set(new GameResult(event));
-        invalidate(event);
+        invalidate();
     }
 
     protected Side getSide(int player) {
