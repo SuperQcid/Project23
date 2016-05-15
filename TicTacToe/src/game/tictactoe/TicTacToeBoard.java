@@ -57,10 +57,7 @@ public class TicTacToeBoard extends Board {
         return false;
     }
 
-    public Player getWinningPlayer(){
-        return game.getSidePlayer(getWinningSide());
-    }
-
+    @Override
     public Side getWinningSide(){
         int scoreSide1 = getScore(game.getSide1());
         int scoreSide2 = getScore(game.getSide2());

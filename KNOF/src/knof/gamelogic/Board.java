@@ -1,6 +1,7 @@
 package knof.gamelogic;
 
 import knof.model.game.Game;
+import knof.model.game.Player;
 import knof.model.game.Side;
 
 import java.util.ArrayList;
@@ -54,6 +55,12 @@ public abstract class Board {
 	public abstract Board clone();
 
 	public abstract int getScore(Side side);
+
+	public abstract Side getWinningSide();
+
+	public Player getWinningPlayer(){
+		return game.getSidePlayer(getWinningSide());
+	}
 
 	public Side getNextSide(){
 		return previousSide==game.getSide1()?game.getSide2():game.getSide1();
