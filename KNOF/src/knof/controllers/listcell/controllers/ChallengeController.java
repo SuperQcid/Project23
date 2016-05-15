@@ -13,6 +13,7 @@ public class ChallengeController extends ListCellController{
     @FXML
     public void onButton(ActionEvent e){
         server.connection.sendCommand(Command.CHALLENGE_ACCEPT,challengeID);
+        server.challenges.removeIf(challenge -> challenge.id == challengeID);
     }
 
     public void setChallengeID(int id) {
