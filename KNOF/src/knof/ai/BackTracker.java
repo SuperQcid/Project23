@@ -43,7 +43,7 @@ public class BackTracker {
      * @return The best move the function is able to calculate
      */
     private BestMove getBestMoveRecursive(Board board, Side side, int depth) {
-        List<Board.Pos> legalMoves = board.getValidPositions();
+        List<Board.Pos> legalMoves = board.getValidPositions(side);
         BestMove bestMove = null;
         for(Board.Pos move: legalMoves) {
             Board clonedBoard = board.clone();

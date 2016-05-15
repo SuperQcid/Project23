@@ -2,6 +2,7 @@ package game.reversi;
 
 import knof.connection.Connection;
 import knof.gamelogic.HumanGridGamePlayer;
+import knof.gamelogic.players.RandomGridPlayer;
 import knof.model.game.Game;
 import knof.model.game.HumanPlayer;
 import knof.plugin.Plugin;
@@ -16,6 +17,15 @@ public class Reversi extends Plugin {
                         connection,
                         (ReversiGame)game,
                         true
+                )
+        );
+        playerTypes.put(
+                "random",
+                (connection, game, side, playerName, options) -> new RandomGridPlayer(
+                        playerName,
+                        side,
+                        connection,
+                        (ReversiGame)game
                 )
         );
     }

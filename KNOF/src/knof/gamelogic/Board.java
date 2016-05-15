@@ -87,16 +87,6 @@ public abstract class Board {
 		return positions;
 	}
 
-	public List<Pos> getValidPositions() {
-		ArrayList<Pos> positions = new ArrayList<>(board.length/2);
-		for (int idx=0; idx<board.length; idx++) {
-			if(this.isValid(idx, null)) {
-				positions.add(new Pos(idx));
-			}
-		}
-		return positions;
-	}
-
 	public boolean place(int index, Side side) {
 		return place(index, new Piece(side));
 	}
@@ -134,8 +124,8 @@ public abstract class Board {
 		return new Pos(x, y);
 	}
 
-	public boolean validPos(Pos p) {
-		return this.validIndex(p.toInt());
+	public List<Pos> getValidPositions(Side side) {
+		return getValidPositions(new Piece(side));
 	}
 
 	/**
@@ -203,6 +193,10 @@ public abstract class Board {
 		 */
 		public int toInt() {
 			return width * y + x;
+		}
+
+		public boolean isValid() {
+			return x >= 0 && y >= 0 && x < width && y < height;
 		}
 	}
 }
