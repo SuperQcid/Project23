@@ -39,6 +39,7 @@ public class TicTacToeGame extends GridGame<TicTacToeBoard> {
 			controller = loader.getController();
             controller.setGame(this);
 			Stage stage = new Stage();
+            setForfeitOnClose(stage);
 			stage.setScene(new Scene(loaded));
 			stage.show();
 		} catch (IOException e) {
