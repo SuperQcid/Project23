@@ -60,6 +60,8 @@ public abstract class Game implements Observable {
 
     public final GameController createGameController(){
         GameController gc = initGameController();
+        gc.localPlayerName.setText(localPlayer.getName());
+        gc.remotePlayerName.setText(remotePlayer.getName());
         addListener(gc);
         return gc;
     }
