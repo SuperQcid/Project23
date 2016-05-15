@@ -20,7 +20,7 @@ public class ReversiGameController extends GameController {
 
     @FXML
     public void initialize() {
-        boardGame.backgroundColor = new Color(0.0, 0.7, 0.0, 0.0);
+        boardGame.backgroundColor = new Color(0.0, 0.6, 0.0, 1.0);
 
         double piecePadding = 4;
         double pieceLineWidth = 10;
