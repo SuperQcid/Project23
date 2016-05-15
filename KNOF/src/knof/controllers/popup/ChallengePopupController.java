@@ -59,7 +59,7 @@ public class ChallengePopupController {
     		turntime.setDisable(true);
     	}
     }
-    
+
 //    @FXML
 //    public void initialize() {
 //		ObservableList<GameSettings> gamelist = FXCollections.observableArrayList();
@@ -78,5 +78,12 @@ public class ChallengePopupController {
 		this.gamelist.addAll(server.games);
 		this.gamelist.removeIf(gameSettings -> !gameSettings.hasPlugin());
 		this.gameBox.setItems(this.gamelist);
+		if(gamelist.size() > 0) {
+			this.gameBox.selectionModelProperty().getValue().selectFirst();
+		} else {
+			this.challengeButton.setText("No games available");
+			this.challengeButton.disarm();
+			this.challengeButton.setDisable(true);
+		}
 	}
 }
