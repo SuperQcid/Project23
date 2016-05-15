@@ -28,6 +28,8 @@ public abstract class Game implements Observable {
 
     public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
 
+    public Side sideUp;
+
     public Game(Connection connection){
         this.connection = connection;
     }
@@ -109,6 +111,7 @@ public abstract class Game implements Observable {
         Side side;
         if(localPlayer.getName().equals(event.player)){
             side = localPlayer.getSide();
+            this.sideUp = remotePlayer.getSide();
         } else {
             side = remotePlayer.getSide();
         }
@@ -121,6 +124,7 @@ public abstract class Game implements Observable {
         //TODO: Remove debug output
         System.err.println("ONTURN");
         this.yourTurn();
+        this.sideUp = localPlayer.getSide();
         invalidate();
     }
 
