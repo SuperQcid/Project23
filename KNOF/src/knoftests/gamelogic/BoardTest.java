@@ -1,18 +1,96 @@
-//package knoftests.gamelogic;
-//
-//import org.junit.Test;
-//import knof.gamelogic.Board;
-//import knof.gamelogic.Direction;
-//import knof.gamelogic.Move;
-//import knof.gamelogic.Pos;
-//import knof.model.game.Side;
-//import java.util.ArrayList;
-//import java.util.List;
-//import static org.junit.Assert.assertArrayEquals;
-//import static org.junit.Assert.assertEquals;
-//
-//public class BoardTest {
-//
+package knoftests.gamelogic;
+
+import junit.framework.TestCase;
+import knof.connection.Connection;
+import knof.controllers.GameController;
+import knof.gamelogic.Board;
+import knof.model.game.Game;
+import knof.model.game.Side;
+import org.junit.Test;
+
+import java.io.IOException;
+
+public class BoardTest  extends TestCase {
+
+    /**
+     * Tests that a clone of a board equals the original one
+     */
+    @Test
+    public void testClone(){
+        try {
+            Board board = new TestBoard(10, 10, new Game(new Connection("127.0.0.1", 7789)) {
+                @Override
+                protected boolean move(int move, Side side) {
+                    return false;
+                }
+
+                @Override
+                protected GameController initGameController() {
+                    return null;
+                }
+
+                @Override
+                public Side getSide1() {
+                    return null;
+                }
+
+                @Override
+                public Side getSide2() {
+                    return null;
+                }
+            }) {
+                @Override
+                public int getScore(Side side) {
+                    return 0;
+                }
+
+                @Override
+                public Side getWinningSide() {
+                    return null;
+                }
+            };
+
+            Board clone = board.clone();
+            assertFalse(clone == board);
+            assertTrue(clone.equals(board));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class TestBoard extends Board {
+
+        public TestBoard(int width, int height, Game game) {
+            super(width, height, game);
+        }
+
+        @Override
+        public int getScore(Side side) {
+            return 0;
+        }
+
+        @Override
+        public Side getWinningSide() {
+            return null;
+        }
+
+        public boolean equals(Object o){
+            if (o instanceof TestBoard){
+                TestBoard other = (TestBoard) o;
+                    if(other.height == this.height)
+                        if(other.width == this.width)
+                            if(other.previousSide != null){
+                                if(this.previousSide != null){
+                                    return other.previousSide.equals(this.previousSide);
+                                }
+                            } else {
+                                return this.previousSide == null;
+                            }
+            }
+            return false;
+        }
+    }
+
 //    private Board board = new Board(2, 2) {
 //        @Override
 //        public List<Move> getLegalMoves(Side side) {
@@ -92,4 +170,4 @@
 //        board.place(Side.UNKNOWN, new Pos(1, 1));
 //        assertEquals(board.toString(), "21\n.?\n");
 //    }
-//}
+}
