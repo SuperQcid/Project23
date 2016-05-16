@@ -29,6 +29,15 @@ public class Reversi extends Plugin {
                         (ReversiGame) game
                 )
         );
+        playerTypes.put(
+                "cornerLove",
+                (connection, game, side, playerName, options) -> new ReversiCornerPlayer(
+                        playerName,
+                        side,
+                        connection,
+                        (ReversiGame) game
+                )
+        );
 
         playerTypes.put("Heuristic", (connection, game, side, playerName, options) -> new AIPlayer(playerName, side, connection, game) {
 

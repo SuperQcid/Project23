@@ -34,4 +34,8 @@ public class Piece {
         }
         return false;
     }
+
+    public Piece clone() {
+        return new Piece(this.side);
+    }
 }

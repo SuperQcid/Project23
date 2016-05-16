@@ -13,9 +13,17 @@ public class TicTacToeBoard extends Board {
         super(3, 3, tttGame);
     }
 
+    /**
+     * Copy constructor
+     * @param board
+     */
+    public TicTacToeBoard(TicTacToeBoard board){
+        super(board);
+    }
+
     @Override
     public Board clone() {
-        return null;
+        return new TicTacToeBoard(this);
     }
 
     @Override

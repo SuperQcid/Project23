@@ -34,6 +34,20 @@ public class Connection implements Runnable {
         thread.start();
     }
 
+    public Connection(BufferedReader in, PrintWriter out) {
+        this.out = out;
+        this.in = in;
+
+        // Create EventSystem
+        this.eventSystem = new EventSystem();
+        this.commandHandler = new CommandHandler(this.eventSystem, this.out);
+
+        // Create new thread and start it
+        Thread thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
     public synchronized void sendCommand(Command command, Object... arguments) {
         this.commandHandler.sendCommand(command, null, arguments);
     }
