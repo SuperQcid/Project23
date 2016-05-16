@@ -1,10 +1,11 @@
 package knof.gamelogic;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import knof.model.game.Game;
 import knof.model.game.Player;
 import knof.model.game.Side;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * The board is an array of size 'width' times 'height'.
  * Pieces on the board are stored as Piece.
  */
-public abstract class Board implements Cloneable {
+public abstract class Board {
 	public final int width;
 	public final int height;
 	protected Piece[] board;
@@ -26,6 +27,18 @@ public abstract class Board implements Cloneable {
 		this.board = new Piece[width*height];
 		this.game = game;
 		this.previousSide = game.getSide1();
+	}
+
+	/**
+	 * Copy constuctor
+	 * @param board The board to copy
+     */
+	public Board(Board board){
+		this.width = board.width;
+		this.height = board.height;
+		this.board = board.board;
+		this.game = board.game;
+		this.previousSide = board.previousSide;
 	}
 
 	public Piece getPieceAtPosition(int position){
@@ -54,14 +67,6 @@ public abstract class Board implements Cloneable {
 	}
 
 	public abstract Board clone();
-
-	protected Board shallowClone() throws CloneNotSupportedException {
-		return (Board) super.clone();
-	}
-
-	protected Board deepClone() {
-		return null;
-	}
 
 	public abstract int getScore(Side side);
 
