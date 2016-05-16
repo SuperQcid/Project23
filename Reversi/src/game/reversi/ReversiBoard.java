@@ -10,6 +10,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ReversiBoard extends Board {
+
+    /**
+     * Board Values
+     */
+
+    private int[][] boardValues = new int[][]{
+          /*   A   B   C   D   E   F   G   H   */
+            {100, -1,  5,  2,  2,  5, -1,100}, //1
+            { -1,-20,  1,  1,  1,  1,-20, -1}, //2
+            {  5,  1,  1,  1,  1,  1,  1,  5}, //3
+            {  2,  1,  1,  0,  0,  1,  1,  2}, //4
+            {  2,  1,  1,  0,  0,  1,  1,  2}, //5
+            {  5,  1,  1,  1,  1,  1,  1,  5}, //6
+            { -1,-20,  1,  1,  1,  1,-20, -1}, //7
+            {100, -1,  5,  2,  2,  5, -1,100}  //8
+    };
+
     public ReversiBoard(Game game) {
         super(8, 8, game);
 
@@ -135,5 +152,9 @@ public class ReversiBoard extends Board {
             return true;
         }
         return false;
+    }
+
+    public int getFieldValue(int x, int y) throws IndexOutOfBoundsException {
+        return boardValues[x][y];
     }
 }
