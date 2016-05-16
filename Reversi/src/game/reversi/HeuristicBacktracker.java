@@ -1,7 +1,10 @@
 package game.reversi;
 
+import knof.ai.HeuristicAI;
 import knof.gamelogic.Board;
 import knof.model.game.Side;
+
+import java.util.List;
 
 /**
  * Created by Kevin on 5/16/2016.
@@ -20,41 +23,55 @@ public class HeuristicBacktracker {
 
     public Board.Pos getBestMove(int depth) {
 
-        if (board.getValidPositions(side1) != null && !board.getValidPositions(side1).isEmpty()) {
-            int score = Integer.MIN_VALUE;
-            Board.Pos winningpos = null;
-            for (Board.Pos pos : board.getValidPositions(side1)) {
-                int s = search(board.clone(),depth,side1);
-                if (s > score) {
-                    score = s;
-                    winningpos = pos;
-                }
-            }
-            return winningpos;
+        HeuristicAI heuristicAI = new HeuristicAI();
+
+        Board.Pos endpos = null;
+        int max = Integer.MIN_VALUE;
+        for (Board.Pos pos : board.getValidPositions(side1)) {
+            int v = search(board,depth,side1,pos).getValue();
+            if (v > max) {max = v;
+                endpos = pos;}
         }
-        else {
-            return null;
-        }
+        return endpos;
     }
 
-    private int search(ReversiBoard board, int depth, Side side) {
-        int max = Integer.MIN_VALUE;
-        if (depth < 1 || board.getValidPositions(side).isEmpty()) {
-            return max;
+    private Result search(ReversiBoard board, int depth, Side side, Board.Pos thisPos) {
+
+//        int currPosVal = board.getFieldValue(current.x, current.y);
+//        List<Board.Pos> validPositions = board.getValidPositions(side1);
+//        if(depth < 1 || validPositions == null || validPositions.isEmpty()){
+//            return new Best(currPosVal);
+//        }
+//        int value = this.side1.equals(side1) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+//        Board.Pos bestPos = null;
+//        for(Board.Pos pos : validPositions){
+//            board.place(pos.toInt(), side1);
+//            Best oppBest = search(board.clone(), depth -1, side2, side1,pos);
+//            if((side1 == this.side1 && oppBest.val > value) || (side1 == this.side2 && oppBest.val < value)){
+//                value = oppBest.val;
+//                bestPos = pos;
+//            }
+//            board.remove(pos.toInt());
+//        }
+//        return new Best(value, bestPos);
+        List<Board.Pos> validPositions = board.getValidPositions(side1);
+        Result best = new Result(thisPos, board.getFieldValue(thisPos.x, thisPos.y));
+        if (depth < 1 ||validPositions == null || validPositions.isEmpty()) {
+            return best;
         }
-        for (ReversiBoard.Pos pos : board.getValidPositions(side)) {
 
+        int base_v = Integer.MIN_VALUE;
 
-            max = board.getFieldValue(pos.x, pos.y);
-            board.place(pos.toInt(),new ReversiPiece(side));
-            int v = - search(board.clone(),depth -1,otherSide(side));
-            board.remove(pos.toInt());
-
-            if (v > max) {
-                max = v;
+        for (Board.Pos pos : validPositions) {
+            ReversiBoard newBoard = board.clone();
+            Result result = search(newBoard, depth-1, otherSide(side), pos);
+            int v = - result.getValue();
+            if (v > base_v) {
+                best = result;
+                base_v = v;
             }
         }
-        return max;
+        return best;
     }
 
     private Side otherSide(Side side) {
@@ -65,4 +82,22 @@ public class HeuristicBacktracker {
         }
     }
 
+    private class Result {
+
+        private Board.Pos pos;
+        private int value;
+
+        public Result(Board.Pos pos, int value){
+            this.pos = pos;
+            this.value = value;
+        }
+
+        public Board.Pos getPos() {
+            return pos;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
 }
