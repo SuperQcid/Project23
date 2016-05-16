@@ -22,7 +22,6 @@ public class TicTacToeBacktrackPlayer extends AIPlayer {
     @Override
     protected int calculateMove() {
         TicTacToeGame tttGame = ((TicTacToeGame) game);
-        TicTacToeBoard boardClone = (TicTacToeBoard) tttGame.getBoard().clone();
         Best bestMove = calculateMove(side, game.getRemotePlayer().getSide(), (TicTacToeGame) game);
         return bestMove.pos.toInt();
     }
