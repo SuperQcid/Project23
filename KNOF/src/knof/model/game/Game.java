@@ -9,6 +9,7 @@ import knof.command.Command;
 import knof.connection.Connection;
 import knof.controllers.GameController;
 import knof.event.EventHandler;
+import knof.event.EventSystem;
 import knof.event.IEvent;
 import knof.event.events.GameResultEvent;
 import knof.event.events.MatchEvent;
@@ -142,6 +143,7 @@ public abstract class Game implements Observable {
     public final void onGameResult(GameResultEvent event){
         this.result.set(new GameResult(event));
         this.sideUp = null;
+        connection.eventSystem.unregister(this);
         invalidate();
     }
 

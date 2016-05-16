@@ -47,8 +47,12 @@ public class ReversiBoard extends Board {
     }
 
     @Override
-    public Board clone() {
-        return new ReversiBoard(this);
+    public ReversiBoard clone() {
+        //return new ReversiBoard(this);
+        int length = board.length;
+        ReversiBoard reversiBoard = new ReversiBoard(game);
+        reversiBoard.board = Arrays.copyOf(board,length);
+        return reversiBoard;
     }
 
     @Override

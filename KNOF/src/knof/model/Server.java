@@ -39,6 +39,7 @@ public class Server implements InvalidationListener {
     private HashMap<String, Plugin> pluginList = new PluginLoader().InitializePlugins();
 
     public String playerName;
+    public String opponentName;
 
     private final Timer timer = new Timer(true);
 
@@ -131,7 +132,7 @@ public class Server implements InvalidationListener {
 
             Player localPlayer = p.createPlayer(connection, game, localSide, playerName);
             Player remotePlayer = new DummyPlayer(event.opponent, remoteSide, connection);
-
+            this.opponentName = remotePlayer.getName();
             game.sideUp = playerOneLocal ? localSide : remoteSide;
 
             game.setLocalPlayer(localPlayer);
@@ -177,7 +178,20 @@ public class Server implements InvalidationListener {
 
     @EventHandler
     public void onGameEndEvent(GameResultEvent gameResultEvent) {
-        DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage());
+        String winner = playerName;
+        String loser = opponentName;
+        if (gameResultEvent instanceof GameResultEvent.Loss) {
+            winner = opponentName;
+            loser = playerName;
+        }
+
+
+        DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage() + "\n" +
+
+                winner + " has won! \n" +
+                "Score: " + gameResultEvent.playerOneScore + " - " + gameResultEvent.playerTwoScore
+
+        );
     }
 
     public GameEntry getGameSettings(String game) {
