@@ -37,7 +37,8 @@ public class ReversiGame extends GridGame<ReversiBoard> {
             controller.setGame(this);
             controller.drawMiniatures(this, new ReversiPieceMiniatureRenderer());
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
+            //This next line here gives problems when playing locally
+            //stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(loaded));
             stage.show();
         } catch (IOException e) {

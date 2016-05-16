@@ -27,6 +27,15 @@ public class Reversi extends Plugin {
                         (ReversiGame)game
                 )
         );
+        playerTypes.put(
+                "cornerLove",
+                (connection, game, side, playerName, options) -> new ReversiCornerPlayer(
+                        playerName,
+                        side,
+                        connection,
+                        (ReversiGame) game
+                )
+        );
     }
 
     @Override
