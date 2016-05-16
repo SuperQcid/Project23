@@ -13,7 +13,7 @@ import java.util.List;
  * The board is an array of size 'width' times 'height'.
  * Pieces on the board are stored as Piece.
  */
-public abstract class Board implements Serializable {
+public abstract class Board implements Cloneable {
 	public final int width;
 	public final int height;
 	protected Piece[] board;
