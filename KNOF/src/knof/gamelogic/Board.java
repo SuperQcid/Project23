@@ -113,9 +113,9 @@ public abstract class Board {
 		return place(index, new Piece(side));
 	}
 
-    public void remove(int index) {
-        board[index] = null;
-    }
+	public void clear(int index){
+		this.board[index] = null;
+	}
 
 	/**
 	 * Place a piece at a certain index if allowed

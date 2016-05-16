@@ -48,18 +48,34 @@ public class TicTacToeBoard extends Board {
      */
     public boolean isAWin(Side side){
         // Horizontal Win
-        if(getPieceAtPosition(0).getSide().equals(side) && getPieceAtPosition(1).getSide().equals(side) && getPieceAtPosition(2).getSide().equals(side)){ return true; }
-        else if (getPieceAtPosition(3).getSide().equals(side) && getPieceAtPosition(4).getSide().equals(side) && getPieceAtPosition(5).getSide().equals(side)){ return true; }
-        else if (getPieceAtPosition(6).getSide().equals(side) && getPieceAtPosition(7).getSide().equals(side) && getPieceAtPosition(8).getSide().equals(side)){ return true; }
+        if(getPieceAtPosition(0) != null && getPieceAtPosition(0).getSide().equals(side)
+                && getPieceAtPosition(1) != null && getPieceAtPosition(1).getSide().equals(side)
+                && getPieceAtPosition(2) != null && getPieceAtPosition(2).getSide().equals(side)){ return true; }
+        else if (getPieceAtPosition(3) != null && getPieceAtPosition(3).getSide().equals(side)
+                && getPieceAtPosition(4) != null && getPieceAtPosition(4).getSide().equals(side)
+                && getPieceAtPosition(5) != null && getPieceAtPosition(5).getSide().equals(side)){ return true; }
+        else if (getPieceAtPosition(6) != null && getPieceAtPosition(6).getSide().equals(side)
+                && getPieceAtPosition(7) != null && getPieceAtPosition(7).getSide().equals(side)
+                && getPieceAtPosition(8) != null && getPieceAtPosition(8).getSide().equals(side)){ return true; }
 
         // Vertical Win
-        if(getPieceAtPosition(0).getSide().equals(side) && getPieceAtPosition(3).getSide().equals(side) && getPieceAtPosition(6).getSide().equals(side)){ return true; }
-        else if (getPieceAtPosition(1).getSide().equals(side) && getPieceAtPosition(4).getSide().equals(side) && getPieceAtPosition(7).getSide().equals(side)){ return true; }
-        else if (getPieceAtPosition(2).getSide().equals(side) && getPieceAtPosition(5).getSide().equals(side) && getPieceAtPosition(8).getSide().equals(side)){ return true; }
+        if(getPieceAtPosition(0) != null && getPieceAtPosition(0).getSide().equals(side)
+                && getPieceAtPosition(3) != null && getPieceAtPosition(3).getSide().equals(side)
+                && getPieceAtPosition(6) != null && getPieceAtPosition(6).getSide().equals(side)){ return true; }
+        else if (getPieceAtPosition(1) != null && getPieceAtPosition(1).getSide().equals(side)
+                && getPieceAtPosition(4) != null && getPieceAtPosition(4).getSide().equals(side)
+                && getPieceAtPosition(7) != null && getPieceAtPosition(7).getSide().equals(side)){ return true; }
+        else if (getPieceAtPosition(2) != null && getPieceAtPosition(2).getSide().equals(side)
+                && getPieceAtPosition(5) != null && getPieceAtPosition(5).getSide().equals(side)
+                && getPieceAtPosition(8) != null && getPieceAtPosition(8).getSide().equals(side)){ return true; }
 
         // Diagonal win
-        if(getPieceAtPosition(0).getSide().equals(side) && getPieceAtPosition(4).getSide().equals(side) && getPieceAtPosition(8).getSide().equals(side)){ return true; }
-        else if (getPieceAtPosition(2).getSide().equals(side) && getPieceAtPosition(4).getSide().equals(side) && getPieceAtPosition(6).getSide().equals(side)){ return true; }
+        if(getPieceAtPosition(0) != null && getPieceAtPosition(0).getSide().equals(side)
+                && getPieceAtPosition(4) != null && getPieceAtPosition(4).getSide().equals(side)
+                && getPieceAtPosition(8) != null && getPieceAtPosition(8).getSide().equals(side)){ return true; }
+        else if (getPieceAtPosition(2) != null && getPieceAtPosition(2).getSide().equals(side)
+                && getPieceAtPosition(4) != null && getPieceAtPosition(4).getSide().equals(side)
+                && getPieceAtPosition(6) != null && getPieceAtPosition(6).getSide().equals(side)){ return true; }
 
         return false;
     }
@@ -75,5 +91,12 @@ public class TicTacToeBoard extends Board {
         } else {
             return null;
         }
+    }
+
+    public boolean full() {
+        for (int i = 0; i < board.length; i++){
+            if(board[i] == null) return false;
+        }
+        return true;
     }
 }

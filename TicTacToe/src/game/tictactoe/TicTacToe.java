@@ -15,6 +15,7 @@ public class TicTacToe extends Plugin {
     public TicTacToe() {
         playerTypes.put("human", (connection, game, side, playerName, options) -> new HumanGridGamePlayer<>(playerName, side, connection, (TicTacToeGame)game, false));
         playerTypes.put("random", (connection, game, side, playerName, options) -> new RandomGridPlayer(playerName, side, connection, (GridGame<TicTacToeBoard>)game));
+        playerTypes.put("backtracker", (connection, game, side, playerName, options) -> new TicTacToeBacktrackPlayer(playerName, side, connection, (TicTacToeGame) game));
     }
 
     @Override
