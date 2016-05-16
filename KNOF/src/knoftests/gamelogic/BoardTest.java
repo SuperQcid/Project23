@@ -8,8 +8,7 @@ import knof.model.game.Game;
 import knof.model.game.Side;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
@@ -20,45 +19,43 @@ public class BoardTest  extends TestCase {
      */
     @Test
     public void testClone(){
-        try {
-            Board board = new TestBoard(10, 10, new Game(new Connection("127.0.0.1", 7789)) {
-                @Override
-                protected boolean move(int move, Side side) {
-                    return false;
-                }
+        PrintWriter output = new PrintWriter(System.out);
+        BufferedReader reader = new BufferedReader(new StringReader(""));
+        Board board = new TestBoard(10, 10, new Game(new Connection(reader, output)) {
+            @Override
+            protected boolean move(int move, Side side) {
+                return false;
+            }
 
-                @Override
-                protected GameController initGameController() {
-                    return null;
-                }
+            @Override
+            protected GameController initGameController() {
+                return null;
+            }
 
-                @Override
-                public Side getSide1() {
-                    return null;
-                }
+            @Override
+            public Side getSide1() {
+                return null;
+            }
 
-                @Override
-                public Side getSide2() {
-                    return null;
-                }
-            }) {
-                @Override
-                public int getScore(Side side) {
-                    return 0;
-                }
+            @Override
+            public Side getSide2() {
+                return null;
+            }
+        }) {
+            @Override
+            public int getScore(Side side) {
+                return 0;
+            }
 
-                @Override
-                public Side getWinningSide() {
-                    return null;
-                }
-            };
+            @Override
+            public Side getWinningSide() {
+                return null;
+            }
+        };
 
-            Board clone = board.clone();
-            assertFalse(clone == board);
-            assertTrue(clone.equals(board));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Board clone = board.clone();
+        assertFalse(clone == board);
+        assertTrue(clone.equals(board));
     }
 
     private class TestBoard extends Board implements Serializable {
