@@ -113,6 +113,10 @@ public abstract class Board {
 		return place(index, new Piece(side));
 	}
 
+	public void clear(int index){
+		this.board[index] = null;
+	}
+
 	/**
 	 * Place a piece at a certain index if allowed
 	 * You should override this method for custom place behaviour
