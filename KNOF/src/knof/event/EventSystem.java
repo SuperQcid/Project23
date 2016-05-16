@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class EventSystem {
     private List<EventEntry> eventRegister = new LinkedList<>();
     private WeakHashMap<Object, Map<Method,Class<? extends IEvent>>> eventReceivers, nextReceivers;
+    private ArrayList<Object> removeReceivers = new ArrayList<>();
     private final ObjectMapper mapper;
 
     public EventSystem() {
@@ -122,6 +123,7 @@ public class EventSystem {
     public synchronized void emitEvent(IEvent event) {
         eventReceivers.putAll(nextReceivers);
         nextReceivers.clear();
+        removeReceivers.forEach(eventReceivers::remove);
         try {
             for (Map.Entry<Object, Map<Method, Class<? extends IEvent>>> receiver : eventReceivers.entrySet()) {
                 Map<Method, Class<? extends IEvent>> receiverMethods = receiver.getValue();
@@ -176,4 +178,10 @@ public class EventSystem {
             nextReceivers.put(receiver, methodMap);
         }
     }
+
+    public synchronized void unregister(Object receiver) {
+        removeReceivers.add(receiver);
+    }
+
+
 }
