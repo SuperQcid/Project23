@@ -64,7 +64,7 @@ public class Reversi extends Plugin {
 
                     @Override
                     protected int calculateMove() {
-                        return ai.getBestMove(5).toInt();
+                        return ai.getBestMove(50).toInt();
                     }
                 }
         );

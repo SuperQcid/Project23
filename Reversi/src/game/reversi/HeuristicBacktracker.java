@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Kevin on 5/16/2016.
  */
-public class HeuristicBacktracker {
+public class HeuristicBacktracker extends Thread {
 
     private Side side1;
     private Side side2;
@@ -28,14 +28,14 @@ public class HeuristicBacktracker {
         Board.Pos endpos = null;
         int max = Integer.MIN_VALUE;
         for (Board.Pos pos : board.getValidPositions(side1)) {
-            int v = search(board,depth,side1,pos).getValue();
+            int v = compute(board,depth,side1,pos).getValue();
             if (v > max) {max = v;
                 endpos = pos;}
         }
         return endpos;
     }
 
-    private Result search(ReversiBoard board, int depth, Side side, Board.Pos thisPos) {
+    private Result compute(ReversiBoard board, int depth, Side side, Board.Pos thisPos) {
 
 //        int currPosVal = board.getFieldValue(current.x, current.y);
 //        List<Board.Pos> validPositions = board.getValidPositions(side1);
@@ -46,7 +46,7 @@ public class HeuristicBacktracker {
 //        Board.Pos bestPos = null;
 //        for(Board.Pos pos : validPositions){
 //            board.place(pos.toInt(), side1);
-//            Best oppBest = search(board.clone(), depth -1, side2, side1,pos);
+//            Best oppBest = compute(board.clone(), depth -1, side2, side1,pos);
 //            if((side1 == this.side1 && oppBest.val > value) || (side1 == this.side2 && oppBest.val < value)){
 //                value = oppBest.val;
 //                bestPos = pos;
@@ -54,24 +54,15 @@ public class HeuristicBacktracker {
 //            board.remove(pos.toInt());
 //        }
 //        return new Best(value, bestPos);
-        List<Board.Pos> validPositions = board.getValidPositions(side1);
-        Result best = new Result(thisPos, board.getFieldValue(thisPos.x, thisPos.y));
-        if (depth < 1 ||validPositions == null || validPositions.isEmpty()) {
-            return best;
+        try {
+            HeuristicThread t = new HeuristicThread(board, depth, side, side1, side2, thisPos);
+            t.start();
+            t.join();
+            return t.best;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return new Result(thisPos, board.getFieldValue(thisPos.x, thisPos.y));
         }
-
-        int base_v = Integer.MIN_VALUE;
-
-        for (Board.Pos pos : validPositions) {
-            ReversiBoard newBoard = board.clone();
-            Result result = search(newBoard, depth-1, otherSide(side), pos);
-            int v = - result.getValue();
-            if (v > base_v) {
-                best = result;
-                base_v = v;
-            }
-        }
-        return best;
     }
 
     private Side otherSide(Side side) {
@@ -82,7 +73,7 @@ public class HeuristicBacktracker {
         }
     }
 
-    private class Result {
+    public static class Result {
 
         private Board.Pos pos;
         private int value;
@@ -100,4 +91,5 @@ public class HeuristicBacktracker {
             return value;
         }
     }
+
 }
