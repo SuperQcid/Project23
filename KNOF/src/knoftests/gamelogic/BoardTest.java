@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 public class BoardTest  extends TestCase {
 
@@ -92,15 +93,18 @@ public class BoardTest  extends TestCase {
         public boolean equals(Object o){
             if (o instanceof TestBoard){
                 TestBoard other = (TestBoard) o;
-                    if(other.height == this.height)
-                        if(other.width == this.width)
-                            if(other.previousSide != null){
-                                if(this.previousSide != null){
+                if(Arrays.equals(other.board, this.board)){
+                    System.out.println("hallo");
+                    if (other.height == this.height)
+                        if (other.width == this.width)
+                            if (other.previousSide != null) {
+                                if (this.previousSide != null) {
                                     return other.previousSide.equals(this.previousSide);
                                 }
                             } else {
                                 return this.previousSide == null;
                             }
+                }
             }
             return false;
         }

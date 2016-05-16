@@ -5,6 +5,7 @@ import knof.model.game.Player;
 import knof.model.game.Side;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public abstract class Board {
 	public Board(Board original){
 		this.width = original.width;
 		this.height = original.height;
-		this.board = original.board.clone();
+		this.board = Arrays.copyOf(original.board, original.board.length);
 		this.game = original.game;
 		this.previousSide = original.previousSide;
 	}
