@@ -39,7 +39,14 @@ public class ReversiBoard extends Board {
 
     @Override
     public Board clone() {
-        return null;
+        Board newBoard = new ReversiBoard(game);
+        for (int i = 0; i < board.length; i++) {
+            if (getPieceAtPosition(i) == null) {
+                continue;
+            }
+            place(i,getPieceAtPosition(i));
+        }
+        return newBoard;
     }
 
     @Override

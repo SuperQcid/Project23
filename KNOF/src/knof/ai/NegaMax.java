@@ -10,12 +10,13 @@ import java.util.List;
  */
 public class NegaMax {
 
-    private Side localSide;
-    private Board scratchBoard;
+    private Side side1;
+    private Side side2;
+    private Board board;
     private int depth;
 
     public NegaMax(Board board, int maxDepth) {
-        this.scratchBoard = board;
+        this.board = board;
         this.depth = maxDepth;
     }
 
@@ -24,16 +25,19 @@ public class NegaMax {
 
     */
     public NegaMax.BestMove negaMax(Board board, int depth, Side side) {
-        int bestValue = Integer.MIN_VALUE;
+        BestMove bestMove = new BestMove(side, Integer.MIN_VALUE, 0,0);
         List<Board.Pos> validPositions = board.getValidPositions(side);
         if (depth == 0 || validPositions == null || validPositions.isEmpty()) {
             return null;
         }
         for (Board.Pos pos: validPositions) {
             Board clonedBoard = board.clone();
-
+            BestMove newBestMove = negaMax(board, (depth-1), getOtherSide(side));
+            if (newBestMove != null && bestMove.value < newBestMove.value) {
+                bestMove = newBestMove;
+            }
         }
-        return null;
+        return bestMove;
     }
 
     public static class BestMove {
@@ -47,6 +51,14 @@ public class NegaMax {
             this.x = x;
             this.y = y;
         }
+    }
+
+    public Board.Pos getBestScoringMoveWithNegaMax(Board board, Side side1, Side side2, int maxDepth) {
+        this.side1 = side1;
+        this.side2 = side2;
+        BestMove move = negaMax(board,maxDepth, side1);
+
+        return board.new Pos(move.x, move.y);
     }
 
     public Board.Pos getBestScoringMoveWithoutRecursion(Board board, Side side) {
@@ -64,6 +76,13 @@ public class NegaMax {
         }
 
         return bestPos;
+    }
+
+    private Side getOtherSide(Side side) {
+        if (side.equals(side1)) {
+            return side2;
+        }
+        return side1;
     }
 
 }
