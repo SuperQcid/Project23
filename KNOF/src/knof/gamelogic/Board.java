@@ -19,6 +19,7 @@ public abstract class Board {
 	protected Piece[] board;
 	protected Side previousSide;
 	protected Game game;
+	protected int[][] fieldValues;
 
 	public Board(int width, int height, Game game) {
 		this.width = width;
@@ -68,6 +69,10 @@ public abstract class Board {
 	public boolean isEmpty(int index) {
 		return board[index] == null;
 	}
+
+	public int getFieldValue(int x, int y){
+        return fieldValues[x][y];
+    }
 
 	public abstract Board clone();
 

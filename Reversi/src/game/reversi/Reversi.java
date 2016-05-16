@@ -1,8 +1,10 @@
 package game.reversi;
 
+import knof.ai.HeuristicAI;
 import knof.connection.Connection;
 import knof.gamelogic.HumanGridGamePlayer;
 import knof.gamelogic.players.RandomGridPlayer;
+import knof.model.game.AIPlayer;
 import knof.model.game.Game;
 import knof.plugin.Plugin;
 
@@ -14,7 +16,7 @@ public class Reversi extends Plugin {
                         playerName,
                         side,
                         connection,
-                        (ReversiGame)game,
+                        (ReversiGame) game,
                         true
                 )
         );
@@ -24,7 +26,7 @@ public class Reversi extends Plugin {
                         playerName,
                         side,
                         connection,
-                        (ReversiGame)game
+                        (ReversiGame) game
                 )
         );
         playerTypes.put(
@@ -35,6 +37,17 @@ public class Reversi extends Plugin {
                         connection,
                         (ReversiGame) game
                 )
+        );
+
+        playerTypes.put("Heuristic", (connection, game, side, playerName, options) -> new AIPlayer(playerName, side, connection, game) {
+
+                    HeuristicAI ai = new HeuristicAI();
+
+                    @Override
+                    protected int calculateMove() {
+                        return ai.getHeuristicMove(((ReversiGame) game).getBoard(), side).toInt();
+                    }
+                }
         );
     }
 
