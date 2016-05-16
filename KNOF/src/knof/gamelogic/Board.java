@@ -36,6 +36,10 @@ public abstract class Board {
 		this.width = original.width;
 		this.height = original.height;
 		this.board = Arrays.copyOf(original.board, original.board.length);
+		for (int i = 0; i < this.board.length; i++) {
+			this.board[i] = this.board[i] != null ? this.board[i].clone() : null;
+
+		}
 		this.game = original.game;
 		this.previousSide = original.previousSide;
 	}
