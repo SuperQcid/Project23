@@ -6,6 +6,7 @@ import knof.gamelogic.Piece;
 import knof.model.game.Game;
 import knof.model.game.Side;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,14 +40,10 @@ public class ReversiBoard extends Board {
 
     @Override
     public Board clone() {
-        Board newBoard = new ReversiBoard(game);
-        for (int i = 0; i < board.length; i++) {
-            if (getPieceAtPosition(i) == null) {
-                continue;
-            }
-            place(i,getPieceAtPosition(i));
-        }
-        return newBoard;
+        int length = board.length;
+        ReversiBoard reversiBoard = new ReversiBoard(game);
+        reversiBoard.board = Arrays.copyOf(board,length);
+        return reversiBoard;
     }
 
     @Override
