@@ -52,7 +52,10 @@ public class ReversiCornerPlayer extends AIPlayer {
     }
 
     private Board.Pos getPositionClosestToCorner(List<Board.Pos> posList, Board.Pos corner, Double minDist){
-
+        if(posList.isEmpty()) {
+            minDist = Double.MAX_VALUE;
+            return null;
+        }
         Board.Pos closestPos = posList.get(0);
         minDist = sqrt(abs(corner.x - closestPos.x) + abs(corner.y - closestPos.y));
         for(int i = 1; i < posList.size(); i++){
