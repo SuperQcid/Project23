@@ -29,14 +29,14 @@ public abstract class Board {
 
 	/**
 	 * Copy constuctor
-	 * @param board The board to copy
+	 * @param original The board to copy
      */
-	public Board(Board board){
-		this.width = board.width;
-		this.height = board.height;
-		this.board = board.board;
-		this.game = board.game;
-		this.previousSide = board.previousSide;
+	public Board(Board original){
+		this.width = original.width;
+		this.height = original.height;
+		this.board = original.board.clone();
+		this.game = original.game;
+		this.previousSide = original.previousSide;
 	}
 
 	public Piece getPieceAtPosition(int position){
