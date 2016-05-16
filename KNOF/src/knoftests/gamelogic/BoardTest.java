@@ -94,7 +94,6 @@ public class BoardTest  extends TestCase {
             if (o instanceof TestBoard){
                 TestBoard other = (TestBoard) o;
                 if(Arrays.equals(other.board, this.board)){
-                    System.out.println("hallo");
                     if (other.height == this.height)
                         if (other.width == this.width)
                             if (other.previousSide != null) {
