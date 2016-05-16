@@ -20,9 +20,17 @@ public class ReversiBoard extends Board {
         this.board[this.pos(4, 3).toInt()] = new ReversiPiece(ReversiGame.BLACK);
     }
 
+    /**
+     * Copy constructor
+     * @param board
+     */
+    public ReversiBoard(ReversiBoard board){
+        super(board);
+    }
+
     @Override
     public Board clone() {
-        return null;
+        return new ReversiBoard(this);
     }
 
     @Override
