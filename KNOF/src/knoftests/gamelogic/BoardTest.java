@@ -13,7 +13,7 @@ import java.io.IOException;
 public class BoardTest  extends TestCase {
 
     /**
-     * Tests that a clone of a board equals the original one
+     * Tests that a clone of a board equals the original one, but isn't the same instance
      */
     @Test
     public void testClone(){
