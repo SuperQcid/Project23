@@ -9,6 +9,7 @@ import knof.model.game.Side;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class BoardTest  extends TestCase {
 
@@ -62,6 +63,16 @@ public class BoardTest  extends TestCase {
 
         public TestBoard(int width, int height, Game game) {
             super(width, height, game);
+        }
+
+        @Override
+        public Board clone() {
+            try {
+                return shallowClone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         @Override

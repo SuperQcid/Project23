@@ -4,6 +4,7 @@ import knof.model.game.Game;
 import knof.model.game.Player;
 import knof.model.game.Side;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * The board is an array of size 'width' times 'height'.
  * Pieces on the board are stored as Piece.
  */
-public abstract class Board implements Cloneable {
+public abstract class Board implements Serializable {
 	public final int width;
 	public final int height;
 	protected Piece[] board;
@@ -52,12 +53,14 @@ public abstract class Board implements Cloneable {
 		return board[index] == null;
 	}
 
-	public Board clone() {
-		try {
-			return (Board) super.clone();
-		} catch (CloneNotSupportedException e) {
-			return null;
-		}
+	public abstract Board clone();
+
+	protected Board shallowClone() throws CloneNotSupportedException {
+		return (Board) super.clone();
+	}
+
+	protected Board deepClone() {
+		return null;
 	}
 
 	public abstract int getScore(Side side);
