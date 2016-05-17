@@ -27,7 +27,7 @@ public class PlayerController extends ListCellController {
         if(isServerSet()){
 			try {
 				FXMLLoader loader = new FXMLLoader();
-				loaded = loader.load(getClass().getResource("../../popup/ChallengePopupController.fxml").openStream());
+				loaded = loader.load(getClass().getResource("/knof/controllers/popup/ChallengePopupController.fxml").openStream());
 				ChallengePopupController controller = loader.getController();
 				controller.setServer(server);
 				controller.player = cell.getText();
