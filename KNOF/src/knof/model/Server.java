@@ -176,24 +176,6 @@ public class Server implements InvalidationListener {
     	this.challenges.removeIf(challenge -> challenge.id == e.id);
     }
 
-    @EventHandler
-    public void onGameEndEvent(GameResultEvent gameResultEvent) {
-        String winner = playerName;
-        String loser = opponentName;
-        if (gameResultEvent instanceof GameResultEvent.Loss) {
-            winner = opponentName;
-            loser = playerName;
-        }
-
-
-        DialogHelper.createDialogPane("Game Ended!", gameResultEvent.getMessage() + "\n" +
-
-                winner + " has won! \n" +
-                "Score: " + gameResultEvent.playerOneScore + " - " + gameResultEvent.playerTwoScore
-
-        );
-    }
-
     public GameEntry getGameSettings(String game) {
         return this.games.filtered(gameSettings -> gameSettings.toString().equals(game)).get(0);
     }

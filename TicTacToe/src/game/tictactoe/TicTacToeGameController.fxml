@@ -1,26 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-
+<?import javafx.scene.text.Font?>
 <?import knof.gamelogic.controllers.BoardGame?>
-
 <?import knof.gamelogic.controllers.PieceMiniatureCanvas?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.tictactoe.TicTacToeGameController">
+<StackPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.tictactoe.TicTacToeGameController">
    <children>
-      <BoardGame fx:id="boardGame" height="350.0" layoutX="125.0" layoutY="25.0" width="350.0" />
-      <AnchorPane minHeight="-Infinity" prefHeight="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
          <children>
-            <PieceMiniatureCanvas fx:id="leftPieceMiniatureCanvas" height="30.0" width="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="14.0" />
-            <PieceMiniatureCanvas fx:id="rightPieceMiniatureCanvas" height="30.0" width="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="14.0" />
-            <Label fx:id="localPlayerName" maxWidth="200.0" style="-fx-font-weight: bold;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="40.0" />
-            <Label fx:id="remotePlayerName" maxWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="40.0" />
-            <Circle fx:id="localPlayerMark" radius="8.0" stroke="BLACK" strokeType="INSIDE" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-            <Circle fx:id="remotePlayerMark" radius="8.0" stroke="BLACK" strokeType="INSIDE" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+            <BoardGame fx:id="boardGame" height="350.0" layoutX="125.0" layoutY="25.0" width="350.0" />
+            <AnchorPane minHeight="-Infinity" prefHeight="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <PieceMiniatureCanvas fx:id="leftPieceMiniatureCanvas" height="30.0" width="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="14.0" />
+                  <PieceMiniatureCanvas fx:id="rightPieceMiniatureCanvas" height="30.0" width="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="14.0" />
+                  <Label fx:id="localPlayerName" maxWidth="200.0" style="-fx-font-weight: bold;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="40.0" />
+                  <Label fx:id="remotePlayerName" maxWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="40.0" />
+                  <Circle fx:id="localPlayerMark" radius="8.0" stroke="BLACK" strokeType="INSIDE" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+                  <Circle fx:id="remotePlayerMark" radius="8.0" stroke="BLACK" strokeType="INSIDE" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
+      <VBox fx:id="resultOverlay" alignment="CENTER" maxHeight="-Infinity" onMouseClicked="#close" prefHeight="200.0" prefWidth="100.0" spacing="8.0" style="-fx-background-color: rgba(0, 0, 0, 0.8);" visible="false">
+         <children>
+            <Label text="Game over" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
+               <children>
+                  <Label fx:id="resultMessage" text="You win/lose" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="p1Score" text="Player won" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="p2Score" text="Score: 42-42" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label text="Click here to close" textFill="WHITE" underline="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
    </children>
-</AnchorPane>
+</StackPane>
