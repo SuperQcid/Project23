@@ -14,7 +14,7 @@ public class KnofApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		primaryStage.setScene(new Scene(loader.load(getClass().getResource("../controllers/ConnectionController.fxml").openStream())));
+		primaryStage.setScene(new Scene(loader.load(getClass().getResource("/knof/controllers/ConnectionController.fxml").openStream())));
 		primaryStage.setTitle("Connect to server");
 		primaryStage.show();
 	}
