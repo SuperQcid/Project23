@@ -3,14 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import knof.gamelogic.controllers.BoardGame?>
 <?import knof.gamelogic.controllers.PieceMiniatureCanvas?>
-
 
 <StackPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.reversi.ReversiGameController">
    <children>
@@ -36,25 +35,25 @@
                   <Font size="28.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
+            <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="32.0">
                <children>
                   <Label fx:id="resultMessage" text="You win/lose" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="p1Score" text="Player won" textFill="WHITE">
+                  <Label fx:id="p1Score" text="Player 1: 4" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="p2Score" text="Score: 42-42" textFill="WHITE">
+                  <Label fx:id="p2Score" text="Player 2: 2" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
                </children>
-            </HBox>
+            </FlowPane>
             <Label text="Click here to close" textFill="WHITE" underline="true">
                <font>
                   <Font size="20.0" />
