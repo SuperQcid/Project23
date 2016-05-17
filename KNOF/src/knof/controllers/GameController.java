@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import knof.event.EventHandler;
+import knof.event.events.GameResultEvent;
 import knof.model.game.Game;
 
 public abstract class GameController implements InvalidationListener {
@@ -15,7 +17,12 @@ public abstract class GameController implements InvalidationListener {
     @FXML
     public Circle localPlayerMark, remotePlayerMark;
 
+    protected Game game;
+
     public abstract void update();
+
+    @FXML
+    public abstract void close();
 
     protected void editPlayerMarks(Game game){
         if(game.sideUp != null){
@@ -42,4 +49,14 @@ public abstract class GameController implements InvalidationListener {
             update();
         }
     }
+
+    public void setGame(Game game) {
+        this.game = game;
+        game.result.addListener((observable, oldValue, newValue) -> {
+            System.out.println("game end!!");
+            this.showResult();
+        });
+    }
+
+    public abstract void showResult();
 }

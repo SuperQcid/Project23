@@ -29,7 +29,7 @@ public abstract class Game implements Observable {
 
     protected final ArrayList<InvalidationListener> listeners = new ArrayList<>();
 
-    public final SimpleObjectProperty<GameResult> result = new SimpleObjectProperty<>();
+    public final SimpleObjectProperty<GameResultEvent> result = new SimpleObjectProperty<>();
 
     public Side sideUp;
 
@@ -141,7 +141,7 @@ public abstract class Game implements Observable {
 
     @EventHandler(later = true)
     public final void onGameResult(GameResultEvent event){
-        this.result.set(new GameResult(event));
+        this.result.set(event);
         this.sideUp = null;
         connection.eventSystem.unregister(this);
         invalidate();
