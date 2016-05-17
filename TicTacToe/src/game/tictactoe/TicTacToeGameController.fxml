@@ -28,7 +28,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <VBox fx:id="resultOverlay" alignment="CENTER" maxHeight="-Infinity" onMouseClicked="#close" prefHeight="200.0" prefWidth="100.0" spacing="8.0" style="-fx-background-color: rgba(0, 0, 0, 0.8);">
+      <VBox fx:id="resultOverlay" alignment="CENTER" maxHeight="-Infinity" onMouseClicked="#close" prefHeight="200.0" prefWidth="100.0" spacing="8.0" style="-fx-background-color: rgba(0, 0, 0, 0.8);" visible="false">
          <children>
             <Label text="Game over" textFill="WHITE">
                <font>
