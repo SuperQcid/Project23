@@ -35,7 +35,7 @@
                   <Font size="28.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
+            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="4.0">
                <children>
                   <Label fx:id="resultMessage" text="You win/lose" textFill="WHITE">
                      <font>
@@ -53,7 +53,7 @@
                      </font>
                   </Label>
                </children>
-            </HBox>
+            </VBox>
             <Label text="Click here to close" textFill="WHITE" underline="true">
                <font>
                   <Font size="20.0" />
